@@ -7,10 +7,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "fix": "prettier --write .",
-    "lint": "eslint . --ext ts,tsx --max-warnings 0",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --fix --ext ts,tsx",
-    "lint:styles": "stylelint --max-warnings 0 \"**/*.css\"",
-    "lint:styles-fix": "stylelint --fix \"**/*.css\"",
+    "lint-styles": "stylelint --max-warnings 0 \"**/*.css\"",
+    "lint-styles:fix": "stylelint --fix \"**/*.css\"",
     "typecheck": "tsc",
     "preview": "vite preview",
     "prepare": "husky install",
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "axios": "^1.5.1",
+    "modern-normalize": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
