@@ -33,7 +33,12 @@ module.exports = {
   plugins: ['@typescript-eslint', 'react-refresh'],
   root: true,
   rules: {
-    '@typescript-eslint/explicit-function-return-type': 'error',
+    '@typescript-eslint/explicit-function-return-type': [
+      'error',
+      {
+        allowExpressions: true,
+      },
+    ],
     '@typescript-eslint/no-explicit-any': 'error',
     curly: ['error', 'all'],
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
