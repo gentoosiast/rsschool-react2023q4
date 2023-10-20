@@ -13,9 +13,6 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
-    'plugin:vitest/recommended',
-    'plugin:jest-dom/recommended',
-    'plugin:testing-library/react',
     'prettier',
   ],
   overrides: [
