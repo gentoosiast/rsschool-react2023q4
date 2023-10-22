@@ -1,0 +1,13 @@
+.form {
+  display: flex;
+  gap: 5px;
+}
+
+.input {
+  outline: none;
+}
+
+.submitButton {
+  cursor: pointer;
+  background-color: rgb(230 127 0);
+}
