@@ -41,6 +41,35 @@ module.exports = {
     ],
     '@typescript-eslint/no-explicit-any': 'error',
     curly: ['error', 'all'],
+    'perfectionist/sort-imports': [
+      'error',
+      {
+        'custom-groups': {
+          type: {
+            react: ['react', 'react-*', 'react-*/*'],
+          },
+          value: {
+            react: ['react', 'react-*', 'react-*/*'],
+          },
+        },
+        groups: [
+          'type',
+          'react',
+          ['builtin', 'external'],
+          'internal-type',
+          'internal',
+          ['parent-type', 'sibling-type', 'index-type'],
+          ['parent', 'sibling', 'index'],
+          'object',
+          'style',
+          'unknown',
+        ],
+        'internal-pattern': ['@/**'],
+        'newlines-between': 'always',
+        order: 'asc',
+        type: 'natural',
+      },
+    ],
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
   },
   settings: {
