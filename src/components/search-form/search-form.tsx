@@ -32,6 +32,7 @@ export class SearchForm extends Component<Props, State> {
         <input
           className={styles.input}
           onChange={(e) => this.handleInputChange(e)}
+          placeholder={this.props.query}
           type="search"
           value={this.state.inputValue}
         />
