@@ -16,7 +16,7 @@ type HomePageState = {
 
 const storageWrapper = getStorageWrapper(window.localStorage, 'gentoosiast-');
 
-export class HomePage extends Component<object, HomePageState> {
+export class HomePage extends Component<Record<string, never>, HomePageState> {
   private handleSearchQueryChange = (query: string): void => {
     storageWrapper.set('query', query);
     api
