@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import type { ReactNode } from 'react';
 
-import { CardList } from '@/components/card-list';
+import type { Character } from '@/lib/api';
 
-import type { Character } from '../../lib/api';
+import { CardList } from '@/components/card-list';
 
 type Props = {
   searchResults: Character[];
