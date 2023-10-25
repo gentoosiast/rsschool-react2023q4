@@ -1,0 +1,41 @@
+.card {
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+
+  max-width: 350px;
+  padding: 10px;
+
+  background-color: #fff;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 8px 8px 10px 0 #3333335c;
+
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.025);
+  }
+}
+
+.cardHeading {
+  margin: 0;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 10px;
+}
+
+.cardInfo > p {
+  margin: 0;
+}
+
+.cardInfo > p > span {
+  font-weight: bold;
+}
