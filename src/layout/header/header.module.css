@@ -1,5 +1,16 @@
 .header {
   display: flex;
+  gap: 10px;
   justify-content: center;
   padding: 10px;
+}
+
+.buttonDanger {
+  cursor: pointer;
+
+  color: #fff;
+  text-transform: uppercase;
+
+  background-color: red;
+  border: unset;
 }
