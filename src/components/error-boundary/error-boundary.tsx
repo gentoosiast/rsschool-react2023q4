@@ -3,6 +3,7 @@ import type { ErrorInfo, ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
+  fallback: ReactNode;
 };
 
 type State = {
@@ -22,7 +23,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   render(): ReactNode {
     if (this.state.hasError) {
-      return <h1>Houston, we have a problem</h1>;
+      return this.props.fallback;
     }
 
     return this.props.children;

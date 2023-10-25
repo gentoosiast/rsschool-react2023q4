@@ -45,6 +45,13 @@ export class HomePage extends Component<Record<string, never>, HomePageState> {
         .then((response) => this.setState({ apiResponse: response, searchQuery: storedQuery }))
         .catch((err) => console.log(err))
         .finally(() => this.setState({ isLoading: false }));
+    } else {
+      this.setState({ isLoading: true });
+      api
+        .getAll()
+        .then((response) => this.setState({ apiResponse: response }))
+        .catch((err) => console.log(err))
+        .finally(() => this.setState({ isLoading: false }));
     }
   }
 

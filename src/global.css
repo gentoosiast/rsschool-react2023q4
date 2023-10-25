@@ -6,7 +6,8 @@
   height: 100vh;
 }
 
-img {
+img,
+video {
   max-inline-size: 100%;
   block-size: auto;
 }
