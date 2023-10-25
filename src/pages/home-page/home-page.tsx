@@ -2,13 +2,13 @@ import { Component, ReactNode } from 'react';
 
 import { string } from 'valibot';
 
-import type { ApiResponse } from '@/lib/api';
+import type { ApiResponse } from '@/services/api';
 
 import { Spinner } from '@/components/spinner';
 import { Header } from '@/layout/header';
 import { Main } from '@/layout/main';
-import { api } from '@/lib/api';
 import { getStorageWrapper } from '@/lib/storage';
+import { api } from '@/services/api';
 
 type HomePageState = {
   apiResponse: ApiResponse | null;

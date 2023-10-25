@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import type { ReactNode } from 'react';
 
-import type { Character } from '@/lib/api';
+import type { Character } from '@/services/api';
 
 import { CardList } from '@/components/card-list';
 
