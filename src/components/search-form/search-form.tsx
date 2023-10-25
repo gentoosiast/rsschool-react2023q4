@@ -31,6 +31,7 @@ export class SearchForm extends Component<Props, State> {
       <form className={styles.form} onSubmit={(e) => this.handleSubmit(e)}>
         <input
           className={styles.input}
+          name="search"
           onChange={(e) => this.handleInputChange(e)}
           placeholder={this.props.query}
           type="search"
