@@ -5,3 +5,8 @@
   flex-direction: column;
   height: 100vh;
 }
+
+img {
+  max-inline-size: 100%;
+  block-size: auto;
+}
