@@ -17,7 +17,7 @@ export class SearchForm extends Component<Props, State> {
   };
 
   private handleInputChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    this.setState({ inputValue: event.target.value });
+    this.setState({ inputValue: event.target.value.trim() });
   }
 
   private handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
