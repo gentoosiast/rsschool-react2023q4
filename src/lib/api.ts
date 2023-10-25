@@ -1,14 +1,24 @@
 import type { Output } from 'valibot';
 
 import axios from 'axios';
-import { array, nullable, number, object, parse, string } from 'valibot';
+import {
+  ValiError,
+  array,
+  enumType,
+  flatten,
+  nullable,
+  number,
+  object,
+  parse,
+  string,
+} from 'valibot';
 
 const baseURL = 'https://rickandmortyapi.com/api/character';
 
 const CharacterSchema = object({
   created: string(),
   episode: array(string()),
-  gender: string(),
+  gender: enumType(['Female', 'Male', 'Genderless', 'unknown']),
   id: number(),
   image: string(),
   location: object({
@@ -20,7 +30,8 @@ const CharacterSchema = object({
     name: string(),
     url: string(),
   }),
-  status: string(),
+  species: string(),
+  status: enumType(['Alive', 'Dead', 'unknown']),
   type: string(),
   url: string(),
 });
@@ -48,6 +59,11 @@ export const api = {
 
       return parse(ApiSchema, data);
     } catch (err) {
+      if (err instanceof ValiError) {
+        console.error(flatten(err));
+      } else {
+        console.error(err);
+      }
       return null;
     }
   },
@@ -60,6 +76,11 @@ export const api = {
 
       return parse(ApiSchema, data);
     } catch (err) {
+      if (err instanceof ValiError) {
+        console.error(flatten(err));
+      } else {
+        console.error(err);
+      }
       return null;
     }
   },
