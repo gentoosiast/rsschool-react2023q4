@@ -23,13 +23,8 @@ const storageWrapper = getStorageWrapper(window.localStorage, 'gentoosiast-');
 
 export class HomePage extends Component<Record<string, never>, HomePageState> {
   private handleSearchQueryChange = (query: string): void => {
-    this.setState({ isLoading: true });
     storageWrapper.set('query', query);
-    api
-      .getOne(query)
-      .then((response) => this.setState({ apiResponse: response, searchQuery: query }))
-      .catch((err) => console.log(err))
-      .finally(() => this.setState({ isLoading: false }));
+    void this.fetchCards(query);
   };
 
   state: HomePageState = {
@@ -38,24 +33,20 @@ export class HomePage extends Component<Record<string, never>, HomePageState> {
     searchQuery: '',
   };
 
-  componentDidMount(): void {
-    const storedQuery = storageWrapper.get('query', string());
-
-    if (storedQuery) {
+  private async fetchCards(query: string): Promise<void> {
+    try {
       this.setState({ isLoading: true });
-      api
-        .getOne(storedQuery)
-        .then((response) => this.setState({ apiResponse: response, searchQuery: storedQuery }))
-        .catch((err) => console.log(err))
-        .finally(() => this.setState({ isLoading: false }));
-    } else {
-      this.setState({ isLoading: true });
-      api
-        .getAll()
-        .then((response) => this.setState({ apiResponse: response }))
-        .catch((err) => console.log(err))
-        .finally(() => this.setState({ isLoading: false }));
+      const response = query ? await api.getOne(query) : await api.getAll();
+      this.setState({ apiResponse: response, searchQuery: query });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this.setState({ isLoading: false });
     }
+  }
+  componentDidMount(): void {
+    const storedQuery = storageWrapper.get('query', string()) ?? '';
+    void this.fetchCards(storedQuery);
   }
 
   render(): ReactNode {
