@@ -1,14 +1,25 @@
 @import url('node_modules/modern-normalize/modern-normalize.css');
 
 :root {
+  --color-green: #14ae5c;
   --color-lightgreen: #e4f5eb;
   --color-danger: #ed143d;
+  --primary-text: #15141a;
+  --color-outline: #8e8cea;
+}
+
+body {
+  color: var(--primary-text);
 }
 
 #root {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  gap: 10px;
+
+  min-height: 100vh;
+
+  background-color: var(--color-lightgreen);
 }
 
 img,
@@ -19,5 +30,11 @@ video {
 
 .btn {
   cursor: pointer;
+  padding: 5px 10px;
   border: unset;
+  border-radius: 5px;
+
+  &:focus {
+    outline: var(--color-outline) 2px solid;
+  }
 }
