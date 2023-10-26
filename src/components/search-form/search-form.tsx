@@ -13,17 +13,16 @@ type State = {
 
 export class SearchForm extends Component<Props, State> {
   state = {
-    inputValue: this.props.query,
+    inputValue: '',
   };
 
   private handleInputChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    this.setState({ inputValue: event.target.value.trim() });
+    this.setState({ inputValue: event.target.value });
   }
 
   private handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    this.props.onSubmit(this.state.inputValue);
-    this.setState({ inputValue: '' });
+    this.props.onSubmit(this.state.inputValue.trim());
   }
 
   render(): ReactNode {
@@ -34,10 +33,10 @@ export class SearchForm extends Component<Props, State> {
           className={styles.input}
           name="search"
           onChange={(e) => this.handleInputChange(e)}
-          placeholder={this.props.query}
+          placeholder="Search"
           spellCheck={false}
           type="search"
-          value={this.state.inputValue}
+          value={this.state.inputValue || this.props.query}
         />
         <button className={styles.submitButton} type="submit">
           Search
