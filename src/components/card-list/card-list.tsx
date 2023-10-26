@@ -13,12 +13,17 @@ type Props = {
 
 export class CardList extends Component<Props> {
   render(): ReactNode {
-    return (
+    return this.props.characters.length > 0 ? (
       <section className={styles.cards}>
         {this.props.characters.map((character) => (
           <Card character={character} key={character.id} />
         ))}
       </section>
+    ) : (
+      <div className={styles.noResults}>
+        <img alt="Rick and Morty crying" height="720" src="/rick-morty-sad.jpg" width="821" />
+        <h1>No characters found</h1>
+      </div>
     );
   }
 }

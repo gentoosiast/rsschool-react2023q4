@@ -1,6 +1,7 @@
 @import url('node_modules/modern-normalize/modern-normalize.css');
 
 :root {
+  --color-lightgreen: #e4f5eb;
   --color-danger: #ed143d;
 }
 
