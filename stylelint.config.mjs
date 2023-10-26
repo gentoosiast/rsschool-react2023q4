@@ -8,6 +8,16 @@ export default {
     {
       files: ['**/*.module.css'],
       rules: {
+        'property-no-unknown': [
+          true,
+          {
+            ignoreProperties: [
+              // CSS Modules composition
+              // https://github.com/css-modules/css-modules#composition
+              'composes',
+            ],
+          },
+        ],
         'selector-class-pattern': [
           '^[a-z]+([A-Z][a-zA-Z]+)*$',
           {
