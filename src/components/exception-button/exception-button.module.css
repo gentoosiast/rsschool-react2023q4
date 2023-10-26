@@ -1,0 +1,6 @@
+.buttonDanger {
+  composes: btn from global;
+  color: #fff;
+  text-transform: uppercase;
+  background-color: var(--color-danger);
+}

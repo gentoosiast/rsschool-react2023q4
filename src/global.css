@@ -1,5 +1,9 @@
 @import url('node_modules/modern-normalize/modern-normalize.css');
 
+:root {
+  --color-danger: #ed143d;
+}
+
 #root {
   display: flex;
   flex-direction: column;
@@ -10,4 +14,9 @@ img,
 video {
   max-inline-size: 100%;
   block-size: auto;
+}
+
+.btn {
+  cursor: pointer;
+  border: unset;
 }

@@ -5,6 +5,7 @@ import { string } from 'valibot';
 import type { ApiResponse } from '@/services/api';
 
 import { CardList } from '@/components/card-list';
+import { ExceptionButton } from '@/components/exception-button';
 import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
 import { HeaderLayout } from '@/layout/header-layout';
@@ -12,13 +13,10 @@ import { MainLayout } from '@/layout/main-layout';
 import { getStorageWrapper } from '@/lib/storage';
 import { api } from '@/services/api';
 
-import styles from './home-page.module.css';
-
 type HomePageState = {
   apiResponse: ApiResponse | null;
   isLoading: boolean;
   searchQuery: string;
-  shouldThrowError: boolean;
 };
 
 const storageWrapper = getStorageWrapper(window.localStorage, 'gentoosiast-');
@@ -38,12 +36,7 @@ export class HomePage extends Component<Record<string, never>, HomePageState> {
     apiResponse: null,
     isLoading: true,
     searchQuery: '',
-    shouldThrowError: false,
   };
-
-  private handleThrowError(): void {
-    this.setState({ shouldThrowError: true });
-  }
 
   componentDidMount(): void {
     const storedQuery = storageWrapper.get('query', string());
@@ -66,21 +59,11 @@ export class HomePage extends Component<Record<string, never>, HomePageState> {
   }
 
   render(): ReactNode {
-    if (this.state.shouldThrowError) {
-      throw new Error('Sample Error');
-    }
-
     return (
       <>
         <HeaderLayout>
           <SearchForm onSubmit={this.handleSearchQueryChange} query={this.state.searchQuery} />
-          <button
-            className={styles.buttonDanger}
-            onClick={() => this.handleThrowError()}
-            type="button"
-          >
-            Throw Error
-          </button>
+          <ExceptionButton />
         </HeaderLayout>
         <MainLayout>
           {this.state.isLoading ? (
