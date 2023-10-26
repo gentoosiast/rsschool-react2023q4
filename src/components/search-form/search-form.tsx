@@ -30,10 +30,12 @@ export class SearchForm extends Component<Props, State> {
     return (
       <form className={styles.form} onSubmit={(e) => this.handleSubmit(e)}>
         <input
+          autoComplete="off"
           className={styles.input}
           name="search"
           onChange={(e) => this.handleInputChange(e)}
           placeholder={this.props.query}
+          spellCheck={false}
           type="search"
           value={this.state.inputValue}
         />
