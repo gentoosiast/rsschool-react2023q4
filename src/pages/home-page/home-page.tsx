@@ -13,7 +13,7 @@ import { MainLayout } from '@/layout/main-layout';
 import { getStorageWrapper } from '@/lib/storage';
 import { api } from '@/services/api/api';
 
-type HomePageState = {
+type State = {
   apiResponse: ApiResponse | null;
   isLoading: boolean;
   searchQuery: string;
@@ -21,13 +21,13 @@ type HomePageState = {
 
 const storageWrapper = getStorageWrapper(window.localStorage, 'gentoosiast-');
 
-export class HomePage extends Component<Record<string, never>, HomePageState> {
+export class HomePage extends Component<Record<string, never>, State> {
   private handleSearchQueryChange = (query: string): void => {
     storageWrapper.set('query', query);
     void this.fetchCards(query);
   };
 
-  state: HomePageState = {
+  state: State = {
     apiResponse: null,
     isLoading: true,
     searchQuery: '',
