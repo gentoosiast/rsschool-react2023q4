@@ -11,7 +11,7 @@ import { Spinner } from '@/components/spinner';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
 import { getStorageWrapper } from '@/lib/storage';
-import { api } from '@/services/api';
+import { api } from '@/services/api/api';
 
 type HomePageState = {
   apiResponse: ApiResponse | null;
