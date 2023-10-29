@@ -1,4 +1,5 @@
-import { Component, ReactNode } from 'react';
+import { Component } from 'react';
+import type { ReactNode, ChangeEvent, FormEvent } from 'react';
 
 import { string } from 'valibot';
 
@@ -23,11 +24,11 @@ export class SearchForm extends Component<Props, State> {
     inputValue: '',
   };
 
-  private handleInputChange(event: React.ChangeEvent<HTMLInputElement>): void {
+  private handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
     this.setState({ inputValue: event.target.value });
   }
 
-  private handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
+  private handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     const inputValue = this.state.inputValue.trim();
     storageWrapper.set(LOCALSTORAGE_KEY, inputValue);
