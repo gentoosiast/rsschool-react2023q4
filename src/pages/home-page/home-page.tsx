@@ -30,7 +30,7 @@ export class HomePage extends Component<Record<string, never>, State> {
   private async fetchCards(query: string): Promise<void> {
     try {
       this.setState({ isLoading: true });
-      const response = query ? await api.getOne(query) : await api.getAll();
+      const response = query ? await api.search(query) : await api.getAll();
       this.setState({ apiResponse: response, searchQuery: query });
     } catch (err) {
       console.error(err);

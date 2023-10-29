@@ -28,7 +28,7 @@ export const api = {
     return fetchData(baseURL);
   },
 
-  async getOne(query: string, page = 1): Promise<ApiResponse | null> {
+  async search(query: string, page = 1): Promise<ApiResponse | null> {
     const params = new URLSearchParams({
       name: query,
       page: page.toString(),
