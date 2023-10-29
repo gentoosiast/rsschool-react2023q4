@@ -5,6 +5,7 @@ import type { ApiResponse } from './types';
 
 import { baseURL } from './constants';
 import { ApiSchema } from './schema';
+import { HTTPStatusCode } from './types';
 
 const fetchData = async (url: string): Promise<ApiResponse | null> => {
   try {
@@ -16,7 +17,7 @@ const fetchData = async (url: string): Promise<ApiResponse | null> => {
   } catch (err) {
     if (err instanceof ValiError) {
       console.error(flatten(err));
-    } else {
+    } else if (!(axios.isAxiosError(err) && err.response?.status === HTTPStatusCode.NotFound)) {
       console.error(err);
     }
     return null;
