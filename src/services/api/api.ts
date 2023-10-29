@@ -3,7 +3,7 @@ import { ValiError, flatten, parse } from 'valibot';
 
 import type { ApiResponse } from './types';
 
-import { baseURL } from './constants';
+import { BASEURL } from './constants';
 import { ApiSchema } from './schema';
 import { HTTPStatusCode } from './types';
 
@@ -26,7 +26,7 @@ const fetchData = async (url: string): Promise<ApiResponse | null> => {
 
 export const api = {
   async getAll(): Promise<ApiResponse | null> {
-    return fetchData(baseURL);
+    return fetchData(BASEURL);
   },
 
   async search(query: string, page = 1): Promise<ApiResponse | null> {
@@ -35,6 +35,6 @@ export const api = {
       page: page.toString(),
     });
 
-    return fetchData(`${baseURL}?${params.toString()}`);
+    return fetchData(`${BASEURL}?${params.toString()}`);
   },
 };
