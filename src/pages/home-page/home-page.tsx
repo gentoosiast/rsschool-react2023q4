@@ -17,7 +17,7 @@ type State = {
 
 export class HomePage extends Component<Record<string, never>, State> {
   private handleSearchQueryChange = (query: string): void => {
-    void this.fetchCards(query);
+    this.setState({ isLoading: true }, () => void this.fetchCards(query));
   };
 
   state: State = {
@@ -26,14 +26,14 @@ export class HomePage extends Component<Record<string, never>, State> {
   };
 
   private async fetchCards(query: string): Promise<void> {
+    let response: ApiResponse | null = null;
+
     try {
-      this.setState({ isLoading: true });
-      const response = query ? await api.search(query) : await api.getAll();
-      this.setState({ apiResponse: response });
+      response = query ? await api.search(query) : await api.getAll();
     } catch (err) {
       console.error(err);
     } finally {
-      this.setState({ isLoading: false });
+      this.setState({ apiResponse: response, isLoading: false });
     }
   }
 
