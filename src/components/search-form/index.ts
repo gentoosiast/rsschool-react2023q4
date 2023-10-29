@@ -1,1 +1,1 @@
-export { SearchForm } from './search-form.tsx';
+export { SearchForm } from './search-form';
