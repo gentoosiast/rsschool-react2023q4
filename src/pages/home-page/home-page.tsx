@@ -13,7 +13,6 @@ import { api } from '@/services/api';
 type State = {
   apiResponse: ApiResponse | null;
   isLoading: boolean;
-  searchQuery: string;
 };
 
 export class HomePage extends Component<Record<string, never>, State> {
@@ -24,14 +23,13 @@ export class HomePage extends Component<Record<string, never>, State> {
   state: State = {
     apiResponse: null,
     isLoading: true,
-    searchQuery: '',
   };
 
   private async fetchCards(query: string): Promise<void> {
     try {
       this.setState({ isLoading: true });
       const response = query ? await api.search(query) : await api.getAll();
-      this.setState({ apiResponse: response, searchQuery: query });
+      this.setState({ apiResponse: response });
     } catch (err) {
       console.error(err);
     } finally {
