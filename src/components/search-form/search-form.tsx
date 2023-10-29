@@ -1,15 +1,22 @@
 import { Component, ReactNode } from 'react';
 
+import { string } from 'valibot';
+
+import { getStorageWrapper } from '@/lib/storage';
+
+import { LOCALSTORAGE_KEY, LOCALSTORAGE_PREFIX } from './constants';
+
 import styles from './search-form.module.css';
 
 type Props = {
   onSubmit: (value: string) => void;
-  query: string;
 };
 
 type State = {
   inputValue: string;
 };
+
+const storageWrapper = getStorageWrapper(window.localStorage, LOCALSTORAGE_PREFIX);
 
 export class SearchForm extends Component<Props, State> {
   state = {
@@ -22,7 +29,15 @@ export class SearchForm extends Component<Props, State> {
 
   private handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    this.props.onSubmit(this.state.inputValue.trim());
+    const inputValue = this.state.inputValue.trim();
+    storageWrapper.set(LOCALSTORAGE_KEY, inputValue);
+    this.props.onSubmit(inputValue);
+  }
+
+  componentDidMount(): void {
+    const storedQuery = storageWrapper.get(LOCALSTORAGE_KEY, string()) ?? '';
+    this.setState({ inputValue: storedQuery });
+    this.props.onSubmit(storedQuery);
   }
 
   render(): ReactNode {
@@ -36,7 +51,7 @@ export class SearchForm extends Component<Props, State> {
           placeholder="Search"
           spellCheck={false}
           type="search"
-          value={this.state.inputValue || this.props.query}
+          value={this.state.inputValue}
         />
         <button className={styles.submitButton} type="submit">
           Search
