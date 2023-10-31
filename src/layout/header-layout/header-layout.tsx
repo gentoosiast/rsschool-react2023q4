@@ -1,14 +1,11 @@
-import { Component } from 'react';
-import type { ReactNode } from 'react';
+import type { JSX } from 'react';
 
 import styles from './header-layout.module.css';
 
 type Props = {
-  children: ReactNode;
+  children: JSX.Element;
 };
 
-export class HeaderLayout extends Component<Props> {
-  render(): ReactNode {
-    return <header className={styles.header}>{this.props.children}</header>;
-  }
+export function HeaderLayout({ children }: Props): JSX.Element {
+  return <header className={styles.header}>{children}</header>;
 }

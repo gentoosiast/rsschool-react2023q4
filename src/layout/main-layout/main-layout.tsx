@@ -1,14 +1,11 @@
-import { Component } from 'react';
-import type { ReactNode } from 'react';
+import type { JSX } from 'react';
 
 import styles from './main-layout.module.css';
 
 type Props = {
-  children: ReactNode;
+  children: JSX.Element;
 };
 
-export class MainLayout extends Component<Props> {
-  render(): ReactNode {
-    return <main className={styles.main}>{this.props.children}</main>;
-  }
+export function MainLayout({ children }: Props): JSX.Element {
+  return <main className={styles.main}>{children}</main>;
 }

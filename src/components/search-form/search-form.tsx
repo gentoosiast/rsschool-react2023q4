@@ -1,5 +1,5 @@
-import { Component } from 'react';
-import type { ReactNode, ChangeEvent, FormEvent } from 'react';
+import { useEffect, useState } from 'react';
+import type { FormEvent, JSX } from 'react';
 
 import { string } from 'valibot';
 
@@ -13,51 +13,43 @@ type Props = {
   onSubmit: (value: string) => void;
 };
 
-type State = {
-  inputValue: string;
-};
-
 const storageWrapper = getStorageWrapper(window.localStorage, LOCALSTORAGE_PREFIX);
 
-export class SearchForm extends Component<Props, State> {
-  state = {
-    inputValue: '',
-  };
-
-  private handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
-    this.setState({ inputValue: event.target.value });
-  }
-
-  private handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
-    const inputValue = this.state.inputValue.trim();
-    storageWrapper.set(LOCALSTORAGE_KEY, inputValue);
-    this.props.onSubmit(inputValue);
-  }
-
-  componentDidMount(): void {
+export function SearchForm({ onSubmit }: Props): JSX.Element {
+  const [inputValue, setInputValue] = useState('');
+  useEffect(() => {
     const storedQuery = storageWrapper.get(LOCALSTORAGE_KEY, string()) ?? '';
-    this.setState({ inputValue: storedQuery });
-    this.props.onSubmit(storedQuery);
+
+    setInputValue(storedQuery);
+
+    onSubmit(storedQuery);
+  }, [onSubmit]);
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+
+    const submitValue = inputValue.trim();
+
+    storageWrapper.set(LOCALSTORAGE_KEY, submitValue);
+
+    onSubmit(submitValue);
   }
 
-  render(): ReactNode {
-    return (
-      <form className={styles.form} onSubmit={(e) => this.handleSubmit(e)}>
-        <input
-          autoComplete="off"
-          className={styles.input}
-          name="search"
-          onChange={(e) => this.handleInputChange(e)}
-          placeholder="Search"
-          spellCheck={false}
-          type="search"
-          value={this.state.inputValue}
-        />
-        <button className={styles.submitButton} type="submit">
-          Search
-        </button>
-      </form>
-    );
-  }
+  return (
+    <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
+      <input
+        autoComplete="off"
+        className={styles.input}
+        name="search"
+        onChange={(e) => setInputValue(e.target.value)}
+        placeholder="Search"
+        spellCheck={false}
+        type="search"
+        value={inputValue}
+      />
+      <button className={styles.submitButton} type="submit">
+        Search
+      </button>
+    </form>
+  );
 }

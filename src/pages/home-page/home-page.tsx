@@ -1,5 +1,5 @@
-import { Component } from 'react';
-import type { ReactNode } from 'react';
+import { useCallback, useState } from 'react';
+import type { JSX } from 'react';
 
 import type { ApiResponse } from '@/services/api';
 
@@ -11,48 +11,32 @@ import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
 import { api } from '@/services/api';
 
-type State = {
-  apiResponse: ApiResponse | null;
-  isLoading: boolean;
-};
+export function HomePage(): JSX.Element {
+  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-export class HomePage extends Component<Record<string, never>, State> {
-  private handleSearchQueryChange = (query: string): void => {
-    this.setState({ isLoading: true }, () => void this.fetchCards(query));
+  const fetchCards = async (query: string): Promise<void> => {
+    const response = query ? await api.search(query) : await api.getAll();
+    setApiResponse(response);
+    setIsLoading(false);
   };
 
-  state: State = {
-    apiResponse: null,
-    isLoading: true,
-  };
+  const handleSearchQueryChange = useCallback((query: string): void => {
+    setIsLoading(true);
+    void fetchCards(query);
+  }, []);
 
-  private async fetchCards(query: string): Promise<void> {
-    let response: ApiResponse | null = null;
-
-    try {
-      response = query ? await api.search(query) : await api.getAll();
-    } catch (err) {
-      console.error(err);
-    } finally {
-      this.setState({ apiResponse: response, isLoading: false });
-    }
-  }
-
-  render(): ReactNode {
-    return (
-      <>
-        <HeaderLayout>
-          <SearchForm onSubmit={this.handleSearchQueryChange} />
+  return (
+    <>
+      <HeaderLayout>
+        <>
+          <SearchForm onSubmit={handleSearchQueryChange} />
           <ExceptionButton />
-        </HeaderLayout>
-        <MainLayout>
-          {this.state.isLoading ? (
-            <Spinner />
-          ) : (
-            <CardList characters={this.state.apiResponse?.results ?? []} />
-          )}
-        </MainLayout>
-      </>
-    );
-  }
+        </>
+      </HeaderLayout>
+      <MainLayout>
+        {isLoading ? <Spinner /> : <CardList characters={apiResponse?.results ?? []} />}
+      </MainLayout>
+    </>
+  );
 }
