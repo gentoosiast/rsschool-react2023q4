@@ -19,9 +19,7 @@ export function getStorageWrapper(storageProvider: Storage, uniquePrefix: string
 
         const unknownValue: unknown = JSON.parse(strValue);
 
-        const parsedValue = parse(schema, unknownValue);
-
-        return parsedValue;
+        return parse(schema, unknownValue);
       } catch {
         return null;
       }
