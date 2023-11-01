@@ -4,7 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import cn from 'classnames';
 import featherIcons from 'feather-icons/dist/feather-sprite.svg';
 
-import { getLink } from '@/lib/search-params';
+import { getLink, updateSearchParams } from '@/lib/search-params';
 
 import styles from './pagination.module.css';
 
@@ -15,14 +15,20 @@ type Props = {
 };
 
 export function Pagination({ currentPage, itemsPerPage, totalResults }: Props): JSX.Element {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const lastPageNum = Math.ceil(totalResults / itemsPerPage);
   const isPrevDisabled = currentPage === 1;
   const isNextDisabled = currentPage === lastPageNum;
 
+  function handleSelectChange(value: string): void {
+    const newParams = updateSearchParams(searchParams, { _limit: `${value}`, _page: '1' });
+
+    setSearchParams(newParams);
+  }
+
   return (
-    <nav>
-      <ul className={styles.pagination}>
+    <nav className={styles.pagination}>
+      <ul className={styles.paginationList}>
         <li className="page-item">
           <Link className={styles.pageLink} to={getLink(searchParams, { _page: '1' })}>
             <svg className="feather">
@@ -61,6 +67,19 @@ export function Pagination({ currentPage, itemsPerPage, totalResults }: Props): 
           </Link>
         </li>
       </ul>
+      <select
+        className={styles.select}
+        name="itemsPerPage"
+        onChange={(e) => handleSelectChange(e.target.value)}
+        value={itemsPerPage}
+      >
+        <option value={5}>5</option>
+        <option value={10}>10</option>
+        <option value={20}>20</option>
+        <option value={30}>30</option>
+        <option value={30}>40</option>
+        <option value={30}>50</option>
+      </select>
     </nav>
   );
 }
