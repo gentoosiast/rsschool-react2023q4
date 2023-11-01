@@ -20,7 +20,7 @@ export function Pagination({ currentPage, itemsPerPage, totalResults }: Props): 
   const isPrevDisabled = currentPage === 1;
   const isNextDisabled = currentPage === lastPageNum;
 
-  function handleSelectChange(value: string): void {
+  function handleItemsPerPageChange(value: string): void {
     const newParams = updateSearchParams(searchParams, { _limit: `${value}`, _page: '1' });
 
     setSearchParams(newParams);
@@ -70,7 +70,7 @@ export function Pagination({ currentPage, itemsPerPage, totalResults }: Props): 
       <select
         className={styles.select}
         name="itemsPerPage"
-        onChange={(e) => handleSelectChange(e.target.value)}
+        onChange={(e) => handleItemsPerPageChange(e.target.value)}
         value={itemsPerPage}
       >
         <option value={5}>5</option>
