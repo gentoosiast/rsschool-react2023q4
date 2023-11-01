@@ -15,9 +15,6 @@ export function Card({ character }: Props): JSX.Element {
       <h2 className={styles.cardHeading}>{character.name}</h2>
       <div className={styles.cardInfo}>
         <p>
-          <span>Episode appearances:</span> {character.episode.length}
-        </p>
-        <p>
           <span>Status:</span> {character.status}
         </p>
         <p>
@@ -27,10 +24,10 @@ export function Card({ character }: Props): JSX.Element {
           <span>Gender:</span> {character.gender}
         </p>
         <p>
-          <span>Origin:</span> {character.origin.name}
+          <span>Origin:</span> {character.origin}
         </p>
         <p>
-          <span>Location:</span> {character.location.name}
+          <span>Location:</span> {character.location}
         </p>
       </div>
     </article>

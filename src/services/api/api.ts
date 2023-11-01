@@ -3,7 +3,7 @@ import { ValiError, flatten, parse } from 'valibot';
 
 import type { ApiResponse } from './types';
 
-import { BASEURL } from './constants';
+import { BASEURL, DEFAULT_ITEMS_PER_PAGE } from './constants';
 import { ApiSchema } from './schema';
 import { HTTPStatusCode } from './types';
 
@@ -25,15 +25,19 @@ const fetchData = async (url: string): Promise<ApiResponse | null> => {
 };
 
 export const api = {
-  async getAll(): Promise<ApiResponse | null> {
-    return fetchData(BASEURL);
-  },
-
-  async search(query: string, page = 1): Promise<ApiResponse | null> {
+  async search(
+    query: string,
+    page = 1,
+    limit = DEFAULT_ITEMS_PER_PAGE,
+  ): Promise<ApiResponse | null> {
     const params = new URLSearchParams({
-      name: query,
-      page: page.toString(),
+      _limit: `${limit}`,
+      _page: `${page}`,
     });
+
+    if (query) {
+      params.set('q', query);
+    }
 
     return fetchData(`${BASEURL}?${params.toString()}`);
   },

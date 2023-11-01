@@ -16,7 +16,7 @@ export function HomePage(): JSX.Element {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchCards = async (query: string): Promise<void> => {
-    const response = query ? await api.search(query) : await api.getAll();
+    const response = await api.search(query);
     setApiResponse(response);
     setIsLoading(false);
   };
@@ -35,7 +35,7 @@ export function HomePage(): JSX.Element {
         </>
       </HeaderLayout>
       <MainLayout>
-        {isLoading ? <Spinner /> : <CardList characters={apiResponse?.results ?? []} />}
+        <>{isLoading ? <Spinner /> : <CardList characters={apiResponse ?? []} />}</>
       </MainLayout>
     </>
   );

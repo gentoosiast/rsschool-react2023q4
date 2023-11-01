@@ -1,32 +1,17 @@
-import { array, enumType, nullable, number, object, string } from 'valibot';
+import { array, enumType, number, object, string } from 'valibot';
 
 export const CharacterSchema = object({
   created: string(),
-  episode: array(string()),
   gender: enumType(['Female', 'Male', 'Genderless', 'unknown']),
   id: number(),
   image: string(),
-  location: object({
-    name: string(),
-    url: string(),
-  }),
+  location: string(),
   name: string(),
-  origin: object({
-    name: string(),
-    url: string(),
-  }),
+  origin: string(),
   species: string(),
   status: enumType(['Alive', 'Dead', 'unknown']),
   type: string(),
   url: string(),
 });
 
-export const ApiSchema = object({
-  info: object({
-    count: number(),
-    next: nullable(string()),
-    pages: number(),
-    prev: nullable(string()),
-  }),
-  results: array(CharacterSchema),
-});
+export const ApiSchema = array(CharacterSchema);
