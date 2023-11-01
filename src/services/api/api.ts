@@ -24,7 +24,7 @@ const fetchData = async (url: string): Promise<ApiResponse | null> => {
   }
 };
 
-export const api = {
+export const rickAndMortyApi = {
   async search(
     query: string,
     page = 1,

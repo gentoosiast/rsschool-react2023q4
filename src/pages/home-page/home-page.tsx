@@ -9,14 +9,14 @@ import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
-import { api } from '@/services/api';
+import { rickAndMortyApi } from '@/services/api';
 
 export function HomePage(): JSX.Element {
   const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchCards = async (query: string): Promise<void> => {
-    const response = await api.search(query);
+    const response = await rickAndMortyApi.search(query);
     setApiResponse(response);
     setIsLoading(false);
   };
