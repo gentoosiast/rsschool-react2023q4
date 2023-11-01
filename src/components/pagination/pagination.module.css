@@ -1,0 +1,16 @@
+.pagination {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+
+  list-style: none;
+}
+
+.pageLink {
+  text-decoration: none;
+}
+
+.disabled {
+  pointer-events: none;
+}

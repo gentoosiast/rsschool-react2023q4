@@ -1,30 +1,40 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { JSX } from 'react';
 
 import type { ApiResponse } from '@/services/api';
 
 import { CharacterList } from '@/components/character-list';
 import { ExceptionButton } from '@/components/exception-button';
+import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
 import { rickAndMortyApi } from '@/services/api';
 
+import { usePagination } from './hooks/use-pagination';
+
 export function HomePage(): JSX.Element {
   const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { limit, page, query } = usePagination();
 
-  const fetchCards = async (query: string): Promise<void> => {
-    const response = await rickAndMortyApi.search(query);
+  const fetchCards = async (query: string, page?: number, limit?: number): Promise<void> => {
+    setIsLoading(true);
+    const response = await rickAndMortyApi.search(query, page, limit);
     setApiResponse(response);
     setIsLoading(false);
   };
 
   const handleSearchQueryChange = useCallback((query: string): void => {
-    setIsLoading(true);
-    void fetchCards(query);
+    // setIsLoading(true);
+    // void fetchCards(query);
+    console.log(query);
   }, []);
+
+  useEffect(() => {
+    void fetchCards(query, page, limit);
+  }, [page, limit, query]);
 
   return (
     <>
@@ -35,7 +45,12 @@ export function HomePage(): JSX.Element {
         </>
       </HeaderLayout>
       <MainLayout>
-        <>{isLoading ? <Spinner /> : <CharacterList characters={apiResponse ?? []} />}</>
+        <>
+          {apiResponse && (
+            <Pagination currentPage={page} itemsPerPage={limit} totalResults={apiResponse.total} />
+          )}
+          {isLoading ? <Spinner /> : <CharacterList characters={apiResponse?.characters ?? []} />}
+        </>
       </MainLayout>
     </>
   );

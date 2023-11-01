@@ -38,3 +38,14 @@ video {
     outline: var(--color-outline) 2px solid;
   }
 }
+
+.feather {
+  width: 24px;
+  height: 24px;
+
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}

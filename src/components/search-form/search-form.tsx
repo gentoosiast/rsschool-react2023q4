@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import type { FormEvent, JSX } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { string } from 'valibot';
 
+import { updateSearchParams } from '@/lib/search-params';
 import { getStorageWrapper } from '@/lib/storage';
 
 import { LOCALSTORAGE_KEY, LOCALSTORAGE_PREFIX } from './constants';
@@ -17,6 +19,7 @@ const storageWrapper = getStorageWrapper(window.localStorage, LOCALSTORAGE_PREFI
 
 export function SearchForm({ onSubmit }: Props): JSX.Element {
   const [inputValue, setInputValue] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
   useEffect(() => {
     const storedQuery = storageWrapper.get(LOCALSTORAGE_KEY, string()) ?? '';
 
@@ -32,7 +35,9 @@ export function SearchForm({ onSubmit }: Props): JSX.Element {
 
     storageWrapper.set(LOCALSTORAGE_KEY, submitValue);
 
-    onSubmit(submitValue);
+    const newParams = updateSearchParams(searchParams, { _page: '1', q: submitValue });
+
+    setSearchParams(newParams);
   }
 
   return (

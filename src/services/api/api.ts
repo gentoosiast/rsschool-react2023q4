@@ -10,10 +10,16 @@ import { HTTPStatusCode } from './types';
 const fetchData = async (url: string): Promise<ApiResponse | null> => {
   try {
     const response = await axios.get(url);
+    const headers = response.headers;
 
     const data: unknown = response.data;
 
-    return parse(ApiSchema, data);
+    const characters = parse(ApiSchema, data);
+    const totalCountHeader: unknown = headers['x-total-count'];
+
+    const total = Number(totalCountHeader);
+
+    return { characters, total };
   } catch (err) {
     if (err instanceof ValiError) {
       console.error(flatten(err));
