@@ -8,26 +8,28 @@ type Props = {
   character: Character;
 };
 
-export function CharacterListItem({ character }: Props): JSX.Element {
+export function CharacterListItem({
+  character: { gender, image, location, name, origin, species, status },
+}: Props): JSX.Element {
   return (
     <article className={styles.card}>
-      <img alt={character.name} height="300" src={character.image} width="300" />
-      <h2 className={styles.cardHeading}>{character.name}</h2>
+      <img alt={name} height="300" src={image} width="300" />
+      <h2 className={styles.cardHeading}>{name}</h2>
       <div className={styles.cardInfo}>
         <p>
-          <span>Status:</span> {character.status}
+          <span>Status:</span> {status}
         </p>
         <p>
-          <span>Species:</span> {character.species}
+          <span>Species:</span> {species}
         </p>
         <p>
-          <span>Gender:</span> {character.gender}
+          <span>Gender:</span> {gender}
         </p>
         <p>
-          <span>Origin:</span> {character.origin}
+          <span>Origin:</span> {origin}
         </p>
         <p>
-          <span>Location:</span> {character.location}
+          <span>Location:</span> {location}
         </p>
       </div>
     </article>
