@@ -2,13 +2,13 @@ import type { JSX } from 'react';
 
 import type { Character } from '@/services/api';
 
-import styles from './card.module.css';
+import styles from './character-list-item.module.css';
 
 type Props = {
   character: Character;
 };
 
-export function Card({ character }: Props): JSX.Element {
+export function CharacterListItem({ character }: Props): JSX.Element {
   return (
     <article className={styles.card}>
       <img alt={character.name} height="300" src={character.image} width="300" />

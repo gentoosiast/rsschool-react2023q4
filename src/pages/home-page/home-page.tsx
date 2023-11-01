@@ -3,7 +3,7 @@ import type { JSX } from 'react';
 
 import type { ApiResponse } from '@/services/api';
 
-import { CardList } from '@/components/card-list';
+import { CharacterList } from '@/components/character-list';
 import { ExceptionButton } from '@/components/exception-button';
 import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
@@ -35,7 +35,7 @@ export function HomePage(): JSX.Element {
         </>
       </HeaderLayout>
       <MainLayout>
-        <>{isLoading ? <Spinner /> : <CardList characters={apiResponse ?? []} />}</>
+        <>{isLoading ? <Spinner /> : <CharacterList characters={apiResponse ?? []} />}</>
       </MainLayout>
     </>
   );
