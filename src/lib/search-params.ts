@@ -9,6 +9,14 @@ export function updateSearchParams(
   return newParams;
 }
 
+export function deleteSearchParam(params: URLSearchParams, key: string): URLSearchParams {
+  const newParams = new URLSearchParams(params);
+
+  newParams.delete(key);
+
+  return newParams;
+}
+
 export function getLink(params: URLSearchParams, updatedParams: Record<string, string>): string {
   return `?${updateSearchParams(params, updatedParams).toString()}`;
 }

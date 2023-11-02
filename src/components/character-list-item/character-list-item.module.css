@@ -30,20 +30,8 @@
 }
 
 .cardHeading {
-  margin: 0;
-}
-
-.cardInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin: 10px;
-}
-
-.cardInfo > p {
-  margin: 0;
-}
-
-.cardInfo > p > span {
-  font-weight: bold;
+  margin: 10px 0 5px;
+  color: var(--primary-text);
+  text-align: center;
+  text-wrap: balance;
 }

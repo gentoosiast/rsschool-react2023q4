@@ -1,0 +1,25 @@
+.aside {
+  position: relative;
+  min-width: 200px;
+  padding: 8px;
+}
+
+.closeButton {
+  cursor: pointer;
+
+  position: absolute;
+  top: 2px;
+  right: 2px;
+
+  color: #fff;
+
+  background-color: var(--color-danger);
+  border: unset;
+  border-radius: 2px;
+
+  transition: filter 0.3s ease-in-out;
+
+  &:hover {
+    filter: opacity(0.8);
+  }
+}
