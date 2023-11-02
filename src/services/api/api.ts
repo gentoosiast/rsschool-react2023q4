@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ValiError, flatten, parse } from 'valibot';
 
-import type { ApiResponse } from './types';
+import type { ApiResponse, Character } from './types';
 
 import { BASEURL, DEFAULT_ITEMS_PER_PAGE } from './constants';
 import { ApiSchema } from './schema';
@@ -31,6 +31,16 @@ const fetchData = async (url: string): Promise<ApiResponse | null> => {
 };
 
 export const rickAndMortyApi = {
+  async getById(id: number): Promise<Character | null> {
+    const data = await fetchData(`${BASEURL}/?id=${id}`);
+
+    if (data) {
+      return data.characters[0];
+    }
+
+    return null;
+  },
+
   async search(
     query: string,
     page = 1,
