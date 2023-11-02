@@ -47,7 +47,7 @@ export function Pagination({ currentPage, itemsPerPage, totalResults }: Props): 
           </Link>
         </li>
         <li>
-          <span className={styles.pageLink}>{`${currentPage} of ${lastPageNum}`}</span>
+          <span className={styles.pageText}>{`${currentPage} of ${lastPageNum}`}</span>
         </li>
         <li className="page-item">
           <Link
