@@ -42,7 +42,6 @@
 }
 
 .pageLinkActive {
-  composes: pagelink;
   font-weight: bold;
 }
 
