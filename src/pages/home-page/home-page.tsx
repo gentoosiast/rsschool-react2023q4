@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { JSX } from 'react';
+import type { JSX, MouseEvent } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 
 import type { ApiResponse } from '@/services/api';
@@ -47,7 +47,13 @@ export function HomePage(): JSX.Element {
     }
   }
 
-  function handleKeyPress(key: string): void {
+  function handleMainContentClick(event: MouseEvent): void {
+    event.stopPropagation();
+
+    handleAsideClose();
+  }
+
+  function handleMainContentKeyPress(key: string): void {
     if (key === 'Escape') {
       handleAsideClose();
     }
@@ -65,8 +71,8 @@ export function HomePage(): JSX.Element {
         <>
           <section
             className={styles.mainContent}
-            onClick={handleAsideClose}
-            onKeyDown={(e) => handleKeyPress(e.key)}
+            onClick={(e) => handleMainContentClick(e)}
+            onKeyDown={(e) => handleMainContentKeyPress(e.key)}
             role="button"
             tabIndex={0}
           >
