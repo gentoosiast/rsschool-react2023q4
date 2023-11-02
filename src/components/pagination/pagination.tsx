@@ -73,12 +73,11 @@ export function Pagination({ currentPage, itemsPerPage, totalResults }: Props): 
         onChange={(e) => handleItemsPerPageChange(e.target.value)}
         value={itemsPerPage}
       >
-        <option value={5}>5</option>
-        <option value={10}>10</option>
-        <option value={20}>20</option>
-        <option value={30}>30</option>
-        <option value={30}>40</option>
-        <option value={30}>50</option>
+        {[5, 10, 20, 30, 40, 50].map((itemCount) => (
+          <option key={itemCount} value={itemCount}>
+            {itemCount}
+          </option>
+        ))}
       </select>
     </nav>
   );
