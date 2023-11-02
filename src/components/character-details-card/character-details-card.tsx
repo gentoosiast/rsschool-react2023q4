@@ -6,9 +6,10 @@ import styles from './character-details-card.module.css';
 
 type Props = {
   character: Character | null;
+  onClose: () => void;
 };
 
-export function CharacterDetailsCard({ character }: Props): JSX.Element {
+export function CharacterDetailsCard({ character, onClose }: Props): JSX.Element {
   if (!character) {
     return <h1>No character found</h1>;
   }
@@ -36,6 +37,9 @@ export function CharacterDetailsCard({ character }: Props): JSX.Element {
           <span>Location:</span> {location}
         </p>
       </div>
+      <button className={styles.closeButton} onClick={() => onClose()} type="button">
+        ×
+      </button>
     </article>
   );
 }

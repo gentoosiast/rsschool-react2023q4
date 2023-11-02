@@ -34,10 +34,11 @@ export function CharacterDetails(): JSX.Element {
 
   return (
     <aside className={styles.aside}>
-      {isLoading ? <Spinner /> : <CharacterDetailsCard character={character} />}
-      <button className={styles.closeButton} onClick={handleCloseDetails} type="button">
-        ×
-      </button>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <CharacterDetailsCard character={character} onClose={handleCloseDetails} />
+      )}
     </aside>
   );
 }
