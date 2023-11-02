@@ -21,6 +21,14 @@
   }
 }
 
+.cardLink {
+  text-decoration: none;
+
+  &:visited {
+    color: currentcolor;
+  }
+}
+
 .cardHeading {
   margin: 0;
 }
