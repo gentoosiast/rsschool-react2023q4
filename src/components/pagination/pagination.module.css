@@ -75,7 +75,3 @@
   color: #fff;
   background-color: var(--color-green);
 }
-
-.select option:focus {
-  background-color: red;
-}
