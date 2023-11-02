@@ -18,7 +18,6 @@
 
   list-style: none;
 
-  /* #1d9957; */
   background-color: var(--color-green);
   border-radius: 8px;
 }
@@ -42,6 +41,11 @@
   }
 }
 
+.pageLinkActive {
+  composes: pagelink;
+  font-weight: bold;
+}
+
 .disabled {
   pointer-events: none;
   opacity: 0.3;
@@ -49,7 +53,6 @@
 
 .pageText {
   user-select: none;
-  font-weight: bold;
   color: #fff;
 }
 

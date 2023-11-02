@@ -6,6 +6,8 @@ import featherIcons from 'feather-icons/dist/feather-sprite.svg';
 
 import { getLink, updateSearchParams } from '@/lib/search-params';
 
+import { generatePageNumbers } from './generate-page-numbers';
+
 import styles from './pagination.module.css';
 
 type Props = {
@@ -19,6 +21,7 @@ export function Pagination({ currentPage, itemsPerPage, totalResults }: Props): 
   const lastPageNum = Math.ceil(totalResults / itemsPerPage);
   const isPrevDisabled = currentPage === 1;
   const isNextDisabled = currentPage === lastPageNum;
+  const pageNumbers = generatePageNumbers(currentPage, lastPageNum - 1);
 
   function handleItemsPerPageChange(value: string): void {
     const newParams = updateSearchParams(searchParams, { _limit: `${value}`, _page: '1' });
@@ -46,8 +49,27 @@ export function Pagination({ currentPage, itemsPerPage, totalResults }: Props): 
             </svg>
           </Link>
         </li>
+        {pageNumbers.map((pageNumber) => (
+          <li className="page-item" key={pageNumber}>
+            <Link
+              className={cn(styles.pageLink, {
+                [styles.pageLinkActive]: pageNumber === currentPage,
+              })}
+              to={getLink(searchParams, { _page: `${pageNumber}` })}
+            >
+              {pageNumber}
+            </Link>
+          </li>
+        ))}
         <li>
-          <span className={styles.pageText}>{`${currentPage} of ${lastPageNum}`}</span>
+          <Link
+            className={cn(styles.pageLink, {
+              [styles.pageLinkActive]: lastPageNum === currentPage,
+            })}
+            to={getLink(searchParams, { _page: `${lastPageNum}` })}
+          >
+            {`… ${lastPageNum}`}
+          </Link>
         </li>
         <li className="page-item">
           <Link
