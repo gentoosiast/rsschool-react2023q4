@@ -70,7 +70,7 @@ export function HomePage(): JSX.Element {
     <>
       <HeaderLayout>
         <>
-          <SearchForm onSubmit={handleSearchQueryChange} query={query} />
+          <SearchForm onQueryChange={handleSearchQueryChange} query={query} />
           <ExceptionButton />
         </>
       </HeaderLayout>

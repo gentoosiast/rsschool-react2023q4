@@ -10,13 +10,13 @@ import { LOCALSTORAGE_KEY, LOCALSTORAGE_PREFIX } from './constants';
 import styles from './search-form.module.css';
 
 type Props = {
-  onSubmit: (value: string) => void;
+  onQueryChange: (value: string) => void;
   query: string;
 };
 
 const storageWrapper = getStorageWrapper(window.localStorage, LOCALSTORAGE_PREFIX);
 
-export function SearchForm({ onSubmit, query }: Props): JSX.Element {
+export function SearchForm({ onQueryChange, query }: Props): JSX.Element {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
@@ -24,8 +24,8 @@ export function SearchForm({ onSubmit, query }: Props): JSX.Element {
 
     setInputValue(storedQuery);
 
-    onSubmit(storedQuery);
-  }, [onSubmit, query]);
+    onQueryChange(storedQuery);
+  }, [onQueryChange, query]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -34,7 +34,7 @@ export function SearchForm({ onSubmit, query }: Props): JSX.Element {
 
     storageWrapper.set(LOCALSTORAGE_KEY, submitValue);
 
-    onSubmit(submitValue);
+    onQueryChange(submitValue);
   }
 
   return (
