@@ -61,6 +61,11 @@ export function HomePage(): JSX.Element {
     }
   }
 
+  function handleLimitChange(limit: number): void {
+    searchParams.set('_limit', `${limit}`);
+    setSearchParams(searchParams);
+  }
+
   return (
     <>
       <HeaderLayout>
@@ -82,6 +87,7 @@ export function HomePage(): JSX.Element {
               <Pagination
                 currentPage={page}
                 itemsPerPage={limit}
+                onLimitChange={handleLimitChange}
                 totalResults={apiResponse.total}
               />
             )}
