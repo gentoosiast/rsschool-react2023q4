@@ -1,25 +1,30 @@
-import axios from 'axios';
-import { ValiError, flatten, parse } from 'valibot';
+import type { BaseSchema } from 'valibot';
+
+import axios, { AxiosResponseHeaders, RawAxiosResponseHeaders } from 'axios';
+import { Output, ValiError, flatten, parse } from 'valibot';
 
 import type { ApiResponse, Character } from './types';
 
-import { BASEURL, DEFAULT_ITEMS_PER_PAGE } from './constants';
-import { ApiSchema } from './schema';
+import { BASEURL, DEFAULT_ITEMS_PER_PAGE, IMAGE_CDN_URL } from './constants';
+import { ApiSchema, CharacterSchema } from './schema';
 import { HTTPStatusCode } from './types';
 
-const fetchData = async (url: string): Promise<ApiResponse | null> => {
+const fetchData = async <T extends BaseSchema>(
+  url: string,
+  schema: T,
+): Promise<{
+  data: Output<T>;
+  headers: AxiosResponseHeaders | RawAxiosResponseHeaders;
+} | null> => {
   try {
     const response = await axios.get(url);
     const headers = response.headers;
 
-    const data: unknown = response.data;
+    const unknownData: unknown = response.data;
 
-    const characters = parse(ApiSchema, data);
-    const totalCountHeader: unknown = headers['x-total-count'];
+    const data = parse(schema, unknownData);
 
-    const total = Number(totalCountHeader);
-
-    return { characters, total };
+    return { data, headers };
   } catch (err) {
     if (err instanceof ValiError) {
       console.error(flatten(err));
@@ -32,13 +37,13 @@ const fetchData = async (url: string): Promise<ApiResponse | null> => {
 
 export const rickAndMortyApi = {
   async getById(id: number): Promise<Character | null> {
-    const data = await fetchData(`${BASEURL}/?id=${id}`);
+    const result = await fetchData(`${BASEURL}/${id}`, CharacterSchema);
 
-    if (data) {
-      return data.characters[0];
-    }
+    return result && result.data;
+  },
 
-    return null;
+  getImage(id: number): string {
+    return `${IMAGE_CDN_URL}/${id}.jpeg`;
   },
 
   async search(
@@ -55,6 +60,16 @@ export const rickAndMortyApi = {
       params.set('q', query);
     }
 
-    return fetchData(`${BASEURL}?${params.toString()}`);
+    const result = await fetchData(`${BASEURL}?${params.toString()}`, ApiSchema);
+
+    if (result) {
+      const totalCountHeader: unknown = result.headers['x-total-count'] ?? '1';
+
+      const total = Number(totalCountHeader);
+
+      return { characters: result.data, total };
+    }
+
+    return result;
   },
 };

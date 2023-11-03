@@ -2,6 +2,8 @@ import type { JSX } from 'react';
 
 import type { Character } from '@/services/api';
 
+import { rickAndMortyApi } from '@/services/api';
+
 import styles from './character-details-card.module.css';
 
 type Props = {
@@ -14,11 +16,11 @@ export function CharacterDetailsCard({ character, onClose }: Props): JSX.Element
     return <h1>No character found</h1>;
   }
 
-  const { gender, image, location, name, origin, species, status } = character;
+  const { gender, id, location, name, origin, species, status } = character;
 
   return (
     <article className={styles.card}>
-      <img alt={name} height="300" src={image} width="300" />
+      <img alt={name} height="300" src={rickAndMortyApi.getImage(id)} width="300" />
       <h2 className={styles.cardHeading}>{name}</h2>
       <div className={styles.cardInfo}>
         <p>
