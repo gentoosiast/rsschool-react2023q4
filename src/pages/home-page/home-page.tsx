@@ -11,7 +11,6 @@ import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
-import { deleteSearchParam } from '@/lib/search-params';
 import { rickAndMortyApi } from '@/services/api';
 
 import { usePagination } from './hooks/use-pagination';
@@ -31,11 +30,13 @@ export function HomePage(): JSX.Element {
     setIsLoading(false);
   };
 
-  const handleSearchQueryChange = useCallback((query: string): void => {
-    // setIsLoading(true);
-    // void fetchCards(query);
-    console.log(query);
-  }, []);
+  const handleSearchQueryChange = useCallback(
+    (query: string): void => {
+      searchParams.set('q', query);
+      setSearchParams(searchParams);
+    },
+    [setSearchParams, searchParams],
+  );
 
   useEffect(() => {
     void fetchCards(query, page, limit);
@@ -43,7 +44,8 @@ export function HomePage(): JSX.Element {
 
   function handleAsideClose(): void {
     if (searchParams.has('details')) {
-      setSearchParams(deleteSearchParam(searchParams, 'details'));
+      searchParams.delete('details');
+      setSearchParams(searchParams);
     }
   }
 
@@ -63,7 +65,7 @@ export function HomePage(): JSX.Element {
     <>
       <HeaderLayout>
         <>
-          <SearchForm onSubmit={handleSearchQueryChange} />
+          <SearchForm onSubmit={handleSearchQueryChange} query={query} />
           <ExceptionButton />
         </>
       </HeaderLayout>
