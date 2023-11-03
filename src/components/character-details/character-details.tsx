@@ -6,7 +6,6 @@ import type { Character } from '@/services/api';
 
 import { CharacterDetailsCard } from '@/components/character-details-card/character-details-card';
 import { Spinner } from '@/components/spinner';
-import { deleteSearchParam } from '@/lib/search-params';
 import { rickAndMortyApi } from '@/services/api';
 
 import styles from './character-details.module.css';
@@ -29,7 +28,8 @@ export function CharacterDetails(): JSX.Element {
   }, [detailsId]);
 
   function handleCloseDetails(): void {
-    setSearchParams(deleteSearchParam(searchParams, 'details'));
+    searchParams.delete('details');
+    setSearchParams(searchParams);
   }
 
   return (
