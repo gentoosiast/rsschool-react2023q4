@@ -1,7 +1,10 @@
 # https://www.youtube.com/watch?v=RcxvrhQKv8I
 
 ### Get all characters
-GET https://rickandmortyapi.com/api/character
+GET https://rickandmortyapi-sigma.vercel.app/api/character/?_limit=10&_page=1
+
+### Get character by ID
+GET https://rickandmortyapi-sigma.vercel.app/api/character/1
 
 ### Search for character
-https://rickandmortyapi.com/api/character/?name=Rick&page=1
+GET https://rickandmortyapi-sigma.vercel.app/api/character?_limit=10&_page=1&q=Alien
