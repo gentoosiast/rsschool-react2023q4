@@ -18,13 +18,20 @@ export function CharacterDetails(): JSX.Element {
   const detailsId = detailsParam ? Number(detailsParam) : 1;
 
   useEffect(() => {
+    const controller = new AbortController();
+
     setIsLoading(true);
+
     void rickAndMortyApi
-      .getById(detailsId)
+      .getById(controller, detailsId)
       .then((character) => setCharacter(character))
       .finally(() => {
         setIsLoading(false);
       });
+
+    return () => {
+      controller.abort();
+    };
   }, [detailsId]);
 
   function handleCloseDetails(): void {

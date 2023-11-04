@@ -23,13 +23,6 @@ export function HomePage(): JSX.Element {
   const { details, limit, page, query } = usePagination();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const fetchCards = async (query: string, page?: number, limit?: number): Promise<void> => {
-    setIsLoading(true);
-    const response = await rickAndMortyApi.search(query, page, limit);
-    setApiResponse(response);
-    setIsLoading(false);
-  };
-
   const handleSearchQueryChange = useCallback(
     (query: string): void => {
       if (query) {
@@ -41,7 +34,23 @@ export function HomePage(): JSX.Element {
   );
 
   useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchCards = async (query: string, page?: number, limit?: number): Promise<void> => {
+      setIsLoading(true);
+
+      const response = await rickAndMortyApi.search(controller, query, page, limit);
+
+      setApiResponse(response);
+
+      setIsLoading(false);
+    };
+
     void fetchCards(query, page, limit);
+
+    return () => {
+      controller.abort();
+    };
   }, [page, limit, query]);
 
   function handleAsideClose(): void {
