@@ -43,6 +43,7 @@
 
 .closeButton {
   cursor: pointer;
+  user-select: none;
 
   position: absolute;
   z-index: 10;
