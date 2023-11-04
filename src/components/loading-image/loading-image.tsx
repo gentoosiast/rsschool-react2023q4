@@ -1,12 +1,9 @@
-import type { JSX } from 'react';
+import type { DetailedHTMLProps, ImgHTMLAttributes, JSX } from 'react';
 import { useEffect, useState } from 'react';
 
 export function LoadingImage({
   ...props
-}: React.DetailedHTMLProps<
-  React.ImgHTMLAttributes<HTMLImageElement>,
-  HTMLImageElement
->): JSX.Element {
+}: DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>): JSX.Element {
   const [imgSrc, setImgSrc] = useState<string>('');
 
   const { src = '' } = props;
