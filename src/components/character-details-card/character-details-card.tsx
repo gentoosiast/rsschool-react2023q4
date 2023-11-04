@@ -36,19 +36,24 @@ export function CharacterDetailsCard({ character, isLoading, onClose }: Props): 
       <h2 className={styles.cardHeading}>{name}</h2>
       <div className={styles.cardInfo}>
         <p>
-          <span>Status:</span> {status}
+          <span className={styles.cardInfoKey}>Status:</span>{' '}
+          <span className={styles.cardInfoValue}>{status}</span>
         </p>
         <p>
-          <span>Species:</span> {species}
+          <span className={styles.cardInfoKey}>Species:</span>{' '}
+          <span className={styles.cardInfoValue}>{species}</span>
         </p>
         <p>
-          <span>Gender:</span> {gender}
+          <span className={styles.cardInfoKey}>Gender:</span>{' '}
+          <span className={styles.cardInfoValue}>{gender}</span>
         </p>
         <p>
-          <span>Origin:</span> {origin}
+          <span className={styles.cardInfoKey}>Origin:</span>{' '}
+          <span className={styles.cardInfoValue}>{origin}</span>
         </p>
         <p>
-          <span>Location:</span> {location}
+          <span className={styles.cardInfoKey}>Location:</span>{' '}
+          <span className={styles.cardInfoValue}>{location}</span>
         </p>
       </div>
       <button className={styles.closeButton} onClick={() => onClose()} type="button">

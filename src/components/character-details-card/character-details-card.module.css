@@ -15,6 +15,8 @@
 
 .cardHeading {
   margin: 0;
+  text-align: center;
+  text-wrap: balance;
 }
 
 .cardInfo {
@@ -28,8 +30,15 @@
   margin: 0;
 }
 
-.cardInfo > p > span {
+.cardInfoKey {
+  display: inline-block;
+  min-width: 5.5rem;
   font-weight: bold;
+  text-transform: uppercase;
+}
+
+.cardInfoValue {
+  font-size: 14px;
 }
 
 .closeButton {
