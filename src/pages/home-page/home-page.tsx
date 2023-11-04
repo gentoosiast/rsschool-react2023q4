@@ -20,8 +20,10 @@ import styles from './home-page.module.css';
 export function HomePage(): JSX.Element {
   const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { details, limit, page, query } = usePagination();
+  const { limit, page, query } = usePagination();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const totalResults = apiResponse?.total ?? 0;
 
   const handleSearchQueryChange = useCallback(
     (query: string): void => {
@@ -36,18 +38,16 @@ export function HomePage(): JSX.Element {
   useEffect(() => {
     const controller = new AbortController();
 
-    const fetchCards = async (query: string, page?: number, limit?: number): Promise<void> => {
-      setIsLoading(true);
+    setIsLoading(true);
 
-      const response = await rickAndMortyApi.search(controller, query, page, limit);
-
-      console.log(response);
-      setApiResponse(response);
-
-      setIsLoading(false);
-    };
-
-    void fetchCards(query, page, limit);
+    void rickAndMortyApi
+      .search(controller, query, page, limit)
+      .then((response) => {
+        setApiResponse(response);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
 
     return () => {
       controller.abort();
@@ -86,30 +86,26 @@ export function HomePage(): JSX.Element {
           <ExceptionButton />
         </>
       </HeaderLayout>
-      {apiResponse && (
-        <MainLayout>
-          <>
-            <section
-              className={styles.mainContent}
-              onClick={(e) => handleMainContentClick(e)}
-              onKeyDown={(e) => handleMainContentKeyPress(e.key)}
-              role="button"
-              tabIndex={0}
-            >
-              {apiResponse.total > 0 && (
-                <Pagination
-                  currentPage={page}
-                  itemsPerPage={limit}
-                  onLimitChange={handleLimitChange}
-                  totalResults={apiResponse.total}
-                />
-              )}
-              {isLoading ? <Spinner /> : <CharacterList characters={apiResponse.characters} />}
-            </section>
-            {details > 0 && <Outlet />}
-          </>
-        </MainLayout>
-      )}
+      <MainLayout>
+        <>
+          <section
+            className={styles.mainContent}
+            onClick={(e) => handleMainContentClick(e)}
+            onKeyDown={(e) => handleMainContentKeyPress(e.key)}
+            role="button"
+            tabIndex={0}
+          >
+            <Pagination
+              currentPage={page}
+              itemsPerPage={limit}
+              onLimitChange={handleLimitChange}
+              totalResults={totalResults}
+            />
+            {isLoading ? <Spinner /> : <CharacterList characters={apiResponse?.characters} />}
+          </section>
+          <Outlet />
+        </>
+      </MainLayout>
     </>
   );
 }

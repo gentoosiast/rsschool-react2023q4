@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import type { ReactNode } from 'react';
 
 import type { Character } from '@/services/api';
 
@@ -7,10 +7,14 @@ import { CharacterListItem } from '@/components/character-list-item';
 import styles from './character-list.module.css';
 
 type Props = {
-  characters: Character[];
+  characters?: Character[];
 };
 
-export function CharacterList({ characters }: Props): JSX.Element {
+export function CharacterList({ characters }: Props): ReactNode {
+  if (!characters) {
+    return null;
+  }
+
   return characters.length > 0 ? (
     <section className={styles.cards}>
       {characters.map((character) => (

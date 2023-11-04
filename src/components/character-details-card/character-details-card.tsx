@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import type { ReactNode } from 'react';
 
 import type { Character } from '@/services/api';
 
@@ -11,9 +11,9 @@ type Props = {
   onClose: () => void;
 };
 
-export function CharacterDetailsCard({ character, onClose }: Props): JSX.Element {
+export function CharacterDetailsCard({ character, onClose }: Props): ReactNode {
   if (!character) {
-    return <h1>No character found</h1>;
+    return null;
   }
 
   const { gender, id, location, name, origin, species, status } = character;

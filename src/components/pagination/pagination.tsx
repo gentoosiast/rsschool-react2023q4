@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import type { ReactNode } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import cn from 'classnames';
@@ -23,12 +23,16 @@ export function Pagination({
   itemsPerPage,
   onLimitChange,
   totalResults,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const [searchParams] = useSearchParams();
   const lastPageNum = Math.ceil(totalResults / itemsPerPage);
   const isPrevDisabled = currentPage === 1;
   const isNextDisabled = currentPage === lastPageNum;
   const pageNumbers = generatePageNumbers(currentPage, lastPageNum - 1);
+
+  if (totalResults === 0) {
+    return null;
+  }
 
   return (
     <nav className={styles.pagination}>

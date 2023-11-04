@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -10,14 +10,19 @@ import { rickAndMortyApi } from '@/services/api';
 
 import styles from './character-details.module.css';
 
-export function CharacterDetails(): JSX.Element {
+export function CharacterDetails(): ReactNode {
   const [character, setCharacter] = useState<Character | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const detailsParam = searchParams.get('details');
-  const detailsId = detailsParam ? Number(detailsParam) : 1;
 
   useEffect(() => {
+    const detailsId = Number(detailsParam);
+
+    if (isNaN(detailsId) || !Number.isInteger(detailsId) || detailsId < 1) {
+      return;
+    }
+
     const controller = new AbortController();
 
     setIsLoading(true);
@@ -32,11 +37,15 @@ export function CharacterDetails(): JSX.Element {
     return () => {
       controller.abort();
     };
-  }, [detailsId]);
+  }, [detailsParam]);
 
   function handleCloseDetails(): void {
     searchParams.delete('details');
     setSearchParams(searchParams);
+  }
+
+  if (!detailsParam) {
+    return null;
   }
 
   return (
