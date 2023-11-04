@@ -46,11 +46,7 @@ export const rickAndMortyApi = {
     return `${IMAGE_CDN_URL}/${id}.jpeg`;
   },
 
-  async search(
-    query: string,
-    page = 1,
-    limit = DEFAULT_ITEMS_PER_PAGE,
-  ): Promise<ApiResponse | null> {
+  async search(query: string, page = 1, limit = DEFAULT_ITEMS_PER_PAGE): Promise<ApiResponse> {
     const params = new URLSearchParams({
       _limit: `${limit}`,
       _page: `${page}`,
@@ -70,6 +66,6 @@ export const rickAndMortyApi = {
       return { characters: result.data, total };
     }
 
-    return result;
+    return { characters: [], total: 0 };
   },
 };

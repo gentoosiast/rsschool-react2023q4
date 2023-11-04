@@ -18,7 +18,7 @@ import { usePagination } from './hooks/use-pagination';
 import styles from './home-page.module.css';
 
 export function HomePage(): JSX.Element {
-  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
+  const [apiResponse, setApiResponse] = useState<ApiResponse>({ characters: [], total: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const { details, limit, page, query } = usePagination();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -85,7 +85,7 @@ export function HomePage(): JSX.Element {
             role="button"
             tabIndex={0}
           >
-            {apiResponse && (
+            {apiResponse.total > 0 && (
               <Pagination
                 currentPage={page}
                 itemsPerPage={limit}
@@ -93,7 +93,7 @@ export function HomePage(): JSX.Element {
                 totalResults={apiResponse.total}
               />
             )}
-            {isLoading ? <Spinner /> : <CharacterList characters={apiResponse?.characters ?? []} />}
+            {isLoading ? <Spinner /> : <CharacterList characters={apiResponse.characters} />}
           </section>
           {details > 0 && <Outlet />}
         </>
