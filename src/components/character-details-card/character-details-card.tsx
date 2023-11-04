@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react';
 
-import cn from 'classnames';
-
 import type { Character } from '@/services/api';
 
+import { LoadingImage } from '@/components/loading-image';
 import { rickAndMortyApi } from '@/services/api';
 
 import styles from './character-details-card.module.css';
@@ -23,7 +22,7 @@ export function CharacterDetailsCard({ character, isLoading, onClose }: Props): 
 
   const {
     gender = LOADING_TEXT,
-    id = 0,
+    id = -1,
     location = LOADING_TEXT,
     name = LOADING_TEXT,
     origin = LOADING_TEXT,
@@ -33,11 +32,7 @@ export function CharacterDetailsCard({ character, isLoading, onClose }: Props): 
 
   return (
     <article className={styles.card}>
-      {isLoading ? (
-        <div className={cn('skeleton', styles.cardSkeleton)} />
-      ) : (
-        <img alt={name} height="300" src={rickAndMortyApi.getImage(id)} width="300" />
-      )}
+      <LoadingImage alt={name} height="300" src={rickAndMortyApi.getImage(id)} width="300" />
       <h2 className={styles.cardHeading}>{name}</h2>
       <div className={styles.cardInfo}>
         <p>

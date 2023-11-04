@@ -43,6 +43,10 @@ export const rickAndMortyApi = {
   },
 
   getImage(id: number): string {
+    if (id < 1) {
+      return '';
+    }
+
     return `${IMAGE_CDN_URL}/${id}.jpeg`;
   },
 

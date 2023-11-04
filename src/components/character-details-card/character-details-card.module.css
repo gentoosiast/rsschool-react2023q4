@@ -32,11 +32,6 @@
   font-weight: bold;
 }
 
-.cardSkeleton {
-  width: 300px;
-  height: 300px;
-}
-
 .closeButton {
   cursor: pointer;
 
