@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import type { Character } from '@/services/api';
 
-import { CharacterDetailsCard } from '@/components/character-details-card/character-details-card';
+import { CharacterDetailsCard } from '@/components/character-details-card';
 import { Spinner } from '@/components/spinner';
 import { rickAndMortyApi } from '@/services/api';
 
