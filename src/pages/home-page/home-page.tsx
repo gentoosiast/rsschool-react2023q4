@@ -18,8 +18,8 @@ import { usePagination } from './hooks/use-pagination';
 import styles from './home-page.module.css';
 
 export function HomePage(): JSX.Element {
-  const [apiResponse, setApiResponse] = useState<ApiResponse>({ characters: [], total: 0 });
-  const [isLoading, setIsLoading] = useState(true);
+  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { details, limit, page, query } = usePagination();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -41,6 +41,7 @@ export function HomePage(): JSX.Element {
 
       const response = await rickAndMortyApi.search(controller, query, page, limit);
 
+      console.log(response);
       setApiResponse(response);
 
       setIsLoading(false);
@@ -85,28 +86,30 @@ export function HomePage(): JSX.Element {
           <ExceptionButton />
         </>
       </HeaderLayout>
-      <MainLayout>
-        <>
-          <section
-            className={styles.mainContent}
-            onClick={(e) => handleMainContentClick(e)}
-            onKeyDown={(e) => handleMainContentKeyPress(e.key)}
-            role="button"
-            tabIndex={0}
-          >
-            {apiResponse.total > 0 && (
-              <Pagination
-                currentPage={page}
-                itemsPerPage={limit}
-                onLimitChange={handleLimitChange}
-                totalResults={apiResponse.total}
-              />
-            )}
-            {isLoading ? <Spinner /> : <CharacterList characters={apiResponse.characters} />}
-          </section>
-          {details > 0 && <Outlet />}
-        </>
-      </MainLayout>
+      {apiResponse && (
+        <MainLayout>
+          <>
+            <section
+              className={styles.mainContent}
+              onClick={(e) => handleMainContentClick(e)}
+              onKeyDown={(e) => handleMainContentKeyPress(e.key)}
+              role="button"
+              tabIndex={0}
+            >
+              {apiResponse.total > 0 && (
+                <Pagination
+                  currentPage={page}
+                  itemsPerPage={limit}
+                  onLimitChange={handleLimitChange}
+                  totalResults={apiResponse.total}
+                />
+              )}
+              {isLoading ? <Spinner /> : <CharacterList characters={apiResponse.characters} />}
+            </section>
+            {details > 0 && <Outlet />}
+          </>
+        </MainLayout>
+      )}
     </>
   );
 }

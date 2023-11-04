@@ -51,7 +51,7 @@ export const rickAndMortyApi = {
     query: string,
     page = 1,
     limit = DEFAULT_ITEMS_PER_PAGE,
-  ): Promise<ApiResponse> {
+  ): Promise<ApiResponse | null> {
     const params = new URLSearchParams({
       _limit: `${limit}`,
       _page: `${page}`,
@@ -71,6 +71,6 @@ export const rickAndMortyApi = {
       return { characters: result.data, total };
     }
 
-    return { characters: [], total: 0 };
+    return null;
   },
 };
