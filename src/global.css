@@ -30,7 +30,10 @@ video {
 
 .btn {
   cursor: pointer;
+  user-select: none;
+
   padding: 5px 10px;
+
   border: unset;
   border-radius: 5px;
 
