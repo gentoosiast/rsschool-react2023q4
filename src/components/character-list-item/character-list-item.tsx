@@ -6,6 +6,8 @@ import type { Character } from '@/services/api';
 import { getLink } from '@/lib/search-params';
 import { rickAndMortyApi } from '@/services/api';
 
+import { LoadingImage } from '../loading-image/loading-image';
+
 import styles from './character-list-item.module.css';
 
 type Props = {
@@ -18,7 +20,7 @@ export function CharacterListItem({ character: { id, name } }: Props): JSX.Eleme
   return (
     <Link className={styles.cardLink} to={getLink(searchParams, 'details', `${id}`)}>
       <article className={styles.card}>
-        <img
+        <LoadingImage
           alt={name}
           height="300"
           loading="lazy"
