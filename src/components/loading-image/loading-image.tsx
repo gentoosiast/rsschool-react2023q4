@@ -1,24 +1,21 @@
 import type { JSX } from 'react';
 import { useEffect, useState } from 'react';
 
-type Props = {
-  alt: string;
-  height: string;
-  src: string;
-  width: string;
-};
-
-export function LoadingImage({ ...props }: Props): JSX.Element {
+export function LoadingImage({
+  ...props
+}: React.DetailedHTMLProps<
+  React.ImgHTMLAttributes<HTMLImageElement>,
+  HTMLImageElement
+>): JSX.Element {
   const [imgSrc, setImgSrc] = useState<string>('');
 
-  const { src } = props;
+  const { src = '' } = props;
 
   useEffect(() => {
     const img = new Image();
 
     img.src = src;
     img.onload = () => {
-      console.log('fully load');
       setImgSrc(src);
     };
   }, [src]);
