@@ -6,6 +6,7 @@ import featherIcons from 'feather-icons/dist/feather-sprite.svg';
 
 import { getLink } from '@/lib/search-params';
 
+import { RESULTS_PER_PAGE_OPTIONS } from './constants';
 import { generatePageNumbers } from './generate-page-numbers';
 
 import styles from './pagination.module.css';
@@ -95,7 +96,7 @@ export function Pagination({
         onChange={(e) => onLimitChange(+e.target.value)}
         value={itemsPerPage}
       >
-        {[5, 10, 20, 30, 40, 50].map((itemCount) => (
+        {RESULTS_PER_PAGE_OPTIONS.map((itemCount) => (
           <option key={itemCount} value={itemCount}>
             {itemCount}
           </option>
