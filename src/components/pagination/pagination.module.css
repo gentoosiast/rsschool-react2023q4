@@ -44,6 +44,7 @@
 }
 
 .pageLinkActive {
+  pointer-events: none;
   font-weight: bold;
 }
 
