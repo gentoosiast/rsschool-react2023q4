@@ -18,7 +18,7 @@ export function CharacterDetails(): ReactNode {
   useEffect(() => {
     const detailsId = Number(detailsParam);
 
-    if (isNaN(detailsId) || !Number.isInteger(detailsId) || detailsId < 1) {
+    if (!Number.isInteger(detailsId) || detailsId < 1) {
       setCharacter(null);
       return;
     }
