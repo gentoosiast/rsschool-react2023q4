@@ -5,7 +5,6 @@ import { useSearchParams } from 'react-router-dom';
 import type { Character } from '@/services/api';
 
 import { CharacterDetailsCard } from '@/components/character-details-card';
-import { Spinner } from '@/components/spinner';
 import { rickAndMortyApi } from '@/services/api';
 
 import styles from './character-details.module.css';
@@ -20,6 +19,7 @@ export function CharacterDetails(): ReactNode {
     const detailsId = Number(detailsParam);
 
     if (isNaN(detailsId) || !Number.isInteger(detailsId) || detailsId < 1) {
+      setCharacter(null);
       return;
     }
 
@@ -50,11 +50,11 @@ export function CharacterDetails(): ReactNode {
 
   return (
     <aside className={styles.aside}>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <CharacterDetailsCard character={character} onClose={handleCloseDetails} />
-      )}
+      <CharacterDetailsCard
+        character={character}
+        isLoading={isLoading}
+        onClose={handleCloseDetails}
+      />
     </aside>
   );
 }
