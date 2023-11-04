@@ -32,8 +32,10 @@ export function HomePage(): JSX.Element {
 
   const handleSearchQueryChange = useCallback(
     (query: string): void => {
-      searchParams.set('q', query);
-      setSearchParams(searchParams);
+      if (query) {
+        searchParams.set('q', query);
+        setSearchParams(searchParams);
+      }
     },
     [setSearchParams, searchParams],
   );
