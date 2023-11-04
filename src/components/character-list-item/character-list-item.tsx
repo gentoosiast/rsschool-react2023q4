@@ -16,7 +16,7 @@ export function CharacterListItem({ character: { id, name } }: Props): JSX.Eleme
   const [searchParams] = useSearchParams();
 
   return (
-    <Link className={styles.cardLink} to={getLink(searchParams, { details: `${id}` })}>
+    <Link className={styles.cardLink} to={getLink(searchParams, 'details', `${id}`)}>
       <article className={styles.card}>
         <img alt={name} height="300" src={rickAndMortyApi.getImage(id)} width="300" />
         <h2 className={styles.cardHeading}>{name}</h2>

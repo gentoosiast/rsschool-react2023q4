@@ -1,14 +1,5 @@
-export function updateSearchParams(
-  params: URLSearchParams,
-  updatedParams: Record<string, string>,
-): URLSearchParams {
-  const newParams = new URLSearchParams(params);
+export function getLink(params: URLSearchParams, key: string, value: string): string {
+  params.set(key, value);
 
-  Object.entries(updatedParams).forEach(([key, value]) => newParams.set(key, value));
-
-  return newParams;
-}
-
-export function getLink(params: URLSearchParams, updatedParams: Record<string, string>): string {
-  return `?${updateSearchParams(params, updatedParams).toString()}`;
+  return `?${params.toString()}`;
 }

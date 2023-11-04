@@ -33,7 +33,7 @@ export function Pagination({
     <nav className={styles.pagination}>
       <ul className={styles.paginationList}>
         <li className="page-item">
-          <Link className={styles.pageLink} to={getLink(searchParams, { _page: '1' })}>
+          <Link className={styles.pageLink} to={getLink(searchParams, '_page', '1')}>
             <svg className="feather">
               <use href={`${featherIcons}#arrow-left-circle`} />
             </svg>
@@ -42,7 +42,7 @@ export function Pagination({
         <li className="page-item">
           <Link
             className={cn(styles.pageLink, { [styles.disabled]: isPrevDisabled })}
-            to={getLink(searchParams, { _page: `${currentPage - 1}` })}
+            to={getLink(searchParams, '_page', `${currentPage - 1}`)}
           >
             <svg className="feather">
               <use href={`${featherIcons}#arrow-left`} />
@@ -55,7 +55,7 @@ export function Pagination({
               className={cn(styles.pageLink, {
                 [styles.pageLinkActive]: pageNumber === currentPage,
               })}
-              to={getLink(searchParams, { _page: `${pageNumber}` })}
+              to={getLink(searchParams, '_page', `${pageNumber}`)}
             >
               {pageNumber}
             </Link>
@@ -66,7 +66,7 @@ export function Pagination({
             className={cn(styles.pageLink, {
               [styles.pageLinkActive]: lastPageNum === currentPage,
             })}
-            to={getLink(searchParams, { _page: `${lastPageNum}` })}
+            to={getLink(searchParams, '_page', `${lastPageNum}`)}
           >
             {`… ${lastPageNum}`}
           </Link>
@@ -74,7 +74,7 @@ export function Pagination({
         <li className="page-item">
           <Link
             className={cn(styles.pageLink, { [styles.disabled]: isNextDisabled })}
-            to={getLink(searchParams, { _page: `${currentPage + 1}` })}
+            to={getLink(searchParams, '_page', `${currentPage + 1}`)}
           >
             <svg className="feather">
               <use href={`${featherIcons}#arrow-right`} />
@@ -82,7 +82,7 @@ export function Pagination({
           </Link>
         </li>
         <li className="page-item">
-          <Link className={styles.pageLink} to={getLink(searchParams, { _page: `${lastPageNum}` })}>
+          <Link className={styles.pageLink} to={getLink(searchParams, '_page', `${lastPageNum}`)}>
             <svg className="feather">
               <use href={`${featherIcons}#arrow-right-circle`} />
             </svg>
