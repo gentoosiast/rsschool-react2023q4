@@ -21,6 +21,7 @@ export function HomePage(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
   const { deleteParam, details, limit, page, query, setParams } = useParams();
 
+  const hasCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
   const totalResults = apiResponse?.total ?? 0;
 
   const handleSearchQueryChange = useCallback(
@@ -94,13 +95,15 @@ export function HomePage(): JSX.Element {
             role="button"
             tabIndex={0}
           >
-            <Pagination
-              currentPage={page}
-              itemsPerPage={limit}
-              onLimitChange={handleLimitChange}
-              onPageChange={handlePageChange}
-              totalResults={totalResults}
-            />
+            {hasCharactersFound && (
+              <Pagination
+                currentPage={page}
+                itemsPerPage={limit}
+                onLimitChange={handleLimitChange}
+                onPageChange={handlePageChange}
+                totalResults={totalResults}
+              />
+            )}
             {isLoading ? <Spinner /> : <CharacterList characters={apiResponse?.characters} />}
           </section>
           <Outlet />
