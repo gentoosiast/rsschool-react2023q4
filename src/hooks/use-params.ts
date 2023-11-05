@@ -3,9 +3,12 @@ import { useSearchParams } from 'react-router-dom';
 
 import { DEFAULT_ITEMS_PER_PAGE } from '@/services/api/constants';
 
+const MAX_ITEMS_PER_PAGE = 50;
+
 function validateNumericParam(
   param: unknown,
   minAllowedValue: number,
+  maxAllowedValue: number,
   fallbackValue: number,
 ): number {
   if (typeof param !== 'string') {
@@ -14,7 +17,7 @@ function validateNumericParam(
 
   const value = parseInt(param, 10);
 
-  if (!Number.isNaN(value) && value >= minAllowedValue) {
+  if (!Number.isNaN(value) && value >= minAllowedValue && value <= maxAllowedValue) {
     return value;
   }
 
@@ -49,10 +52,15 @@ export function useParams(): {
     [searchParams, setSearchParams],
   );
 
-  const page = validateNumericParam(searchParams.get('_page'), 1, 1);
-  const limit = validateNumericParam(searchParams.get('_limit'), 1, DEFAULT_ITEMS_PER_PAGE);
+  const page = validateNumericParam(searchParams.get('_page'), 1, Infinity, 1);
+  const limit = validateNumericParam(
+    searchParams.get('_limit'),
+    1,
+    MAX_ITEMS_PER_PAGE,
+    DEFAULT_ITEMS_PER_PAGE,
+  );
   const query = searchParams.get('q') ?? '';
-  const details = validateNumericParam(searchParams.get('details'), 1, 0);
+  const details = validateNumericParam(searchParams.get('details'), 1, Infinity, 0);
 
   return { deleteParam, details, limit, page, query, setParams };
 }
