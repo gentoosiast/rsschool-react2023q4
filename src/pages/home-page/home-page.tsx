@@ -25,12 +25,12 @@ export function HomePage(): JSX.Element {
   const totalResults = apiResponse?.total ?? 0;
 
   const handleSearchQueryChange = useCallback(
-    (query: string): void => {
-      if (query) {
-        setParams({ q: query });
+    (newQuery: string): void => {
+      if (newQuery && query !== newQuery) {
+        setParams({ _page: '1', q: newQuery });
       }
     },
-    [setParams],
+    [setParams, query],
   );
 
   useEffect(() => {
