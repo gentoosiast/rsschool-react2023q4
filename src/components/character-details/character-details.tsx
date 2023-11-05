@@ -16,9 +16,13 @@ export function CharacterDetails(): ReactNode {
   const detailsParam = searchParams.get('details');
 
   useEffect(() => {
-    const detailsId = Number(detailsParam);
+    if (!detailsParam) {
+      return;
+    }
 
-    if (!Number.isInteger(detailsId) || detailsId < 1) {
+    const detailsId = parseInt(detailsParam, 10);
+
+    if (Number.isNaN(detailsId) || detailsId < 1) {
       setCharacter(null);
       return;
     }

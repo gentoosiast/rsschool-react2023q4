@@ -68,9 +68,17 @@ export const rickAndMortyApi = {
     const result = await fetchData(`${BASEURL}?${params.toString()}`, ApiSchema, controller);
 
     if (result) {
-      const totalCountHeader: unknown = result.headers['x-total-count'] ?? '1';
+      const totalCountHeader: unknown = result.headers['x-total-count'];
 
-      const total = Number(totalCountHeader);
+      let total = 0;
+
+      if (typeof totalCountHeader === 'string') {
+        const parsedHeader = parseInt(totalCountHeader, 10);
+
+        if (!Number.isNaN(parsedHeader)) {
+          total = parsedHeader;
+        }
+      }
 
       return { characters: result.data, total };
     }
