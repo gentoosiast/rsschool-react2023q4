@@ -73,10 +73,10 @@ export const rickAndMortyApi = {
       let total = 0;
 
       if (typeof totalCountHeader === 'string') {
-        const parsedHeader = parseInt(totalCountHeader, 10);
+        const totalValueFromHeader = parseInt(totalCountHeader, 10);
 
-        if (!Number.isNaN(parsedHeader)) {
-          total = parsedHeader;
+        if (!Number.isNaN(totalValueFromHeader) && totalValueFromHeader > 0) {
+          total = totalValueFromHeader;
         }
       }
 
