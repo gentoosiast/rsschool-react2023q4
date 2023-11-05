@@ -1,40 +1,103 @@
-import axios from 'axios';
-import { ValiError, flatten, parse } from 'valibot';
+import type { BaseSchema } from 'valibot';
 
-import type { ApiResponse } from './types';
+import axios, {
+  AxiosResponseHeaders,
+  CanceledError,
+  RawAxiosResponseHeaders,
+} from 'axios';
+import { Output, ValiError, flatten, parse } from 'valibot';
 
-import { BASEURL } from './constants';
-import { ApiSchema } from './schema';
-import { HTTPStatusCode } from './types';
+import type { ApiResponse, Character } from './types';
 
-const fetchData = async (url: string): Promise<ApiResponse | null> => {
+import { BASEURL, DEFAULT_ITEMS_PER_PAGE, IMAGE_CDN_URL } from './constants';
+import { ApiSchema, CharacterSchema } from './schema';
+
+const fetchData = async <T extends BaseSchema>(
+  url: string,
+  schema: T,
+  controller: AbortController
+): Promise<{
+  data: Output<T>;
+  headers: AxiosResponseHeaders | RawAxiosResponseHeaders;
+} | null> => {
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, { signal: controller.signal });
+    const headers = response.headers;
 
-    const data: unknown = response.data;
+    const unknownData: unknown = response.data;
 
-    return parse(ApiSchema, data);
+    const data = parse(schema, unknownData);
+
+    return { data, headers };
   } catch (err) {
     if (err instanceof ValiError) {
       console.error(flatten(err));
-    } else if (!(axios.isAxiosError(err) && err.response?.status === HTTPStatusCode.NotFound)) {
+    } else if (!(err instanceof CanceledError)) {
       console.error(err);
     }
     return null;
   }
 };
 
-export const api = {
-  async getAll(): Promise<ApiResponse | null> {
-    return fetchData(BASEURL);
+export const rickAndMortyApi = {
+  async getById(
+    controller: AbortController,
+    id: number
+  ): Promise<Character | null> {
+    const result = await fetchData(
+      `${BASEURL}/${id}`,
+      CharacterSchema,
+      controller
+    );
+
+    return result && result.data;
   },
 
-  async search(query: string, page = 1): Promise<ApiResponse | null> {
+  getImage(id: number): string {
+    if (id < 1) {
+      return '';
+    }
+
+    return `${IMAGE_CDN_URL}/${id}.jpeg`;
+  },
+
+  async search(
+    controller: AbortController,
+    query: string,
+    page = 1,
+    limit = DEFAULT_ITEMS_PER_PAGE
+  ): Promise<ApiResponse | null> {
     const params = new URLSearchParams({
-      name: query,
-      page: page.toString(),
+      _limit: `${limit}`,
+      _page: `${page}`,
     });
 
-    return fetchData(`${BASEURL}?${params.toString()}`);
+    if (query) {
+      params.set('q', query);
+    }
+
+    const result = await fetchData(
+      `${BASEURL}?${params.toString()}`,
+      ApiSchema,
+      controller
+    );
+
+    if (result) {
+      const totalCountHeader: unknown = result.headers['x-total-count'];
+
+      let total = 0;
+
+      if (typeof totalCountHeader === 'string') {
+        const totalValueFromHeader = parseInt(totalCountHeader, 10);
+
+        if (!Number.isNaN(totalValueFromHeader) && totalValueFromHeader > 0) {
+          total = totalValueFromHeader;
+        }
+      }
+
+      return { characters: result.data, total };
+    }
+
+    return null;
   },
 };

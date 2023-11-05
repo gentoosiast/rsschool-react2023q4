@@ -21,7 +21,8 @@ export default {
         'selector-class-pattern': [
           '^[a-z]+([A-Z][a-zA-Z]+)*$',
           {
-            message: (selector) => `Expected class selector "${selector}" to be lowerCamelCase`,
+            message: (selector) =>
+              `Expected class selector "${selector}" to be lowerCamelCase`,
           },
         ],
       },

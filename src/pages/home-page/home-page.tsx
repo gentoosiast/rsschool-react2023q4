@@ -1,58 +1,118 @@
-import { Component } from 'react';
-import type { ReactNode } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import type { JSX, MouseEvent } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import type { ApiResponse } from '@/services/api';
 
-import { CardList } from '@/components/card-list';
+import { CharacterList } from '@/components/character-list';
 import { ExceptionButton } from '@/components/exception-button';
+import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
+import { useParams } from '@/hooks/use-params';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
-import { api } from '@/services/api';
+import { rickAndMortyApi } from '@/services/api';
 
-type State = {
-  apiResponse: ApiResponse | null;
-  isLoading: boolean;
-};
+import styles from './home-page.module.css';
 
-export class HomePage extends Component<Record<string, never>, State> {
-  private handleSearchQueryChange = (query: string): void => {
-    this.setState({ isLoading: true }, () => void this.fetchCards(query));
-  };
+export function HomePage(): JSX.Element {
+  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { deleteParam, details, limit, page, query, setParams } = useParams();
 
-  state: State = {
-    apiResponse: null,
-    isLoading: true,
-  };
+  const hasCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
+  const totalResults = apiResponse?.total ?? 0;
 
-  private async fetchCards(query: string): Promise<void> {
-    let response: ApiResponse | null = null;
+  const handleSearchQueryChange = useCallback(
+    (newQuery: string): void => {
+      if (newQuery && query !== newQuery) {
+        setParams({ _page: '1', q: newQuery });
+      }
+    },
+    [setParams, query]
+  );
 
-    try {
-      response = query ? await api.search(query) : await api.getAll();
-    } catch (err) {
-      console.error(err);
-    } finally {
-      this.setState({ apiResponse: response, isLoading: false });
+  useEffect(() => {
+    const controller = new AbortController();
+
+    setIsLoading(true);
+
+    void rickAndMortyApi
+      .search(controller, query, page, limit)
+      .then((response) => {
+        setApiResponse(response);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, [page, limit, query]);
+
+  function handleAsideClose(): void {
+    if (details) {
+      deleteParam('details');
     }
   }
 
-  render(): ReactNode {
-    return (
-      <>
-        <HeaderLayout>
-          <SearchForm onSubmit={this.handleSearchQueryChange} />
-          <ExceptionButton />
-        </HeaderLayout>
-        <MainLayout>
-          {this.state.isLoading ? (
-            <Spinner />
-          ) : (
-            <CardList characters={this.state.apiResponse?.results ?? []} />
-          )}
-        </MainLayout>
-      </>
-    );
+  function handleMainContentClick(event: MouseEvent): void {
+    event.stopPropagation();
+
+    handleAsideClose();
   }
+
+  function handleMainContentKeyPress(key: string): void {
+    if (key === 'Escape') {
+      handleAsideClose();
+    }
+  }
+
+  function handleLimitChange(limit: number): void {
+    setParams({ _limit: `${limit}`, _page: '1' });
+  }
+
+  function handlePageChange(page: number): void {
+    setParams({ _page: `${page}` });
+  }
+
+  return (
+    <>
+      <HeaderLayout>
+        <>
+          <SearchForm onQueryChange={handleSearchQueryChange} query={query} />
+          <ExceptionButton />
+        </>
+      </HeaderLayout>
+      <MainLayout>
+        <>
+          <section
+            className={styles.mainContent}
+            onClick={(e) => handleMainContentClick(e)}
+            onKeyDown={(e) => handleMainContentKeyPress(e.key)}
+            role="button"
+            tabIndex={0}
+          >
+            {hasCharactersFound && (
+              <Pagination
+                currentPage={page}
+                itemsPerPage={limit}
+                onLimitChange={handleLimitChange}
+                onPageChange={handlePageChange}
+                totalResults={totalResults}
+              />
+            )}
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <CharacterList characters={apiResponse?.characters} />
+            )}
+          </section>
+          <Outlet />
+        </>
+      </MainLayout>
+    </>
+  );
 }

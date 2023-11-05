@@ -1,12 +1,17 @@
-# RS School React 2023 Q3 - Week 1 Task: React Class Components
+# RS School React 2023 Q3 - Week 2 Task: React Routing
 
-![screenshot](https://i.imgur.com/DRMllFW.jpg)
+![screenshot](https://i.imgur.com/YDI5cEH.jpg)
 
-Task description: <https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/module01/README.md>
+Task description: <https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/module02/README.md>
 
-Deploy: <https://gentoosiast-react-w1-components.netlify.app/>
+Deploy: <https://gentoosiast-react-w2-routing.netlify.app/>
 
-Used API service: [Rick and Morty API](https://rickandmortyapi.com/)
+Used API service: [Self-hosted Rick and Morty API with ability to set custom limit for received results](https://rickandmortyapi-sigma.vercel.app/api/character/)
+
+## Tech Stack
+
+- [React](https://react.dev)
+- [React Router](https://reactrouter.com)
 
 ## Installation
 

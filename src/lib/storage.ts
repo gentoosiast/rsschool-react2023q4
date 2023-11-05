@@ -3,13 +3,22 @@ import type { BaseSchema, Output } from 'valibot';
 import { parse } from 'valibot';
 
 type StorageWrapper = {
-  get<T extends BaseSchema<U, V>, U, V>(key: string, schema: T): Output<T> | null;
+  get<T extends BaseSchema<U, V>, U, V>(
+    key: string,
+    schema: T
+  ): Output<T> | null;
   set(key: string, value: unknown): void;
 };
 
-export function getStorageWrapper(storageProvider: Storage, uniquePrefix: string): StorageWrapper {
+export function getStorageWrapper(
+  storageProvider: Storage,
+  uniquePrefix: string
+): StorageWrapper {
   return {
-    get<T extends BaseSchema<U, V>, U, V>(key: string, schema: T): Output<T> | null {
+    get<T extends BaseSchema<U, V>, U, V>(
+      key: string,
+      schema: T
+    ): Output<T> | null {
       try {
         const strValue = storageProvider.getItem(`${uniquePrefix}${key}`);
 
@@ -19,9 +28,7 @@ export function getStorageWrapper(storageProvider: Storage, uniquePrefix: string
 
         const unknownValue: unknown = JSON.parse(strValue);
 
-        const parsedValue = parse(schema, unknownValue);
-
-        return parsedValue;
+        return parse(schema, unknownValue);
       } catch {
         return null;
       }

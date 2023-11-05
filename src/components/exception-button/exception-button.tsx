@@ -1,30 +1,22 @@
-import { Component } from 'react';
-import type { ReactNode } from 'react';
+import { useState } from 'react';
+import type { JSX } from 'react';
 
 import styles from './exception-button.module.css';
 
-type State = {
-  shouldThrowError: boolean;
-};
+export function ExceptionButton(): JSX.Element {
+  const [shouldThrowError, setShouldThrowErrror] = useState(false);
 
-export class ExceptionButton extends Component {
-  state: State = {
-    shouldThrowError: false,
-  };
-
-  private handleThrowError(): void {
-    this.setState({ shouldThrowError: true });
+  if (shouldThrowError) {
+    throw new Error('Sample Error');
   }
 
-  render(): ReactNode {
-    if (this.state.shouldThrowError) {
-      throw new Error('Sample Error');
-    }
-
-    return (
-      <button className={styles.buttonDanger} onClick={() => this.handleThrowError()} type="button">
-        Throw Error
-      </button>
-    );
-  }
+  return (
+    <button
+      className={styles.buttonDanger}
+      onClick={() => setShouldThrowErrror(true)}
+      type="button"
+    >
+      Throw Error
+    </button>
+  );
 }
