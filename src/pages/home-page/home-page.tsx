@@ -75,6 +75,7 @@ export function HomePage(): JSX.Element {
 
   function handleLimitChange(limit: number): void {
     searchParams.set('_limit', `${limit}`);
+    searchParams.set('_page', '1');
     setSearchParams(searchParams);
   }
 
