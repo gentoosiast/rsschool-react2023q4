@@ -1,10 +1,7 @@
 import type { ReactNode } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
 
 import cn from 'classnames';
 import featherIcons from 'feather-icons/dist/feather-sprite.svg';
-
-import { getLink } from '@/lib/search-params';
 
 import { RESULTS_PER_PAGE_OPTIONS } from './constants';
 import { generatePageNumbers } from './generate-page-numbers';
@@ -15,6 +12,7 @@ type Props = {
   currentPage: number;
   itemsPerPage: number;
   onLimitChange: (limit: number) => void;
+  onPageChange: (page: number) => void;
   totalResults: number;
 };
 
@@ -22,9 +20,9 @@ export function Pagination({
   currentPage,
   itemsPerPage,
   onLimitChange,
+  onPageChange,
   totalResults,
 }: Props): ReactNode {
-  const [searchParams] = useSearchParams();
   const lastPageNum = Math.ceil(totalResults / itemsPerPage);
   const isPrevDisabled = currentPage === 1;
   const isNextDisabled = currentPage === lastPageNum;
@@ -38,60 +36,72 @@ export function Pagination({
     <nav className={styles.pagination}>
       <ul className={styles.paginationList}>
         <li>
-          <Link className={styles.pageLink} to={getLink(searchParams, '_page', '1')}>
+          <button
+            aria-label="Go to the first page"
+            className={styles.pageLink}
+            onClick={() => onPageChange(1)}
+          >
             <svg className="feather">
               <use href={`${featherIcons}#arrow-left-circle`} />
             </svg>
-          </Link>
+          </button>
         </li>
         <li>
-          <Link
+          <button
+            aria-label="Go to the previous page"
             className={cn(styles.pageLink, { [styles.disabled]: isPrevDisabled })}
-            to={getLink(searchParams, '_page', `${currentPage - 1}`)}
+            onClick={() => onPageChange(currentPage - 1)}
           >
             <svg className="feather">
               <use href={`${featherIcons}#arrow-left`} />
             </svg>
-          </Link>
+          </button>
         </li>
         {pageNumbers.map((pageNumber) => (
           <li key={pageNumber}>
-            <Link
+            <button
+              aria-label={`Go to the page ${pageNumber}`}
               className={cn(styles.pageLink, {
                 [styles.pageLinkActive]: pageNumber === currentPage,
               })}
-              to={getLink(searchParams, '_page', `${pageNumber}`)}
+              onClick={() => onPageChange(pageNumber)}
             >
               {pageNumber}
-            </Link>
+            </button>
           </li>
         ))}
         <li>
-          <Link
+          <button
+            aria-label="Go to the last page"
             className={cn(styles.pageLink, {
               [styles.pageLinkActive]: lastPageNum === currentPage,
             })}
-            to={getLink(searchParams, '_page', `${lastPageNum}`)}
+            onClick={() => onPageChange(lastPageNum)}
           >
             {`… ${lastPageNum}`}
-          </Link>
+          </button>
         </li>
         <li>
-          <Link
+          <button
+            aria-label="Go to the next page"
             className={cn(styles.pageLink, { [styles.disabled]: isNextDisabled })}
-            to={getLink(searchParams, '_page', `${currentPage + 1}`)}
+            onClick={() => onPageChange(currentPage + 1)}
           >
             <svg className="feather">
               <use href={`${featherIcons}#arrow-right`} />
             </svg>
-          </Link>
+          </button>
         </li>
         <li>
-          <Link className={styles.pageLink} to={getLink(searchParams, '_page', `${lastPageNum}`)}>
+          <button
+            aria-label="Go to the last page"
+            className={styles.pageLink}
+            onClick={() => onPageChange(lastPageNum)}
+          >
             <svg className="feather">
               <use href={`${featherIcons}#arrow-right-circle`} />
             </svg>
-          </Link>
+          </button>
         </li>
       </ul>
       <select

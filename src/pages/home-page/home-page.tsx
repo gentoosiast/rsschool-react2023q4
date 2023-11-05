@@ -79,6 +79,11 @@ export function HomePage(): JSX.Element {
     setSearchParams(searchParams);
   }
 
+  function handlePageChange(page: number): void {
+    searchParams.set('_page', `${page}`);
+    setSearchParams(searchParams);
+  }
+
   return (
     <>
       <HeaderLayout>
@@ -100,6 +105,7 @@ export function HomePage(): JSX.Element {
               currentPage={page}
               itemsPerPage={limit}
               onLimitChange={handleLimitChange}
+              onPageChange={handlePageChange}
               totalResults={totalResults}
             />
             {isLoading ? <Spinner /> : <CharacterList characters={apiResponse?.characters} />}
