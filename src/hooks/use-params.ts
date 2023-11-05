@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { DEFAULT_ITEMS_PER_PAGE } from '@/services/api/constants';
@@ -30,17 +31,23 @@ export function useParams(): {
 } {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const deleteParam = (param: string): void => {
-    searchParams.delete(param);
-    setSearchParams(searchParams);
-  };
+  const deleteParam = useCallback(
+    (param: string): void => {
+      searchParams.delete(param);
+      setSearchParams(searchParams);
+    },
+    [searchParams, setSearchParams],
+  );
 
-  const setParams = (params: Record<string, string>): void => {
-    Object.entries(params).forEach(([key, value]) => {
-      searchParams.set(key, value);
-    });
-    setSearchParams(searchParams);
-  };
+  const setParams = useCallback(
+    (params: Record<string, string>): void => {
+      Object.entries(params).forEach(([key, value]) => {
+        searchParams.set(key, value);
+      });
+      setSearchParams(searchParams);
+    },
+    [searchParams, setSearchParams],
+  );
 
   const page = validateNumericParam(searchParams.get('_page'), 1, 1);
   const limit = validateNumericParam(searchParams.get('_limit'), 1, DEFAULT_ITEMS_PER_PAGE);

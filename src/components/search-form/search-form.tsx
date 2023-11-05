@@ -25,7 +25,7 @@ export function SearchForm({ onQueryChange, query }: Props): JSX.Element {
     setInputValue(storedQuery);
 
     onQueryChange(storedQuery);
-  }, [onQueryChange, query]);
+  }, [query, onQueryChange]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
