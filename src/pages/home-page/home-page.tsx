@@ -19,7 +19,7 @@ import styles from './home-page.module.css';
 export function HomePage(): JSX.Element {
   const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { deleteParam, limit, page, query, setParams } = useParams();
+  const { deleteParam, details, limit, page, query, setParams } = useParams();
 
   const totalResults = apiResponse?.total ?? 0;
 
@@ -52,7 +52,9 @@ export function HomePage(): JSX.Element {
   }, [page, limit, query]);
 
   function handleAsideClose(): void {
-    deleteParam('details');
+    if (details) {
+      deleteParam('details');
+    }
   }
 
   function handleMainContentClick(event: MouseEvent): void {
