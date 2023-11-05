@@ -49,7 +49,9 @@ export function Pagination({
         <li>
           <button
             aria-label="Go to the previous page"
-            className={cn(styles.pageLink, { [styles.disabled]: isPrevDisabled })}
+            className={cn(styles.pageLink, {
+              [styles.disabled]: isPrevDisabled,
+            })}
             onClick={() => onPageChange(currentPage - 1)}
           >
             <svg className="feather">
@@ -84,7 +86,9 @@ export function Pagination({
         <li>
           <button
             aria-label="Go to the next page"
-            className={cn(styles.pageLink, { [styles.disabled]: isNextDisabled })}
+            className={cn(styles.pageLink, {
+              [styles.disabled]: isNextDisabled,
+            })}
             onClick={() => onPageChange(currentPage + 1)}
           >
             <svg className="feather">

@@ -30,7 +30,7 @@ export function HomePage(): JSX.Element {
         setParams({ _page: '1', q: newQuery });
       }
     },
-    [setParams, query],
+    [setParams, query]
   );
 
   useEffect(() => {
@@ -104,7 +104,11 @@ export function HomePage(): JSX.Element {
                 totalResults={totalResults}
               />
             )}
-            {isLoading ? <Spinner /> : <CharacterList characters={apiResponse?.characters} />}
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <CharacterList characters={apiResponse?.characters} />
+            )}
           </section>
           <Outlet />
         </>

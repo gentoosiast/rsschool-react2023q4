@@ -23,7 +23,9 @@ const routes = [
   },
 ].map((route) => ({
   ...route,
-  element: <ErrorBoundary fallback={<ErrorPage />}>{route.element}</ErrorBoundary>,
+  element: (
+    <ErrorBoundary fallback={<ErrorPage />}>{route.element}</ErrorBoundary>
+  ),
 }));
 
 export const router = createBrowserRouter(routes);

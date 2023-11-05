@@ -3,7 +3,10 @@ import { useEffect, useState } from 'react';
 
 export function LoadingImage({
   ...props
-}: DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>): JSX.Element {
+}: DetailedHTMLProps<
+  ImgHTMLAttributes<HTMLImageElement>,
+  HTMLImageElement
+>): JSX.Element {
   const [imgSrc, setImgSrc] = useState<string>('');
 
   const { src = '' } = props;
@@ -20,6 +23,9 @@ export function LoadingImage({
   return imgSrc ? (
     <img {...{ ...props, src: imgSrc }} alt={props.alt || ''} />
   ) : (
-    <div className="skeleton" style={{ height: `${props.height}px`, width: `${props.width}px` }} />
+    <div
+      className="skeleton"
+      style={{ height: `${props.height}px`, width: `${props.width}px` }}
+    />
   );
 }

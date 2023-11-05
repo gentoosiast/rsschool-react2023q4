@@ -1,7 +1,7 @@
 export function generatePageNumbers(
   curPage: number,
   totalPages: number,
-  paginationItems = 10,
+  paginationItems = 10
 ): number[] {
   const pageNumbers = [];
   let start = Math.max(1, curPage - Math.floor(paginationItems / 2));

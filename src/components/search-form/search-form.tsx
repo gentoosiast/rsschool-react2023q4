@@ -14,13 +14,17 @@ type Props = {
   query: string;
 };
 
-const storageWrapper = getStorageWrapper(window.localStorage, LOCALSTORAGE_PREFIX);
+const storageWrapper = getStorageWrapper(
+  window.localStorage,
+  LOCALSTORAGE_PREFIX
+);
 
 export function SearchForm({ onQueryChange, query }: Props): JSX.Element {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    const storedQuery = (query || storageWrapper.get(LOCALSTORAGE_KEY, string())) ?? '';
+    const storedQuery =
+      (query || storageWrapper.get(LOCALSTORAGE_KEY, string())) ?? '';
 
     setInputValue(storedQuery);
 

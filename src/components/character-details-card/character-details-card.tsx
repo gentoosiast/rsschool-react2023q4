@@ -13,7 +13,11 @@ type Props = {
   onClose: () => void;
 };
 
-export function CharacterDetailsCard({ character, isError, onClose }: Props): ReactNode {
+export function CharacterDetailsCard({
+  character,
+  isError,
+  onClose,
+}: Props): ReactNode {
   const LOADING_TEXT = 'Loading…';
   const {
     gender = LOADING_TEXT,
@@ -28,9 +32,18 @@ export function CharacterDetailsCard({ character, isError, onClose }: Props): Re
   if (isError) {
     return (
       <article className={styles.card}>
-        <img alt="Pixelated word 'Error'" height="300" src="/error-pixelated.jpg" width="300" />
+        <img
+          alt="Pixelated word 'Error'"
+          height="300"
+          src="/error-pixelated.jpg"
+          width="300"
+        />
         <h2 className={styles.cardHeading}>Error loading character</h2>
-        <button className={styles.closeButton} onClick={() => onClose()} type="button">
+        <button
+          className={styles.closeButton}
+          onClick={() => onClose()}
+          type="button"
+        >
           ×
         </button>
       </article>
@@ -39,7 +52,12 @@ export function CharacterDetailsCard({ character, isError, onClose }: Props): Re
 
   return (
     <article className={styles.card}>
-      <LoadingImage alt={name} height="300" src={rickAndMortyApi.getImage(id)} width="300" />
+      <LoadingImage
+        alt={name}
+        height="300"
+        src={rickAndMortyApi.getImage(id)}
+        width="300"
+      />
       <h2 className={styles.cardHeading}>{name}</h2>
       <div className={styles.cardInfo}>
         <p>
@@ -63,7 +81,11 @@ export function CharacterDetailsCard({ character, isError, onClose }: Props): Re
           <span className={styles.cardInfoValue}>{location}</span>
         </p>
       </div>
-      <button className={styles.closeButton} onClick={() => onClose()} type="button">
+      <button
+        className={styles.closeButton}
+        onClick={() => onClose()}
+        type="button"
+      >
         ×
       </button>
     </article>

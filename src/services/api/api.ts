@@ -1,6 +1,10 @@
 import type { BaseSchema } from 'valibot';
 
-import axios, { AxiosResponseHeaders, CanceledError, RawAxiosResponseHeaders } from 'axios';
+import axios, {
+  AxiosResponseHeaders,
+  CanceledError,
+  RawAxiosResponseHeaders,
+} from 'axios';
 import { Output, ValiError, flatten, parse } from 'valibot';
 
 import type { ApiResponse, Character } from './types';
@@ -11,7 +15,7 @@ import { ApiSchema, CharacterSchema } from './schema';
 const fetchData = async <T extends BaseSchema>(
   url: string,
   schema: T,
-  controller: AbortController,
+  controller: AbortController
 ): Promise<{
   data: Output<T>;
   headers: AxiosResponseHeaders | RawAxiosResponseHeaders;
@@ -36,8 +40,15 @@ const fetchData = async <T extends BaseSchema>(
 };
 
 export const rickAndMortyApi = {
-  async getById(controller: AbortController, id: number): Promise<Character | null> {
-    const result = await fetchData(`${BASEURL}/${id}`, CharacterSchema, controller);
+  async getById(
+    controller: AbortController,
+    id: number
+  ): Promise<Character | null> {
+    const result = await fetchData(
+      `${BASEURL}/${id}`,
+      CharacterSchema,
+      controller
+    );
 
     return result && result.data;
   },
@@ -54,7 +65,7 @@ export const rickAndMortyApi = {
     controller: AbortController,
     query: string,
     page = 1,
-    limit = DEFAULT_ITEMS_PER_PAGE,
+    limit = DEFAULT_ITEMS_PER_PAGE
   ): Promise<ApiResponse | null> {
     const params = new URLSearchParams({
       _limit: `${limit}`,
@@ -65,7 +76,11 @@ export const rickAndMortyApi = {
       params.set('q', query);
     }
 
-    const result = await fetchData(`${BASEURL}?${params.toString()}`, ApiSchema, controller);
+    const result = await fetchData(
+      `${BASEURL}?${params.toString()}`,
+      ApiSchema,
+      controller
+    );
 
     if (result) {
       const totalCountHeader: unknown = result.headers['x-total-count'];

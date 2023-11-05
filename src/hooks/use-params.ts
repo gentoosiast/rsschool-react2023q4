@@ -9,7 +9,7 @@ function validateNumericParam(
   param: unknown,
   minAllowedValue: number,
   maxAllowedValue: number,
-  fallbackValue: number,
+  fallbackValue: number
 ): number {
   if (typeof param !== 'string') {
     return fallbackValue;
@@ -17,7 +17,11 @@ function validateNumericParam(
 
   const value = parseInt(param, 10);
 
-  if (!Number.isNaN(value) && value >= minAllowedValue && value <= maxAllowedValue) {
+  if (
+    !Number.isNaN(value) &&
+    value >= minAllowedValue &&
+    value <= maxAllowedValue
+  ) {
     return value;
   }
 
@@ -39,7 +43,7 @@ export function useParams(): {
       searchParams.delete(param);
       setSearchParams(searchParams);
     },
-    [searchParams, setSearchParams],
+    [searchParams, setSearchParams]
   );
 
   const setParams = useCallback(
@@ -49,7 +53,7 @@ export function useParams(): {
       });
       setSearchParams(searchParams);
     },
-    [searchParams, setSearchParams],
+    [searchParams, setSearchParams]
   );
 
   const page = validateNumericParam(searchParams.get('_page'), 1, Infinity, 1);
@@ -57,10 +61,15 @@ export function useParams(): {
     searchParams.get('_limit'),
     1,
     MAX_ITEMS_PER_PAGE,
-    DEFAULT_ITEMS_PER_PAGE,
+    DEFAULT_ITEMS_PER_PAGE
   );
   const query = searchParams.get('q') ?? '';
-  const details = validateNumericParam(searchParams.get('details'), 1, Infinity, 0);
+  const details = validateNumericParam(
+    searchParams.get('details'),
+    1,
+    Infinity,
+    0
+  );
 
   return { deleteParam, details, limit, page, query, setParams };
 }

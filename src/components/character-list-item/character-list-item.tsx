@@ -14,11 +14,16 @@ type Props = {
   character: Character;
 };
 
-export function CharacterListItem({ character: { id, name } }: Props): JSX.Element {
+export function CharacterListItem({
+  character: { id, name },
+}: Props): JSX.Element {
   const [searchParams] = useSearchParams();
 
   return (
-    <Link className={styles.cardLink} to={getLink(searchParams, 'details', `${id}`)}>
+    <Link
+      className={styles.cardLink}
+      to={getLink(searchParams, 'details', `${id}`)}
+    >
       <article className={styles.card}>
         <LoadingImage
           alt={name}
