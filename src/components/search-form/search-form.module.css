@@ -1,0 +1,25 @@
+.form {
+  display: flex;
+  gap: 5px;
+}
+
+.input {
+  padding-left: 5px;
+  border: 2px solid var(--color-green);
+  border-radius: 5px;
+
+  &:focus {
+    outline: 2px solid var(--color-outline);
+  }
+}
+
+.submitButton {
+  composes: btn from global;
+  color: #fff;
+  background-color: var(--color-green);
+  transition: filter 0.3s ease-in-out;
+
+  &:hover {
+    filter: opacity(0.8);
+  }
+}

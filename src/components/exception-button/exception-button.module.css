@@ -1,0 +1,14 @@
+.buttonDanger {
+  composes: btn from global;
+
+  color: #fff;
+  text-transform: uppercase;
+
+  background-color: var(--color-danger);
+
+  transition: filter 0.3s ease-in-out;
+
+  &:hover {
+    filter: opacity(0.8);
+  }
+}
