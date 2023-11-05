@@ -15,16 +15,20 @@ export function CharacterList({ characters }: Props): ReactNode {
     return null;
   }
 
-  return characters.length > 0 ? (
+  if (characters.length === 0) {
+    return (
+      <div className={styles.noResults}>
+        <img alt="Rick and Morty crying" height="720" src="/rick-morty-sad.jpg" width="821" />
+        <h1>No characters found</h1>
+      </div>
+    );
+  }
+
+  return (
     <section className={styles.cards}>
       {characters.map((character) => (
         <CharacterListItem character={character} key={character.id} />
       ))}
     </section>
-  ) : (
-    <div className={styles.noResults}>
-      <img alt="Rick and Morty crying" height="720" src="/rick-morty-sad.jpg" width="821" />
-      <h1>No characters found</h1>
-    </div>
   );
 }
