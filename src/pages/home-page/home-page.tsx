@@ -9,11 +9,10 @@ import { ExceptionButton } from '@/components/exception-button';
 import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
+import { useParams } from '@/hooks/use-params';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
 import { rickAndMortyApi } from '@/services/api';
-
-import { useParams } from './hooks/use-params';
 
 import styles from './home-page.module.css';
 
