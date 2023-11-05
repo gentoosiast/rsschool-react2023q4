@@ -20,13 +20,32 @@ function validateNumericParam(
   return fallbackValue;
 }
 
-export function usePagination(): { details: number; limit: number; page: number; query: string } {
-  const [searchParams] = useSearchParams();
+export function useParams(): {
+  deleteParam: (param: string) => void;
+  details: number;
+  limit: number;
+  page: number;
+  query: string;
+  setParams: (params: Record<string, string>) => void;
+} {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const deleteParam = (param: string): void => {
+    searchParams.delete(param);
+    setSearchParams(searchParams);
+  };
+
+  const setParams = (params: Record<string, string>): void => {
+    Object.entries(params).forEach(([key, value]) => {
+      searchParams.set(key, value);
+    });
+    setSearchParams(searchParams);
+  };
 
   const page = validateNumericParam(searchParams.get('_page'), 1, 1);
   const limit = validateNumericParam(searchParams.get('_limit'), 1, DEFAULT_ITEMS_PER_PAGE);
   const query = searchParams.get('q') ?? '';
   const details = validateNumericParam(searchParams.get('details'), 1, 0);
 
-  return { details, limit, page, query };
+  return { deleteParam, details, limit, page, query, setParams };
 }

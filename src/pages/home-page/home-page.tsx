@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { JSX, MouseEvent } from 'react';
-import { Outlet, useSearchParams } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import type { ApiResponse } from '@/services/api';
 
@@ -13,26 +13,24 @@ import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
 import { rickAndMortyApi } from '@/services/api';
 
-import { usePagination } from './hooks/use-pagination';
+import { useParams } from './hooks/use-params';
 
 import styles from './home-page.module.css';
 
 export function HomePage(): JSX.Element {
   const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { limit, page, query } = usePagination();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { deleteParam, limit, page, query, setParams } = useParams();
 
   const totalResults = apiResponse?.total ?? 0;
 
   const handleSearchQueryChange = useCallback(
     (query: string): void => {
       if (query) {
-        searchParams.set('q', query);
-        setSearchParams(searchParams);
+        setParams({ q: query });
       }
     },
-    [setSearchParams, searchParams],
+    [setParams],
   );
 
   useEffect(() => {
@@ -55,10 +53,7 @@ export function HomePage(): JSX.Element {
   }, [page, limit, query]);
 
   function handleAsideClose(): void {
-    if (searchParams.has('details')) {
-      searchParams.delete('details');
-      setSearchParams(searchParams);
-    }
+    deleteParam('details');
   }
 
   function handleMainContentClick(event: MouseEvent): void {
@@ -74,14 +69,11 @@ export function HomePage(): JSX.Element {
   }
 
   function handleLimitChange(limit: number): void {
-    searchParams.set('_limit', `${limit}`);
-    searchParams.set('_page', '1');
-    setSearchParams(searchParams);
+    setParams({ _limit: `${limit}`, _page: '1' });
   }
 
   function handlePageChange(page: number): void {
-    searchParams.set('_page', `${page}`);
-    setSearchParams(searchParams);
+    setParams({ _page: `${page}` });
   }
 
   return (
