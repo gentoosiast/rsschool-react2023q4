@@ -5,6 +5,7 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { ErrorPage } from '@/pages/error-page';
 import { HomePage } from '@/pages/home-page';
 import { NotFoundPage } from '@/pages/not-found-page';
+import { Providers } from '@/providers/search-query-provider';
 
 const routes = [
   {
@@ -14,7 +15,11 @@ const routes = [
         index: true,
       },
     ],
-    element: <HomePage />,
+    element: (
+      <Providers>
+        <HomePage />
+      </Providers>
+    ),
     path: '/',
   },
   {

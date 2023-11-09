@@ -3,21 +3,20 @@ import type { FormEvent, JSX } from 'react';
 
 import { string } from 'valibot';
 
+import { useSearchQueryContext } from '@/hooks/useSearchQuery';
+import { useSetSearchQueryContext } from '@/hooks/useSetSearchQuery';
 import { getStorageWrapper } from '@/lib/storage';
 
 import { LOCALSTORAGE_KEY, LOCALSTORAGE_PREFIX } from './constants';
 
 import styles from './search-form.module.css';
 
-type Props = {
-  onQueryChange: (value: string) => void;
-  query: string;
-};
-
 const storageWrapper = getStorageWrapper(window.localStorage, LOCALSTORAGE_PREFIX);
 
-export function SearchForm({ onQueryChange, query }: Props): JSX.Element {
+export function SearchForm(): JSX.Element {
   const [inputValue, setInputValue] = useState('');
+  const onQueryChange = useSetSearchQueryContext();
+  const query = useSearchQueryContext();
 
   useEffect(() => {
     const storedQuery = (query || storageWrapper.get(LOCALSTORAGE_KEY, string())) ?? '';
