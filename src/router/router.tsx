@@ -7,7 +7,7 @@ import { HomePage } from '@/pages/home-page';
 import { NotFoundPage } from '@/pages/not-found-page';
 import { AppProvider } from '@/providers/app-provider/app-provider';
 
-const routes = [
+export const routes = [
   {
     children: [
       {
