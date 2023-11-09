@@ -1,16 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import type { JSX, MouseEvent } from 'react';
 import { Outlet } from 'react-router-dom';
-
-import type { ApiResponse } from '@/services/api';
 
 import { CharacterList } from '@/components/character-list';
 import { ExceptionButton } from '@/components/exception-button';
 import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
+import { useAppContext } from '@/hooks/use-app-context';
 import { useParams } from '@/hooks/use-params';
-import { useSearchQueryContext } from '@/hooks/useSearchQuery';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
 import { rickAndMortyApi } from '@/services/api';
@@ -18,10 +16,11 @@ import { rickAndMortyApi } from '@/services/api';
 import styles from './home-page.module.css';
 
 export function HomePage(): JSX.Element {
-  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const {
+    dispatch,
+    state: { apiResponse, isLoading, searchQuery },
+  } = useAppContext();
   const { deleteParam, details, limit, page, query, setParams } = useParams();
-  const searchQuery = useSearchQueryContext();
 
   const hasCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
   const totalResults = apiResponse?.total ?? 0;
@@ -35,21 +34,21 @@ export function HomePage(): JSX.Element {
   useEffect(() => {
     const controller = new AbortController();
 
-    setIsLoading(true);
+    dispatch({ payload: true, type: 'setIsLoading' });
 
     void rickAndMortyApi
       .search(controller, searchQuery, page, limit)
       .then((response) => {
-        setApiResponse(response);
+        dispatch({ payload: response, type: 'setApiResponse' });
       })
       .finally(() => {
-        setIsLoading(false);
+        dispatch({ payload: false, type: 'setIsLoading' });
       });
 
     return () => {
       controller.abort();
     };
-  }, [page, limit, searchQuery]);
+  }, [page, limit, searchQuery, dispatch]);
 
   function handleAsideClose(): void {
     if (details) {
