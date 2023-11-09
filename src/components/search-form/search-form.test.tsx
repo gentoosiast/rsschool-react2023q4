@@ -13,6 +13,28 @@ import { LOCALSTORAGE_KEY, LOCALSTORAGE_PREFIX } from './constants';
 import { SearchForm } from './search-form';
 
 describe('SearchForm', () => {
+  const appInitialState: AppState = {
+    apiResponse: { characters: [], total: 0 },
+    isLoading: false,
+    searchQuery: '',
+  };
+
+  type Props = {
+    children: ReactNode;
+  };
+
+  const AppProvider = ({ children }: Props): JSX.Element => {
+    const [state, dispatch] = useReducer(appReducer, appInitialState);
+
+    return <AppContext.Provider value={{ dispatch, state }}>{children}</AppContext.Provider>;
+  };
+
+  const SearchFormWithContext = (
+    <AppProvider>
+      <SearchForm />
+    </AppProvider>
+  );
+
   const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
   const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
 
@@ -23,27 +45,7 @@ describe('SearchForm', () => {
   });
 
   it('saves the entered value to the local storage after Search button is clicked', async () => {
-    const appInitialState: AppState = {
-      apiResponse: { characters: [], total: 0 },
-      isLoading: false,
-      searchQuery: '',
-    };
-
-    type Props = {
-      children: ReactNode;
-    };
-
-    const AppProvider = ({ children }: Props): JSX.Element => {
-      const [state, dispatch] = useReducer(appReducer, appInitialState);
-
-      return <AppContext.Provider value={{ dispatch, state }}>{children}</AppContext.Provider>;
-    };
-
-    render(
-      <AppProvider>
-        <SearchForm />
-      </AppProvider>,
-    );
+    render(SearchFormWithContext);
 
     const searchQuery = 'test12345';
     const user = userEvent.setup();
@@ -57,5 +59,20 @@ describe('SearchForm', () => {
       `${LOCALSTORAGE_PREFIX}${LOCALSTORAGE_KEY}`,
       JSON.stringify(searchQuery),
     );
+  });
+
+  it('retrieves the value from the local storage upon mounting', () => {
+    const savedSearchQuery = 'abracadabra';
+
+    localStorage.setItem(
+      `${LOCALSTORAGE_PREFIX}${LOCALSTORAGE_KEY}`,
+      JSON.stringify(savedSearchQuery),
+    );
+
+    render(SearchFormWithContext);
+
+    const searchInput = screen.getByRole('searchbox');
+
+    expect(searchInput).toHaveValue(savedSearchQuery);
   });
 });
