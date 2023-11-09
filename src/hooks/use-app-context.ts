@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import type { AppContextValue } from '@/providers/app-provider';
 
-import { AppContext } from '@/providers/app-provider';
+import { AppContext } from '@/providers/app-provider/app-provider';
 
 export const useAppContext = (): AppContextValue => {
   const context = useContext(AppContext);
