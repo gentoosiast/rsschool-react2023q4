@@ -102,7 +102,7 @@ export function HomePage(): JSX.Element {
                 totalResults={totalResults}
               />
             )}
-            {isLoading ? <Spinner /> : <CharacterList characters={apiResponse?.characters} />}
+            {isLoading ? <Spinner /> : <CharacterList />}
           </section>
           <Outlet />
         </>

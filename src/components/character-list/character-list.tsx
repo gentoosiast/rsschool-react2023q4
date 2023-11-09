@@ -1,16 +1,16 @@
 import type { ReactNode } from 'react';
 
-import type { Character } from '@/services/api';
-
 import { CharacterListItem } from '@/components/character-list-item';
+import { useAppContext } from '@/hooks/use-app-context';
 
 import styles from './character-list.module.css';
 
-type Props = {
-  characters?: Character[];
-};
+export function CharacterList(): ReactNode {
+  const {
+    state: { apiResponse },
+  } = useAppContext();
+  const characters = apiResponse?.characters;
 
-export function CharacterList({ characters }: Props): ReactNode {
   if (!characters) {
     return null;
   }
