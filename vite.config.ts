@@ -12,6 +12,7 @@ export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   test: {
     coverage: {
+      all: true,
       provider: 'v8',
       reporter: ['text'],
     },
