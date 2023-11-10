@@ -55,6 +55,7 @@
     "jsdom": "^22.1.0",
     "lightningcss": "^1.22.0",
     "lint-staged": "^15.0.1",
+    "msw": "^2.0.5",
     "prettier": "^3.0.3",
     "stylelint": "^15.10.3",
     "stylelint-config-clean-order": "^5.2.0",
