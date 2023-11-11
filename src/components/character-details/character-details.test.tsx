@@ -5,10 +5,8 @@ import { userEvent } from '@testing-library/user-event';
 import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
-import { AppProvider } from '@/providers/app-provider';
 import { routes } from '@/router/router';
 import { handlers } from '@/services/msw/handlers';
-import { apiResponseMock } from '@/services/msw/mocks';
 
 import { CharacterDetails } from './character-details';
 
@@ -61,17 +59,7 @@ describe('CharacterDetails', () => {
       initialEntries: ['/?q=Rick&_page=1&_limit=10&details=8'],
     });
 
-    render(
-      <AppProvider
-        initialState={{
-          apiResponse: apiResponseMock,
-          isLoading: false,
-          searchQuery: 'Rick',
-        }}
-      >
-        <RouterProvider router={router} />
-      </AppProvider>,
-    );
+    render(<RouterProvider router={router} />);
 
     const detailsCard = await screen.findByTestId('details-card');
     expect(detailsCard).toBeInTheDocument();
