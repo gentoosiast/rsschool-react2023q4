@@ -53,7 +53,7 @@ describe('CharacterListItem', () => {
     expect(screen.getByRole('heading', { level: 2, name: /rick sanchez/i })).toBeInTheDocument();
   });
 
-  it.only('should trigger an additional API call to fetch detailed information after user clicks on the card', async () => {
+  it('should trigger an additional API call to fetch detailed information after user clicks on the card', async () => {
     const axiosGet = vi.mocked(axios['get']);
 
     axiosGet.mockResolvedValue({
