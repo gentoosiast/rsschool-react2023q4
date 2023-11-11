@@ -1,10 +1,14 @@
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 import { render, screen, within } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
+import { AppProvider } from '@/providers/app-provider';
+import { routes } from '@/router/router';
 import { handlers } from '@/services/msw/handlers';
+import { apiResponseMock } from '@/services/msw/mocks';
 
 import { CharacterDetails } from './character-details';
 
@@ -50,5 +54,36 @@ describe('CharacterDetails', () => {
     });
 
     expect(cardHeading).toBeInTheDocument();
+  });
+
+  it('should close the card when the user clicks on the close button', async () => {
+    const router = createMemoryRouter(routes, {
+      initialEntries: ['/?q=Rick&_page=1&_limit=10&details=8'],
+    });
+
+    render(
+      <AppProvider
+        initialState={{
+          apiResponse: apiResponseMock,
+          isLoading: false,
+          searchQuery: 'Rick',
+        }}
+      >
+        <RouterProvider router={router} />
+      </AppProvider>,
+    );
+
+    const detailsCard = await screen.findByTestId('details-card');
+    expect(detailsCard).toBeInTheDocument();
+
+    const closeButton = within(detailsCard).getByRole('button', { name: /×/i });
+
+    expect(closeButton).toBeInTheDocument();
+
+    const user = userEvent.setup();
+
+    await user.click(closeButton);
+
+    expect(detailsCard).not.toBeInTheDocument();
   });
 });
