@@ -1,5 +1,3 @@
-import type { Dispatch } from 'react';
-
 import type { ApiResponse } from '@/services/api';
 
 export type AppState = {
@@ -8,12 +6,13 @@ export type AppState = {
   searchQuery: string;
 };
 
+export type AppApi = {
+  setApiResponse: (apiResponse: ApiResponse | null) => void;
+  setIsLoading: (isLoading: boolean) => void;
+  setSearchQuery: (searchQuery: string) => void;
+};
+
 export type AppAction =
   | { payload: ApiResponse | null; type: 'setApiResponse' }
   | { payload: boolean; type: 'setIsLoading' }
   | { payload: string; type: 'setSearchQuery' };
-
-export type AppContextValue = {
-  dispatch: Dispatch<AppAction>;
-  state: AppState;
-};

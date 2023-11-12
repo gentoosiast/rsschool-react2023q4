@@ -1,7 +1,9 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useMemo, useReducer } from 'react';
 import type { JSX, ReactNode } from 'react';
 
-import type { AppContextValue, AppState } from './types';
+import type { ApiResponse } from '@/services/api';
+
+import type { AppApi, AppState } from './types';
 
 import { appReducer } from './app-reducer';
 
@@ -11,7 +13,8 @@ const defaultInitialState: AppState = {
   searchQuery: '',
 };
 
-export const AppContext = createContext<AppContextValue | null>(null);
+export const AppContextData = createContext<AppState | null>(null);
+export const AppContextApi = createContext<AppApi | null>(null);
 
 type Props = {
   children: ReactNode;
@@ -21,5 +24,28 @@ type Props = {
 export const AppProvider = ({ children, initialState }: Props): JSX.Element => {
   const [state, dispatch] = useReducer(appReducer, initialState ?? defaultInitialState);
 
-  return <AppContext.Provider value={{ dispatch, state }}>{children}</AppContext.Provider>;
+  const data = useMemo(
+    () => ({
+      apiResponse: state.apiResponse,
+      isLoading: state.isLoading,
+      searchQuery: state.searchQuery,
+    }),
+    [state],
+  );
+
+  const api = useMemo(() => {
+    return {
+      setApiResponse: (apiResponse: ApiResponse | null) =>
+        dispatch({ payload: apiResponse, type: 'setApiResponse' }),
+      setIsLoading: (isLoading: boolean) => dispatch({ payload: isLoading, type: 'setIsLoading' }),
+      setSearchQuery: (searchQuery: string) =>
+        dispatch({ payload: searchQuery, type: 'setSearchQuery' }),
+    };
+  }, []);
+
+  return (
+    <AppContextData.Provider value={data}>
+      <AppContextApi.Provider value={api}>{children}</AppContextApi.Provider>
+    </AppContextData.Provider>
+  );
 };

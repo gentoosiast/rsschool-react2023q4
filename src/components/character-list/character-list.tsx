@@ -1,14 +1,12 @@
 import type { ReactNode } from 'react';
 
 import { CharacterListItem } from '@/components/character-list-item';
-import { useAppContext } from '@/hooks/use-app-context';
+import { useAppContextData } from '@/hooks/use-app-context-data';
 
 import styles from './character-list.module.css';
 
 export function CharacterList(): ReactNode {
-  const {
-    state: { apiResponse },
-  } = useAppContext();
+  const { apiResponse } = useAppContextData();
   const characters = apiResponse?.characters;
 
   if (!characters) {

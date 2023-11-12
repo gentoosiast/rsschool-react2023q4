@@ -7,7 +7,8 @@ import { ExceptionButton } from '@/components/exception-button';
 import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
-import { useAppContext } from '@/hooks/use-app-context';
+import { useAppContextApi } from '@/hooks/use-app-context-api';
+import { useAppContextData } from '@/hooks/use-app-context-data';
 import { useAppSearchParams } from '@/hooks/use-app-search-params';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
@@ -16,10 +17,8 @@ import { rickAndMortyApi } from '@/services/api';
 import styles from './home-page.module.css';
 
 export function HomePage(): JSX.Element {
-  const {
-    dispatch,
-    state: { apiResponse, isLoading, searchQuery },
-  } = useAppContext();
+  const { apiResponse, isLoading, searchQuery } = useAppContextData();
+  const { setApiResponse, setIsLoading } = useAppContextApi();
   const { deleteParam, details, limit, page, query, setParams } = useAppSearchParams();
 
   const hasCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
@@ -34,21 +33,21 @@ export function HomePage(): JSX.Element {
   useEffect(() => {
     const controller = new AbortController();
 
-    dispatch({ payload: true, type: 'setIsLoading' });
+    setIsLoading(true);
 
     void rickAndMortyApi
       .search(controller, searchQuery, page, limit)
       .then((response) => {
-        dispatch({ payload: response, type: 'setApiResponse' });
+        setApiResponse(response);
       })
       .finally(() => {
-        dispatch({ payload: false, type: 'setIsLoading' });
+        setIsLoading(false);
       });
 
     return () => {
       controller.abort();
     };
-  }, [page, limit, searchQuery, dispatch]);
+  }, [page, limit, searchQuery, setApiResponse, setIsLoading]);
 
   function handleAsideClose(): void {
     if (details) {
