@@ -85,10 +85,10 @@ Runs automatically after package installation to install Husky hooks
 npm run test
 ```
 
-Runs unit tests with Vitest
+Runs tests with Vitest
 
 ```sh
 npm run coverage
 ```
 
-Displays coverage of implemented unit tests
+Displays coverage of implemented tests
