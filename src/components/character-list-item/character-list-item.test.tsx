@@ -8,8 +8,8 @@ import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest
 
 import { AppProvider } from '@/providers/app-provider';
 import { routes } from '@/router/router';
-import { handlers } from '@/services/msw/handlers';
-import { apiResponseMock, characterMock } from '@/services/msw/mocks';
+import { apiResponseMock, characterMock } from '@/tests/mocks';
+import { handlers } from '@/tests/msw/handlers';
 
 import { CharacterDetails } from '../character-details';
 import { CharacterListItem } from './character-list-item';

@@ -6,7 +6,7 @@ import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import { routes } from '@/router/router';
-import { handlers } from '@/services/msw/handlers';
+import { handlers } from '@/tests/msw/handlers';
 
 import { CharacterDetails } from './character-details';
 

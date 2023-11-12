@@ -1,6 +1,6 @@
 import { HttpResponse, http } from 'msw';
 
-import { apiResponseMock, characterMock } from './mocks';
+import { apiResponseMock, characterMock } from '@/tests/mocks';
 
 export const handlers = [
   http.get(/\/character$/, () => {
