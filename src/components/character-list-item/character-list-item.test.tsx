@@ -52,9 +52,10 @@ describe('CharacterListItem', () => {
       </MemoryRouter>,
     );
 
-    const user = userEvent.setup();
     const card = screen.getByRole('heading', { level: 2, name: /adjudicator rick/i });
+    expect(card).toBeInTheDocument();
 
+    const user = userEvent.setup();
     await user.click(card);
 
     expect(spy).toHaveBeenCalledWith(

@@ -45,6 +45,7 @@ describe('CharacterDetails', () => {
     );
 
     const card = screen.getByTestId('details-card');
+    expect(card).toBeInTheDocument();
 
     const cardHeading = await within(card).findByRole('heading', {
       level: 2,

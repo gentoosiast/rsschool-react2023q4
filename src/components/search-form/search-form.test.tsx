@@ -30,10 +30,14 @@ describe('SearchForm', () => {
     );
 
     const searchQuery = 'test12345';
-    const user = userEvent.setup();
-    const searchInput = screen.getByPlaceholderText(/search/i);
-    const submitButton = screen.getByRole('button', { name: /search/i });
 
+    const searchInput = screen.getByPlaceholderText(/search/i);
+    expect(searchInput).toBeInTheDocument();
+
+    const submitButton = screen.getByRole('button', { name: /search/i });
+    expect(submitButton).toBeInTheDocument();
+
+    const user = userEvent.setup();
     await user.clear(searchInput);
     await user.type(searchInput, searchQuery);
     await user.click(submitButton);
@@ -62,6 +66,7 @@ describe('SearchForm', () => {
     );
 
     const searchInput = screen.getByPlaceholderText(/search/i);
+    expect(searchInput).toBeInTheDocument();
 
     expect(getItemSpy).toHaveBeenCalledWith(`${LOCALSTORAGE_PREFIX}${LOCALSTORAGE_KEY}`);
     expect(searchInput).toHaveValue(savedSearchQuery);

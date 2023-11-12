@@ -41,6 +41,6 @@ describe('CharacterList', () => {
 
     const cards = screen.getAllByRole('article');
 
-    expect(cards.length).toBe(3);
+    expect(cards).toHaveLength(3);
   });
 });
