@@ -1,0 +1,74 @@
+import { MemoryRouter } from 'react-router-dom';
+
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+
+import { AppProvider } from '@/providers/app-provider';
+
+import { LOCALSTORAGE_KEY, LOCALSTORAGE_PREFIX } from './constants';
+import { SearchForm } from './search-form';
+
+describe('SearchForm', () => {
+  const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
+  const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
+
+  afterEach(() => {
+    localStorage.clear();
+    getItemSpy.mockClear();
+    setItemSpy.mockClear();
+  });
+
+  it('saves the entered value to the local storage after Search button is clicked', async () => {
+    render(
+      <MemoryRouter>
+        <AppProvider>
+          <SearchForm />
+        </AppProvider>
+        ,
+      </MemoryRouter>,
+    );
+
+    const searchQuery = 'test12345';
+
+    const searchInput = screen.getByPlaceholderText(/search/i);
+    expect(searchInput).toBeInTheDocument();
+
+    const submitButton = screen.getByRole('button', { name: /search/i });
+    expect(submitButton).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.clear(searchInput);
+    await user.type(searchInput, searchQuery);
+    await user.click(submitButton);
+
+    expect(setItemSpy).toHaveBeenCalledWith(
+      `${LOCALSTORAGE_PREFIX}${LOCALSTORAGE_KEY}`,
+      JSON.stringify(searchQuery),
+    );
+  });
+
+  it('retrieves the value from the local storage upon mounting', () => {
+    const savedSearchQuery = 'abracadabra';
+
+    localStorage.setItem(
+      `${LOCALSTORAGE_PREFIX}${LOCALSTORAGE_KEY}`,
+      JSON.stringify(savedSearchQuery),
+    );
+
+    render(
+      <MemoryRouter>
+        <AppProvider>
+          <SearchForm />
+        </AppProvider>
+        ,
+      </MemoryRouter>,
+    );
+
+    const searchInput = screen.getByPlaceholderText(/search/i);
+    expect(searchInput).toBeInTheDocument();
+
+    expect(getItemSpy).toHaveBeenCalledWith(`${LOCALSTORAGE_PREFIX}${LOCALSTORAGE_KEY}`);
+    expect(searchInput).toHaveValue(savedSearchQuery);
+  });
+});

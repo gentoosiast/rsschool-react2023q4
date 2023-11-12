@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import type { Character } from '@/services/api';
 
 import { CharacterDetailsCard } from '@/components/character-details-card';
-import { useParams } from '@/hooks/use-params';
+import { useAppSearchParams } from '@/hooks/use-app-search-params';
 import { rickAndMortyApi } from '@/services/api';
 
 export function CharacterDetails(): ReactNode {
   const [character, setCharacter] = useState<Character | null>(null);
   const [isError, setIsError] = useState(false);
-  const { deleteParam, details } = useParams();
+  const { deleteParam, details } = useAppSearchParams();
 
   useEffect(() => {
     if (!details) {

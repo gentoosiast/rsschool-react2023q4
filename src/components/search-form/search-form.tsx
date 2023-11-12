@@ -3,29 +3,29 @@ import type { FormEvent, JSX } from 'react';
 
 import { string } from 'valibot';
 
+import { useAppContextApi } from '@/hooks/use-app-context-api';
+import { useAppContextData } from '@/hooks/use-app-context-data';
 import { getStorageWrapper } from '@/lib/storage';
 
 import { LOCALSTORAGE_KEY, LOCALSTORAGE_PREFIX } from './constants';
 
 import styles from './search-form.module.css';
 
-type Props = {
-  onQueryChange: (value: string) => void;
-  query: string;
-};
-
 const storageWrapper = getStorageWrapper(window.localStorage, LOCALSTORAGE_PREFIX);
 
-export function SearchForm({ onQueryChange, query }: Props): JSX.Element {
+export function SearchForm(): JSX.Element {
   const [inputValue, setInputValue] = useState('');
+  const { searchQuery } = useAppContextData();
+  const { setSearchQuery } = useAppContextApi();
 
   useEffect(() => {
-    const storedQuery = (query || storageWrapper.get(LOCALSTORAGE_KEY, string())) ?? '';
+    const storedQuery = storageWrapper.get(LOCALSTORAGE_KEY, string()) ?? '';
+    const query = searchQuery || storedQuery;
 
-    setInputValue(storedQuery);
+    setInputValue(query);
 
-    onQueryChange(storedQuery);
-  }, [query, onQueryChange]);
+    setSearchQuery(query);
+  }, [searchQuery, setSearchQuery]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -34,7 +34,7 @@ export function SearchForm({ onQueryChange, query }: Props): JSX.Element {
 
     storageWrapper.set(LOCALSTORAGE_KEY, submitValue);
 
-    onQueryChange(submitValue);
+    setSearchQuery(submitValue);
   }
 
   return (

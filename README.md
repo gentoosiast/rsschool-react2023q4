@@ -1,10 +1,10 @@
-# RS School React 2023 Q3 - Week 2 Task: React Routing
+# RS School React 2023 Q3 - Week 3 Task: Tests / Context API
 
 ![screenshot](https://i.imgur.com/YDI5cEH.jpg)
 
-Task description: <https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/module02/README.md>
+Task description: <https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/module03/README.md>
 
-Deploy: <https://gentoosiast-react-w2-routing.netlify.app/>
+Deploy: <https://gentoosiast-react-w3-tests-context.netlify.app/>
 
 Used API service: [Self-hosted Rick and Morty API with ability to set custom limit for received results](https://rickandmortyapi-sigma.vercel.app/api/character/)
 
@@ -80,3 +80,15 @@ npm run prepare
 ```
 
 Runs automatically after package installation to install Husky hooks
+
+```sh
+npm run test
+```
+
+Runs tests with Vitest
+
+```sh
+npm run coverage
+```
+
+Displays coverage of implemented tests

@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import type { JSX, MouseEvent } from 'react';
 import { Outlet } from 'react-router-dom';
-
-import type { ApiResponse } from '@/services/api';
 
 import { CharacterList } from '@/components/character-list';
 import { ExceptionButton } from '@/components/exception-button';
 import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
-import { useParams } from '@/hooks/use-params';
+import { useAppContextApi } from '@/hooks/use-app-context-api';
+import { useAppContextData } from '@/hooks/use-app-context-data';
+import { useAppSearchParams } from '@/hooks/use-app-search-params';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
 import { rickAndMortyApi } from '@/services/api';
@@ -17,21 +17,18 @@ import { rickAndMortyApi } from '@/services/api';
 import styles from './home-page.module.css';
 
 export function HomePage(): JSX.Element {
-  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const { deleteParam, details, limit, page, query, setParams } = useParams();
+  const { apiResponse, isLoading, searchQuery } = useAppContextData();
+  const { setApiResponse, setIsLoading } = useAppContextApi();
+  const { deleteParam, details, limit, page, query, setParams } = useAppSearchParams();
 
   const hasCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
   const totalResults = apiResponse?.total ?? 0;
 
-  const handleSearchQueryChange = useCallback(
-    (newQuery: string): void => {
-      if (newQuery && query !== newQuery) {
-        setParams({ _page: '1', q: newQuery });
-      }
-    },
-    [setParams, query],
-  );
+  useEffect(() => {
+    if (query !== searchQuery) {
+      setParams({ _page: '1', q: searchQuery });
+    }
+  }, [searchQuery, setParams, query]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -39,7 +36,7 @@ export function HomePage(): JSX.Element {
     setIsLoading(true);
 
     void rickAndMortyApi
-      .search(controller, query, page, limit)
+      .search(controller, searchQuery, page, limit)
       .then((response) => {
         setApiResponse(response);
       })
@@ -50,7 +47,7 @@ export function HomePage(): JSX.Element {
     return () => {
       controller.abort();
     };
-  }, [page, limit, query]);
+  }, [page, limit, searchQuery, setApiResponse, setIsLoading]);
 
   function handleAsideClose(): void {
     if (details) {
@@ -82,7 +79,7 @@ export function HomePage(): JSX.Element {
     <>
       <HeaderLayout>
         <>
-          <SearchForm onQueryChange={handleSearchQueryChange} query={query} />
+          <SearchForm />
           <ExceptionButton />
         </>
       </HeaderLayout>
@@ -104,7 +101,7 @@ export function HomePage(): JSX.Element {
                 totalResults={totalResults}
               />
             )}
-            {isLoading ? <Spinner /> : <CharacterList characters={apiResponse?.characters} />}
+            {isLoading ? <Spinner /> : <CharacterList />}
           </section>
           <Outlet />
         </>

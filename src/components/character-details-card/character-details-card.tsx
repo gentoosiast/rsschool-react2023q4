@@ -38,7 +38,7 @@ export function CharacterDetailsCard({ character, isError, onClose }: Props): Re
   }
 
   return (
-    <article className={styles.card}>
+    <article className={styles.card} data-testid="details-card">
       <LoadingImage alt={name} height="300" src={rickAndMortyApi.getImage(id)} width="300" />
       <h2 className={styles.cardHeading}>{name}</h2>
       <div className={styles.cardInfo}>
