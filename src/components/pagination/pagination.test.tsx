@@ -38,12 +38,13 @@ describe('Pagination', () => {
       </MemoryRouter>,
     );
 
-    const user = userEvent.setup();
     const pageFourButton = screen.getByRole('button', { name: /page 4/i });
+    expect(pageFourButton).toBeInTheDocument();
 
-    const currentPageValue = screen.queryByRole('heading', { level: 1, name: /current page: 1/i });
+    const currentPageValue = screen.getByRole('heading', { level: 1, name: /current page: 1/i });
     expect(currentPageValue).toBeInTheDocument();
 
+    const user = userEvent.setup();
     await user.click(pageFourButton);
 
     const newPageValue = screen.getByRole('heading', { level: 1, name: /current page: 4/i });
