@@ -5,12 +5,12 @@ import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
-import { useParams } from '@/hooks/use-params';
+import { useAppSearchParams } from '@/hooks/use-app-search-params';
 
 import { Pagination } from './pagination';
 
 const TestPaginationComponent = (): JSX.Element => {
-  const { page, setParams } = useParams();
+  const { page, setParams } = useAppSearchParams();
 
   const handlePageChange = (page: number): void => {
     setParams({ _page: `${page}` });

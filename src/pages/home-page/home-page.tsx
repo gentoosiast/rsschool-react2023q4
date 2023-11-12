@@ -8,7 +8,7 @@ import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
 import { useAppContext } from '@/hooks/use-app-context';
-import { useParams } from '@/hooks/use-params';
+import { useAppSearchParams } from '@/hooks/use-app-search-params';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
 import { rickAndMortyApi } from '@/services/api';
@@ -20,7 +20,7 @@ export function HomePage(): JSX.Element {
     dispatch,
     state: { apiResponse, isLoading, searchQuery },
   } = useAppContext();
-  const { deleteParam, details, limit, page, query, setParams } = useParams();
+  const { deleteParam, details, limit, page, query, setParams } = useAppSearchParams();
 
   const hasCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
   const totalResults = apiResponse?.total ?? 0;

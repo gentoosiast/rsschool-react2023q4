@@ -24,7 +24,7 @@ function validateNumericParam(
   return fallbackValue;
 }
 
-export function useParams(): {
+export function useAppSearchParams(): {
   deleteParam: (param: string) => void;
   details: number;
   limit: number;
