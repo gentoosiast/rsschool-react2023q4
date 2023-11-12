@@ -13,6 +13,7 @@ export default defineConfig({
   test: {
     coverage: {
       all: true,
+      exclude: ['src/tests/**/*', '**/types.ts', '**/*.d.ts', '**/index.ts'],
       include: ['src/**/*'],
       provider: 'v8',
       reporter: ['text'],
