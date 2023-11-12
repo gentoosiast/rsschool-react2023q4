@@ -1,40 +1,13 @@
-import type { JSX, ReactNode } from 'react';
-import { useReducer } from 'react';
-
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import type { AppState } from '@/providers/app-provider';
-
-import { AppContext, appReducer } from '@/providers/app-provider';
+import { AppProvider } from '@/providers/app-provider';
 
 import { LOCALSTORAGE_KEY, LOCALSTORAGE_PREFIX } from './constants';
 import { SearchForm } from './search-form';
 
 describe('SearchForm', () => {
-  const appInitialState: AppState = {
-    apiResponse: { characters: [], total: 0 },
-    isLoading: false,
-    searchQuery: '',
-  };
-
-  type Props = {
-    children: ReactNode;
-  };
-
-  const AppProvider = ({ children }: Props): JSX.Element => {
-    const [state, dispatch] = useReducer(appReducer, appInitialState);
-
-    return <AppContext.Provider value={{ dispatch, state }}>{children}</AppContext.Provider>;
-  };
-
-  const SearchFormWithContext = (
-    <AppProvider>
-      <SearchForm />
-    </AppProvider>
-  );
-
   const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
   const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
 
@@ -45,13 +18,18 @@ describe('SearchForm', () => {
   });
 
   it('saves the entered value to the local storage after Search button is clicked', async () => {
-    render(SearchFormWithContext);
+    render(
+      <AppProvider>
+        <SearchForm />
+      </AppProvider>,
+    );
 
     const searchQuery = 'test12345';
     const user = userEvent.setup();
-    const searchInput = screen.getByRole('searchbox');
-    const submitButton = screen.getByRole('button');
+    const searchInput = screen.getByPlaceholderText(/search/i);
+    const submitButton = screen.getByRole('button', { name: /search/i });
 
+    await user.clear(searchInput);
     await user.type(searchInput, searchQuery);
     await user.click(submitButton);
 
@@ -69,10 +47,15 @@ describe('SearchForm', () => {
       JSON.stringify(savedSearchQuery),
     );
 
-    render(SearchFormWithContext);
+    render(
+      <AppProvider>
+        <SearchForm />
+      </AppProvider>,
+    );
 
-    const searchInput = screen.getByRole('searchbox');
+    const searchInput = screen.getByPlaceholderText(/search/i);
 
+    expect(getItemSpy).toHaveBeenCalledWith(`${LOCALSTORAGE_PREFIX}${LOCALSTORAGE_KEY}`);
     expect(searchInput).toHaveValue(savedSearchQuery);
   });
 });

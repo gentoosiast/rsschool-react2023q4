@@ -50,8 +50,22 @@ describe('CharacterDetails', () => {
       level: 2,
       name: /adjudicator rick/i,
     });
-
     expect(cardHeading).toBeInTheDocument();
+
+    const characterStatus = within(card).getByText(/dead/i);
+    expect(characterStatus).toBeInTheDocument();
+
+    const characterSpecies = within(card).getByText(/human/i);
+    expect(characterSpecies).toBeInTheDocument();
+
+    const characterGender = within(card).getByText(/male/i);
+    expect(characterGender).toBeInTheDocument();
+
+    const characterOrigin = within(card).getByText(/unknown/i);
+    expect(characterOrigin).toBeInTheDocument();
+
+    const characterLocation = within(card).getByText(/citadel of ricks/i);
+    expect(characterLocation).toBeInTheDocument();
   });
 
   it('should close the card when the user clicks on the close button', async () => {
@@ -65,13 +79,11 @@ describe('CharacterDetails', () => {
     expect(detailsCard).toBeInTheDocument();
 
     const closeButton = within(detailsCard).getByRole('button', { name: /×/i });
-
     expect(closeButton).toBeInTheDocument();
 
     const user = userEvent.setup();
 
     await user.click(closeButton);
-
     expect(detailsCard).not.toBeInTheDocument();
   });
 });

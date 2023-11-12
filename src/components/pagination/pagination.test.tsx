@@ -18,7 +18,7 @@ const TestPaginationComponent = (): JSX.Element => {
 
   return (
     <>
-      <h1>page: {page}</h1>
+      <h1>current page: {page}</h1>
       <Pagination
         currentPage={1}
         itemsPerPage={10}
@@ -41,13 +41,12 @@ describe('Pagination', () => {
     const user = userEvent.setup();
     const pageFourButton = screen.getByRole('button', { name: /page 4/i });
 
-    let pageValue = screen.queryByRole('heading', { level: 1, name: /page: 4/i });
-    expect(pageValue).not.toBeInTheDocument();
+    const currentPageValue = screen.queryByRole('heading', { level: 1, name: /current page: 1/i });
+    expect(currentPageValue).toBeInTheDocument();
 
     await user.click(pageFourButton);
 
-    pageValue = screen.getByRole('heading', { level: 1, name: /page: 4/i });
-
-    expect(pageValue).toBeInTheDocument();
+    const newPageValue = screen.getByRole('heading', { level: 1, name: /current page: 4/i });
+    expect(newPageValue).toBeInTheDocument();
   });
 });

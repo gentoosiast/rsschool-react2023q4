@@ -34,34 +34,17 @@ describe('CharacterListItem', () => {
   it('should render the relevant card data', () => {
     render(
       <MemoryRouter>
-        <CharacterListItem
-          character={{
-            created: '2017-11-04T18:48:46.250Z',
-            gender: 'Male',
-            id: 1,
-            location: 'Citadel of Ricks',
-            name: 'Rick Sanchez',
-            origin: 'Earth (C-137)',
-            species: 'Human',
-            status: 'Alive',
-            type: '',
-          }}
-        />
-        ,
+        <CharacterListItem character={characterMock} />,
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole('heading', { level: 2, name: /rick sanchez/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: /adjudicator rick/i }),
+    ).toBeInTheDocument();
   });
 
   it('should trigger an additional API call to fetch detailed information after user clicks on the card', async () => {
     const spy = vi.spyOn(axios, 'get');
-
-    spy.mockImplementation(() => {
-      return Promise.resolve({
-        data: characterMock,
-      });
-    });
 
     render(
       <MemoryRouter initialEntries={['/']}>
