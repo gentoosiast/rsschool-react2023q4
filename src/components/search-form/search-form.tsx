@@ -19,11 +19,12 @@ export function SearchForm(): JSX.Element {
   const { setSearchQuery } = useAppContextApi();
 
   useEffect(() => {
-    const storedQuery = (searchQuery || storageWrapper.get(LOCALSTORAGE_KEY, string())) ?? '';
+    const storedQuery = storageWrapper.get(LOCALSTORAGE_KEY, string()) ?? '';
+    const query = searchQuery || storedQuery;
 
-    setInputValue(storedQuery);
+    setInputValue(query);
 
-    setSearchQuery(storedQuery);
+    setSearchQuery(query);
   }, [searchQuery, setSearchQuery]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {

@@ -1,3 +1,5 @@
+import { MemoryRouter } from 'react-router-dom';
+
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -19,9 +21,12 @@ describe('SearchForm', () => {
 
   it('saves the entered value to the local storage after Search button is clicked', async () => {
     render(
-      <AppProvider>
-        <SearchForm />
-      </AppProvider>,
+      <MemoryRouter>
+        <AppProvider>
+          <SearchForm />
+        </AppProvider>
+        ,
+      </MemoryRouter>,
     );
 
     const searchQuery = 'test12345';
@@ -48,9 +53,12 @@ describe('SearchForm', () => {
     );
 
     render(
-      <AppProvider>
-        <SearchForm />
-      </AppProvider>,
+      <MemoryRouter>
+        <AppProvider>
+          <SearchForm />
+        </AppProvider>
+        ,
+      </MemoryRouter>,
     );
 
     const searchInput = screen.getByPlaceholderText(/search/i);

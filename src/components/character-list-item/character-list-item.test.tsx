@@ -6,9 +6,8 @@ import axios from 'axios';
 import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
-import { AppProvider } from '@/providers/app-provider';
 import { routes } from '@/router/router';
-import { apiResponseMock, characterMock } from '@/tests/mocks';
+import { characterMock } from '@/tests/mocks';
 import { handlers } from '@/tests/msw/handlers';
 
 import { CharacterDetails } from '../character-details';
@@ -69,13 +68,7 @@ describe('CharacterListItem', () => {
       initialEntries: ['/?q=Rick&_page=1&_limit=10'],
     });
 
-    render(
-      <AppProvider
-        initialState={{ apiResponse: apiResponseMock, isLoading: false, searchQuery: 'Rick' }}
-      >
-        <RouterProvider router={router} />
-      </AppProvider>,
-    );
+    render(<RouterProvider router={router} />);
 
     const card = await screen.findByRole('heading', { level: 2, name: /adjudicator rick/i });
     expect(card).toBeInTheDocument();

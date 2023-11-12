@@ -11,15 +11,18 @@ import { CharacterList } from './character-list';
 describe('CharacterList', () => {
   it('should display an appropriate message if no cards are present', () => {
     render(
-      <AppProvider
-        initialState={{
-          apiResponse: { characters: [], total: 0 },
-          isLoading: false,
-          searchQuery: '',
-        }}
-      >
-        <CharacterList />
-      </AppProvider>,
+      <MemoryRouter>
+        <AppProvider
+          initialState={{
+            apiResponse: { characters: [], total: 0 },
+            isLoading: false,
+            searchQuery: '',
+          }}
+        >
+          <CharacterList />
+        </AppProvider>
+        ,
+      </MemoryRouter>,
     );
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/no characters found/i);

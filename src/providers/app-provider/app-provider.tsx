@@ -3,15 +3,11 @@ import type { JSX, ReactNode } from 'react';
 
 import type { ApiResponse } from '@/services/api';
 
+import { useAppSearchParams } from '@/hooks/use-app-search-params';
+
 import type { AppApi, AppState } from './types';
 
 import { appReducer } from './app-reducer';
-
-const defaultInitialState: AppState = {
-  apiResponse: null,
-  isLoading: false,
-  searchQuery: '',
-};
 
 export const AppContextData = createContext<AppState | null>(null);
 export const AppContextApi = createContext<AppApi | null>(null);
@@ -22,6 +18,13 @@ type Props = {
 };
 
 export const AppProvider = ({ children, initialState }: Props): JSX.Element => {
+  const { query: searchQuery } = useAppSearchParams();
+  const defaultInitialState: AppState = {
+    apiResponse: null,
+    isLoading: false,
+    searchQuery,
+  };
+
   const [state, dispatch] = useReducer(appReducer, initialState ?? defaultInitialState);
 
   const data = useMemo(
