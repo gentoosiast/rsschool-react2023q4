@@ -14,12 +14,14 @@ import { useAppSearchParams } from '@/hooks/use-app-search-params';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
 import { rickAndMortyApi } from '@/services/api';
+import { useAppSelector } from '@/store/hooks';
 import { setItemsPerPage } from '@/store/slices/settings-slice';
 
 import styles from './home-page.module.css';
 
 export function HomePage(): JSX.Element {
-  const { apiResponse, isLoading, searchQuery } = useAppContextData();
+  const { apiResponse, isLoading } = useAppContextData();
+  const searchQuery = useAppSelector((state) => state.settings.searchQuery);
   const { setApiResponse, setIsLoading } = useAppContextApi();
   const { deleteParam, details, limit, page, query, setParams } = useAppSearchParams();
   const dispatch = useDispatch();

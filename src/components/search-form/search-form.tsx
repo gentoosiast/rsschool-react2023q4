@@ -1,40 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { FormEvent, JSX } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { string } from 'valibot';
-
-import { useAppContextApi } from '@/hooks/use-app-context-api';
-import { useAppContextData } from '@/hooks/use-app-context-data';
-import { getStorageWrapper } from '@/lib/storage';
-
-import { LOCALSTORAGE_KEY, LOCALSTORAGE_PREFIX } from './constants';
+import { useAppSelector } from '@/store/hooks';
+import { setSearchQuery } from '@/store/slices/settings-slice';
 
 import styles from './search-form.module.css';
 
-const storageWrapper = getStorageWrapper(window.localStorage, LOCALSTORAGE_PREFIX);
-
 export function SearchForm(): JSX.Element {
-  const [inputValue, setInputValue] = useState('');
-  const { searchQuery } = useAppContextData();
-  const { setSearchQuery } = useAppContextApi();
-
-  useEffect(() => {
-    const storedQuery = storageWrapper.get(LOCALSTORAGE_KEY, string()) ?? '';
-    const query = searchQuery || storedQuery;
-
-    setInputValue(query);
-
-    setSearchQuery(query);
-  }, [searchQuery, setSearchQuery]);
+  const initialSearchValue = useAppSelector((state) => state.settings.searchQuery);
+  const [inputValue, setInputValue] = useState(initialSearchValue);
+  const dispatch = useDispatch();
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
 
     const submitValue = inputValue.trim();
 
-    storageWrapper.set(LOCALSTORAGE_KEY, submitValue);
-
-    setSearchQuery(submitValue);
+    dispatch(setSearchQuery(submitValue));
   }
 
   return (

@@ -9,7 +9,7 @@ type SettingsState = {
 
 const initialState: SettingsState = {
   itemsPerPage: 10,
-  searchQuery: '',
+  searchQuery: new URLSearchParams(document.location.search).get('q') ?? '',
 };
 
 export const settingsSlice = createSlice({
