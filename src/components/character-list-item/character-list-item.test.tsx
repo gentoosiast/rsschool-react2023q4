@@ -3,30 +3,20 @@ import { MemoryRouter, RouterProvider, createMemoryRouter } from 'react-router-d
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import axios from 'axios';
-import { setupServer } from 'msw/node';
-import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 
 import { routes } from '@/router/router';
 import { characterMock } from '@/tests/mocks';
-import { handlers } from '@/tests/msw/handlers';
 
 import { CharacterDetails } from '../character-details';
 import { CharacterListItem } from './character-list-item';
 
-const server = setupServer(...handlers);
-
 describe('CharacterListItem', () => {
-  beforeAll(() => {
-    server.listen({ onUnhandledRequest: 'error' });
-  });
-
   afterAll(() => {
-    server.close();
     vi.clearAllMocks();
   });
 
   afterEach(() => {
-    server.resetHandlers();
     vi.restoreAllMocks();
   });
 

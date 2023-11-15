@@ -2,29 +2,13 @@ import { MemoryRouter, RouterProvider, createMemoryRouter } from 'react-router-d
 
 import { render, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { setupServer } from 'msw/node';
-import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { routes } from '@/router/router';
-import { handlers } from '@/tests/msw/handlers';
 
 import { CharacterDetails } from './character-details';
 
-const server = setupServer(...handlers);
-
 describe('CharacterDetails', () => {
-  beforeAll(() => {
-    server.listen({ onUnhandledRequest: 'error' });
-  });
-
-  afterAll(() => {
-    server.close();
-  });
-
-  afterEach(() => {
-    server.resetHandlers();
-  });
-
   it('should display a loading indicator while fetching data', () => {
     render(
       <MemoryRouter initialEntries={['/?details=8']}>
