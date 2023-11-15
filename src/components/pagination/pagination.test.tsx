@@ -21,7 +21,6 @@ const TestPaginationComponent = (): JSX.Element => {
       <h1>current page: {page}</h1>
       <Pagination
         currentPage={page}
-        itemsPerPage={10}
         onLimitChange={() => {}}
         onPageChange={handlePageChange}
         totalResults={100}

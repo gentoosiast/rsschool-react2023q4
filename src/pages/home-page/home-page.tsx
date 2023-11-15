@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import type { JSX, MouseEvent } from 'react';
+import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
 import { CharacterList } from '@/components/character-list';
@@ -13,6 +14,7 @@ import { useAppSearchParams } from '@/hooks/use-app-search-params';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
 import { rickAndMortyApi } from '@/services/api';
+import { setItemsPerPage } from '@/store/slices/settings-slice';
 
 import styles from './home-page.module.css';
 
@@ -20,6 +22,7 @@ export function HomePage(): JSX.Element {
   const { apiResponse, isLoading, searchQuery } = useAppContextData();
   const { setApiResponse, setIsLoading } = useAppContextApi();
   const { deleteParam, details, limit, page, query, setParams } = useAppSearchParams();
+  const dispatch = useDispatch();
 
   const hasCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
   const totalResults = apiResponse?.total ?? 0;
@@ -68,6 +71,7 @@ export function HomePage(): JSX.Element {
   }
 
   function handleLimitChange(limit: number): void {
+    dispatch(setItemsPerPage(limit));
     setParams({ _limit: `${limit}`, _page: '1' });
   }
 
@@ -95,7 +99,6 @@ export function HomePage(): JSX.Element {
             {hasCharactersFound && (
               <Pagination
                 currentPage={page}
-                itemsPerPage={limit}
                 onLimitChange={handleLimitChange}
                 onPageChange={handlePageChange}
                 totalResults={totalResults}
