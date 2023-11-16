@@ -1,11 +1,13 @@
 import { MemoryRouter, RouterProvider, createMemoryRouter } from 'react-router-dom';
 
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 
 import { routes } from '@/router/router';
+import { BASEURL } from '@/services/api';
 import { characterMock } from '@/tests/mocks';
+import { renderWithProviders } from '@/tests/render-with-providers';
 
 import { CharacterDetails } from '../character-details';
 import { CharacterListItem } from './character-list-item';
@@ -20,7 +22,7 @@ describe('CharacterListItem', () => {
   });
 
   it('should render the relevant card data', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <CharacterListItem character={characterMock} />,
       </MemoryRouter>,
@@ -32,9 +34,9 @@ describe('CharacterListItem', () => {
   });
 
   it('should trigger an additional API call to fetch detailed information after user clicks on the card', async () => {
-    const spy = vi.spyOn(global, 'fetch');
+    const spy = vi.spyOn(globalThis, 'fetch');
 
-    render(
+    renderWithProviders(
       <MemoryRouter initialEntries={['/']}>
         <CharacterListItem character={characterMock} />
         <CharacterDetails />
@@ -42,15 +44,14 @@ describe('CharacterListItem', () => {
     );
 
     const card = screen.getByRole('heading', { level: 2, name: /adjudicator rick/i });
-    expect(card).toBeInTheDocument();
+
+    expect(spy).not.toHaveBeenCalled();
 
     const user = userEvent.setup();
     await user.click(card);
 
-    expect(spy).toHaveBeenCalledWith(
-      'https://rickandmortyapi-sigma.vercel.app/api/character/8',
-      expect.anything(),
-    );
+    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ url: `${BASEURL}/8` }));
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should open a detailed card component upon user click on the card', async () => {
@@ -58,15 +59,16 @@ describe('CharacterListItem', () => {
       initialEntries: ['/?q=Rick&_page=1&_limit=10'],
     });
 
-    render(<RouterProvider router={router} />);
+    renderWithProviders(<RouterProvider router={router} />);
+
+    let detailedCard = screen.queryByTestId('details-card');
+    expect(detailedCard).not.toBeInTheDocument();
 
     const card = await screen.findByRole('heading', { level: 2, name: /adjudicator rick/i });
-    expect(card).toBeInTheDocument();
-
     const user = userEvent.setup();
     await user.click(card);
 
-    const detailedCard = await screen.findByTestId('details-card');
+    detailedCard = await screen.findByTestId('details-card');
     expect(detailedCard).toBeInTheDocument();
   });
 });
