@@ -1,16 +1,17 @@
 import { MemoryRouter, RouterProvider, createMemoryRouter } from 'react-router-dom';
 
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
 import { routes } from '@/router/router';
+import { renderWithProviders } from '@/tests/render-with-providers';
 
 import { CharacterDetails } from './character-details';
 
 describe('CharacterDetails', () => {
   it('should display a loading indicator while fetching data', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter initialEntries={['/?details=8']}>
         <CharacterDetails />
       </MemoryRouter>,
@@ -22,7 +23,7 @@ describe('CharacterDetails', () => {
   });
 
   it('should correctly display the detailed card data', async () => {
-    render(
+    renderWithProviders(
       <MemoryRouter initialEntries={['/?details=8']}>
         <CharacterDetails />
       </MemoryRouter>,
@@ -58,17 +59,16 @@ describe('CharacterDetails', () => {
       initialEntries: ['/?q=Rick&_page=1&_limit=10&details=8'],
     });
 
-    render(<RouterProvider router={router} />);
+    renderWithProviders(<RouterProvider router={router} />);
 
     const detailsCard = await screen.findByTestId('details-card');
     expect(detailsCard).toBeInTheDocument();
 
     const closeButton = within(detailsCard).getByRole('button', { name: /×/i });
-    expect(closeButton).toBeInTheDocument();
 
     const user = userEvent.setup();
-
     await user.click(closeButton);
+
     expect(detailsCard).not.toBeInTheDocument();
   });
 });
