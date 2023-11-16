@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { ApiResponse, Character, Characters } from './types';
 
 import { setAreCharactersLoading } from '../../store/slices/settings-slice';
-import { DEFAULT_ITEMS_PER_PAGE } from './constants';
+import { BASEURL, DEFAULT_ITEMS_PER_PAGE } from './constants';
 
 type SearchQueryArg = {
   limit: number;
@@ -12,7 +12,7 @@ type SearchQueryArg = {
 };
 
 export const rickAndMortyApi = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://rickandmortyapi-sigma.vercel.app/api/character' }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASEURL }),
   endpoints: (builder) => ({
     getById: builder.query<Character, number>({
       query: (id) => `/${id}`,
