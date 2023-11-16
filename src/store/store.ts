@@ -2,7 +2,8 @@ import type { PreloadedState, Store } from '@reduxjs/toolkit';
 
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { rickAndMortyApi } from '../services/new-api/api';
+import { rickAndMortyApi } from '@/services/api';
+
 import settingsReducer from './slices/settings-slice';
 
 const rootReducer = combineReducers({

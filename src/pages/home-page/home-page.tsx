@@ -11,7 +11,7 @@ import { Spinner } from '@/components/spinner';
 import { useAppSearchParams } from '@/hooks/use-app-search-params';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
-import { useSearchQuery } from '@/services/new-api/api';
+import { useSearchQuery } from '@/services/api';
 import { useAppSelector } from '@/store/hooks';
 import { setItemsPerPage } from '@/store/slices/settings-slice';
 

@@ -2,7 +2,6 @@ import { MemoryRouter, RouterProvider, createMemoryRouter } from 'react-router-d
 
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import axios from 'axios';
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 
 import { routes } from '@/router/router';
@@ -33,7 +32,7 @@ describe('CharacterListItem', () => {
   });
 
   it('should trigger an additional API call to fetch detailed information after user clicks on the card', async () => {
-    const spy = vi.spyOn(axios, 'get');
+    const spy = vi.spyOn(global, 'fetch');
 
     render(
       <MemoryRouter initialEntries={['/']}>

@@ -1,88 +1,53 @@
-import type { BaseSchema } from 'valibot';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import axios, { AxiosResponseHeaders, CanceledError, RawAxiosResponseHeaders } from 'axios';
-import { Output, ValiError, flatten, parse } from 'valibot';
+import type { ApiResponse, Character, Characters } from './types';
 
-import type { ApiResponse, Character } from './types';
+import { setAreCharactersLoading } from '../../store/slices/settings-slice';
+import { DEFAULT_ITEMS_PER_PAGE } from './constants';
 
-import { BASEURL, DEFAULT_ITEMS_PER_PAGE, IMAGE_CDN_URL } from './constants';
-import { ApiSchema, CharacterSchema } from './schema';
-
-const fetchData = async <T extends BaseSchema>(
-  url: string,
-  schema: T,
-  controller: AbortController,
-): Promise<{
-  data: Output<T>;
-  headers: AxiosResponseHeaders | RawAxiosResponseHeaders;
-} | null> => {
-  try {
-    const response = await axios.get(url, { signal: controller.signal });
-    const headers = response.headers;
-
-    const unknownData: unknown = response.data;
-
-    const data = parse(schema, unknownData);
-
-    return { data, headers };
-  } catch (err) {
-    if (err instanceof ValiError) {
-      console.error(flatten(err));
-    } else if (!(err instanceof CanceledError)) {
-      console.error(err);
-    }
-    return null;
-  }
+type SearchQueryArg = {
+  limit: number;
+  name: string;
+  page: number;
 };
 
-export const rickAndMortyApi = {
-  async getById(controller: AbortController, id: number): Promise<Character | null> {
-    const result = await fetchData(`${BASEURL}/${id}`, CharacterSchema, controller);
+export const rickAndMortyApi = createApi({
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://rickandmortyapi-sigma.vercel.app/api/character' }),
+  endpoints: (builder) => ({
+    getById: builder.query<Character, number>({
+      query: (id) => `/${id}`,
+    }),
 
-    return result && result.data;
-  },
-
-  getImage(id: number): string {
-    if (id < 1) {
-      return '';
-    }
-
-    return `${IMAGE_CDN_URL}/${id}.jpeg`;
-  },
-
-  async search(
-    controller: AbortController,
-    query: string,
-    page = 1,
-    limit = DEFAULT_ITEMS_PER_PAGE,
-  ): Promise<ApiResponse | null> {
-    const params = new URLSearchParams({
-      _limit: `${limit}`,
-      _page: `${page}`,
-    });
-
-    if (query) {
-      params.set('q', query);
-    }
-
-    const result = await fetchData(`${BASEURL}?${params.toString()}`, ApiSchema, controller);
-
-    if (result) {
-      const totalCountHeader: unknown = result.headers['x-total-count'];
-
-      let total = 0;
-
-      if (typeof totalCountHeader === 'string') {
-        const totalValueFromHeader = parseInt(totalCountHeader, 10);
-
-        if (!Number.isNaN(totalValueFromHeader) && totalValueFromHeader > 0) {
-          total = totalValueFromHeader;
+    search: builder.query<ApiResponse, SearchQueryArg>({
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        dispatch(setAreCharactersLoading(true));
+        try {
+          await queryFulfilled;
+        } finally {
+          dispatch(setAreCharactersLoading(false));
         }
-      }
+      },
+      query: ({ limit = DEFAULT_ITEMS_PER_PAGE, name, page = 1 }) => {
+        const params = new URLSearchParams({
+          _limit: `${limit}`,
+          _page: `${page}`,
+        });
 
-      return { characters: result.data, total };
-    }
+        if (name) {
+          params.set('q', name);
+        }
 
-    return null;
-  },
-};
+        return `?${params.toString()}`;
+      },
+      transformResponse: (response: Characters, meta) => {
+        const total =
+          meta && meta.response ? Number(meta.response.headers.get('x-total-count')) : 0;
+
+        return { characters: response, total };
+      },
+    }),
+  }),
+  reducerPath: 'rickAndMortyApi',
+});
+
+export const { useGetByIdQuery, useSearchQuery } = rickAndMortyApi;

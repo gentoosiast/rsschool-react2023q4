@@ -3,8 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 import type { Character } from '@/services/api';
 
+import { getCardImageUrl } from '@/lib/get-card-image-url';
 import { getLink } from '@/lib/search-params';
-import { rickAndMortyApi } from '@/services/api';
 
 import { LoadingImage } from '../loading-image/loading-image';
 
@@ -24,7 +24,7 @@ export function CharacterListItem({ character: { id, name } }: Props): JSX.Eleme
           alt={name}
           height="300"
           loading="lazy"
-          src={rickAndMortyApi.getImage(id)}
+          src={getCardImageUrl(id)}
           width="300"
         />
         <h2 className={styles.cardHeading}>{name}</h2>

@@ -1,55 +1,20 @@
 import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
-
-import type { Character } from '@/services/api';
 
 import { CharacterDetailsCard } from '@/components/character-details-card';
 import { useAppSearchParams } from '@/hooks/use-app-search-params';
-import { rickAndMortyApi } from '@/services/api';
+import { useGetByIdQuery } from '@/services/api/api';
 
 export function CharacterDetails(): ReactNode {
-  const [character, setCharacter] = useState<Character | null>(null);
-  const [isError, setIsError] = useState(false);
   const { deleteParam, details } = useAppSearchParams();
-
-  useEffect(() => {
-    if (!details) {
-      setCharacter(null);
-      return;
-    }
-
-    const controller = new AbortController();
-
-    void rickAndMortyApi.getById(controller, details).then((character) => {
-      if (!character) {
-        setCharacter(null);
-        setIsError(true);
-      } else {
-        setCharacter(character);
-        setIsError(false);
-      }
-    });
-
-    return () => {
-      controller.abort();
-    };
-  }, [details]);
+  const { data, isError } = useGetByIdQuery(details);
 
   function handleCloseDetails(): void {
     deleteParam('details');
   }
 
   return (
-    <>
-      {details > 0 && (
-        <aside>
-          <CharacterDetailsCard
-            character={character}
-            isError={isError}
-            onClose={handleCloseDetails}
-          />
-        </aside>
-      )}
-    </>
+    <aside>
+      <CharacterDetailsCard character={data} isError={isError} onClose={handleCloseDetails} />
+    </aside>
   );
 }

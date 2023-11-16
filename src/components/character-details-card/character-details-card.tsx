@@ -3,12 +3,12 @@ import type { ReactNode } from 'react';
 import type { Character } from '@/services/api';
 
 import { LoadingImage } from '@/components/loading-image';
-import { rickAndMortyApi } from '@/services/api';
+import { getCardImageUrl } from '@/lib/get-card-image-url';
 
 import styles from './character-details-card.module.css';
 
 type Props = {
-  character: Character | null;
+  character?: Character;
   isError: boolean;
   onClose: () => void;
 };
@@ -39,7 +39,7 @@ export function CharacterDetailsCard({ character, isError, onClose }: Props): Re
 
   return (
     <article className={styles.card} data-testid="details-card">
-      <LoadingImage alt={name} height="300" src={rickAndMortyApi.getImage(id)} width="300" />
+      <LoadingImage alt={name} height="300" src={getCardImageUrl(id)} width="300" />
       <h2 className={styles.cardHeading}>{name}</h2>
       <div className={styles.cardInfo}>
         <p>
