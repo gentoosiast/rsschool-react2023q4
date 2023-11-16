@@ -1,11 +1,12 @@
 import type { JSX } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
 import { useAppSearchParams } from '@/hooks/use-app-search-params';
+import { renderWithProviders } from '@/tests/render-with-providers';
 
 import { Pagination } from './pagination';
 
@@ -31,14 +32,13 @@ const TestPaginationComponent = (): JSX.Element => {
 
 describe('Pagination', () => {
   it('should update URL query parameter when page changes', async () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <TestPaginationComponent />
       </MemoryRouter>,
     );
 
     const pageFourButton = screen.getByRole('button', { name: /page 4/i });
-    expect(pageFourButton).toBeInTheDocument();
 
     const currentPageValue = screen.getByRole('heading', { level: 1, name: /current page: 1/i });
     expect(currentPageValue).toBeInTheDocument();
