@@ -3,11 +3,13 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
 type SettingsState = {
+  areCharactersLoading: boolean;
   itemsPerPage: number;
   searchQuery: string;
 };
 
 const initialState: SettingsState = {
+  areCharactersLoading: false,
   itemsPerPage: 10,
   searchQuery: new URLSearchParams(document.location.search).get('q') ?? '',
 };
@@ -16,6 +18,10 @@ export const settingsSlice = createSlice({
   initialState,
   name: 'settings',
   reducers: {
+    setAreCharactersLoading(state, action: PayloadAction<boolean>) {
+      state.areCharactersLoading = action.payload;
+    },
+
     setItemsPerPage(state, action: PayloadAction<number>) {
       state.itemsPerPage = action.payload;
     },
@@ -26,5 +32,5 @@ export const settingsSlice = createSlice({
   },
 });
 
-export const { setItemsPerPage, setSearchQuery } = settingsSlice.actions;
+export const { setAreCharactersLoading, setItemsPerPage, setSearchQuery } = settingsSlice.actions;
 export default settingsSlice.reducer;

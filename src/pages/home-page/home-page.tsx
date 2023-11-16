@@ -14,13 +14,14 @@ import { useAppSearchParams } from '@/hooks/use-app-search-params';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
 import { rickAndMortyApi } from '@/services/api';
+import { useSearchQuery } from '@/services/new-api/api';
 import { useAppSelector } from '@/store/hooks';
 import { setItemsPerPage } from '@/store/slices/settings-slice';
 
 import styles from './home-page.module.css';
 
 export function HomePage(): JSX.Element {
-  const { apiResponse, isLoading } = useAppContextData();
+  const { apiResponse } = useAppContextData();
   const searchQuery = useAppSelector((state) => state.settings.searchQuery);
   const { setApiResponse, setIsLoading } = useAppContextApi();
   const { deleteParam, details, limit, page, query, setParams } = useAppSearchParams();
@@ -28,6 +29,7 @@ export function HomePage(): JSX.Element {
 
   const hasCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
   const totalResults = apiResponse?.total ?? 0;
+  const { isLoading } = useSearchQuery({ limit, name: searchQuery, page });
 
   useEffect(() => {
     if (query !== searchQuery) {
