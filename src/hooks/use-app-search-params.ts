@@ -26,7 +26,7 @@ function validateNumericParam(
 
 export function useAppSearchParams(): {
   deleteParam: (param: string) => void;
-  details: number;
+  details: null | number;
   limit: number;
   page: number;
   query: string;
@@ -60,7 +60,7 @@ export function useAppSearchParams(): {
     DEFAULT_ITEMS_PER_PAGE,
   );
   const query = searchParams.get('q') ?? '';
-  const details = validateNumericParam(searchParams.get('details'), 1, Infinity, 0);
+  const details = validateNumericParam(searchParams.get('details'), 1, Infinity, 0) || null;
 
   return { deleteParam, details, limit, page, query, setParams };
 }

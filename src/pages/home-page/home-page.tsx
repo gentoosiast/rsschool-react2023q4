@@ -86,7 +86,7 @@ export function HomePage(): JSX.Element {
             )}
             {isLoading ? <Spinner /> : <CharacterList characters={apiResponse?.characters ?? []} />}
           </section>
-          {details > 0 && <Outlet />}
+          {details && <Outlet />}
         </>
       </MainLayout>
     </>
