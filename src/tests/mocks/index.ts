@@ -1,1 +1,1 @@
-export { apiResponseMock, characterMock } from './mocks';
+export { apiResponseMock, characterMock, charactersMock } from './mocks';

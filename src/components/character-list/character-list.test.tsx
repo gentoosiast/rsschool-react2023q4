@@ -1,29 +1,18 @@
-import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { setupStore } from '@/store/store';
+import { charactersMock } from '@/tests/mocks';
+import { renderWithProviders } from '@/tests/render-with-providers';
 
 import { CharacterList } from './character-list';
 
 describe('CharacterList', () => {
   it('should display an appropriate message if no cards are present', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
-        <Provider store={setupStore()}>
-          <CharacterList characters={[]} />
-        </Provider>
-
-        {/* <AppProvider
-          initialState={{
-            apiResponse: { characters: [], total: 0 },
-            isLoading: false,
-            searchQuery: '',
-          }}
-        >
-        </AppProvider> */}
+        <CharacterList characters={[]} />,
       </MemoryRouter>,
     );
 
@@ -31,22 +20,13 @@ describe('CharacterList', () => {
   });
 
   it('should render the specified number of character cards', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
-        <Provider store={setupStore()}>
-          <CharacterList characters={[]} />
-        </Provider>
-
-        {/* <AppProvider
-          initialState={{ apiResponse: apiResponseMock, isLoading: false, searchQuery: 'Rick' }}
-        >
-          <CharacterList />
-        </AppProvider> */}
+        <CharacterList characters={charactersMock} />
       </MemoryRouter>,
     );
 
     const cards = screen.getAllByRole('article');
-
     expect(cards).toHaveLength(3);
   });
 });
