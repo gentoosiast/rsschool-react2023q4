@@ -8,12 +8,9 @@ import { ExceptionButton } from '@/components/exception-button';
 import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
 import { Spinner } from '@/components/spinner';
-import { useAppContextApi } from '@/hooks/use-app-context-api';
-import { useAppContextData } from '@/hooks/use-app-context-data';
 import { useAppSearchParams } from '@/hooks/use-app-search-params';
 import { HeaderLayout } from '@/layout/header-layout';
 import { MainLayout } from '@/layout/main-layout';
-import { rickAndMortyApi } from '@/services/api';
 import { useSearchQuery } from '@/services/new-api/api';
 import { useAppSelector } from '@/store/hooks';
 import { setItemsPerPage } from '@/store/slices/settings-slice';
@@ -21,40 +18,19 @@ import { setItemsPerPage } from '@/store/slices/settings-slice';
 import styles from './home-page.module.css';
 
 export function HomePage(): JSX.Element {
-  const { apiResponse } = useAppContextData();
-  const searchQuery = useAppSelector((state) => state.settings.searchQuery);
-  const { setApiResponse, setIsLoading } = useAppContextApi();
   const { deleteParam, details, limit, page, query, setParams } = useAppSearchParams();
+  const searchQuery = useAppSelector((state) => state.settings.searchQuery);
+  const { data: apiResponse, isLoading } = useSearchQuery({ limit, name: searchQuery, page });
   const dispatch = useDispatch();
 
   const hasCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
   const totalResults = apiResponse?.total ?? 0;
-  const { isLoading } = useSearchQuery({ limit, name: searchQuery, page });
 
   useEffect(() => {
     if (query !== searchQuery) {
       setParams({ _page: '1', q: searchQuery });
     }
   }, [searchQuery, setParams, query]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    setIsLoading(true);
-
-    void rickAndMortyApi
-      .search(controller, searchQuery, page, limit)
-      .then((response) => {
-        setApiResponse(response);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-
-    return () => {
-      controller.abort();
-    };
-  }, [page, limit, searchQuery, setApiResponse, setIsLoading]);
 
   function handleAsideClose(): void {
     if (details) {
@@ -108,7 +84,7 @@ export function HomePage(): JSX.Element {
                 totalResults={totalResults}
               />
             )}
-            {isLoading ? <Spinner /> : <CharacterList />}
+            {isLoading ? <Spinner /> : <CharacterList characters={apiResponse?.characters ?? []} />}
           </section>
           <Outlet />
         </>

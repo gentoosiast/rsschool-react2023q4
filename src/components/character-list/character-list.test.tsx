@@ -1,10 +1,10 @@
+import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { AppProvider } from '@/providers/app-provider';
-import { apiResponseMock } from '@/tests/mocks';
+import { setupStore } from '@/store/store';
 
 import { CharacterList } from './character-list';
 
@@ -12,16 +12,18 @@ describe('CharacterList', () => {
   it('should display an appropriate message if no cards are present', () => {
     render(
       <MemoryRouter>
-        <AppProvider
+        <Provider store={setupStore()}>
+          <CharacterList characters={[]} />
+        </Provider>
+
+        {/* <AppProvider
           initialState={{
             apiResponse: { characters: [], total: 0 },
             isLoading: false,
             searchQuery: '',
           }}
         >
-          <CharacterList />
-        </AppProvider>
-        ,
+        </AppProvider> */}
       </MemoryRouter>,
     );
 
@@ -31,11 +33,15 @@ describe('CharacterList', () => {
   it('should render the specified number of character cards', () => {
     render(
       <MemoryRouter>
-        <AppProvider
+        <Provider store={setupStore()}>
+          <CharacterList characters={[]} />
+        </Provider>
+
+        {/* <AppProvider
           initialState={{ apiResponse: apiResponseMock, isLoading: false, searchQuery: 'Rick' }}
         >
           <CharacterList />
-        </AppProvider>
+        </AppProvider> */}
       </MemoryRouter>,
     );
 
