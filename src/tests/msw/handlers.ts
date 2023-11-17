@@ -9,9 +9,15 @@ export const handlers = [
       status: 200,
     });
   }),
+
   http.get(/\/character\/8/, () => {
     return HttpResponse.json(characterMock, { headers: {}, status: 200 });
   }),
+
+  http.get(/\/character\/666/, () => {
+    return new HttpResponse(null, { status: 404 });
+  }),
+
   http.get(/rickandmortyapi\.com/, () => {
     console.error('IMAGE CDN');
 

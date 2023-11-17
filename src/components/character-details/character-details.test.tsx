@@ -22,6 +22,21 @@ describe('CharacterDetails', () => {
     expect(cardHeading).toBeInTheDocument();
   });
 
+  it('should display an error message if fetching data fails', async () => {
+    renderWithProviders(
+      <MemoryRouter initialEntries={['/?details=666']}>
+        <CharacterDetails />
+      </MemoryRouter>,
+    );
+
+    const cardHeading = await screen.findByRole('heading', {
+      level: 2,
+      name: /error loading character/i,
+    });
+
+    expect(cardHeading).toBeInTheDocument();
+  });
+
   it('should correctly display the detailed card data', async () => {
     renderWithProviders(
       <MemoryRouter initialEntries={['/?details=8']}>
