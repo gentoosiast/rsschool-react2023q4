@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { parse } from 'valibot';
 
-import type { ApiResponse, Character, Characters } from './types';
+import type { ApiResponse, Character } from './types';
 
 import { setAreCharactersLoading, setIsDetailsLoading } from '../../store/slices/settings-slice';
 import { BASEURL, DEFAULT_ITEMS_PER_PAGE } from './constants';
+import { ApiSchema, CharacterSchema } from './schema';
 
 type SearchQueryArg = {
   limit: number;
@@ -25,6 +27,11 @@ export const rickAndMortyApi = createApi({
         }
       },
       query: (id) => `/${id}`,
+      transformResponse: (response) => {
+        const parsedResponse = parse(CharacterSchema, response);
+
+        return parsedResponse;
+      },
     }),
 
     search: builder.query<ApiResponse, SearchQueryArg>({
@@ -49,11 +56,12 @@ export const rickAndMortyApi = createApi({
 
         return `?${params.toString()}`;
       },
-      transformResponse: (response: Characters, meta) => {
+      transformResponse: (response, meta) => {
+        const parsedCharacters = parse(ApiSchema, response);
         const total =
           meta && meta.response ? Number(meta.response.headers.get('x-total-count')) : 0;
 
-        return { characters: response, total };
+        return { characters: parsedCharacters, total };
       },
     }),
   }),
