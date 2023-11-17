@@ -10,10 +10,11 @@ import styles from './character-details-card.module.css';
 type Props = {
   character?: Character;
   isError: boolean;
+  isLoading: boolean;
   onClose: () => void;
 };
 
-export function CharacterDetailsCard({ character, isError, onClose }: Props): ReactNode {
+export function CharacterDetailsCard({ character, isError, isLoading, onClose }: Props): ReactNode {
   const LOADING_TEXT = 'Loading…';
   const {
     gender = LOADING_TEXT,
@@ -23,7 +24,7 @@ export function CharacterDetailsCard({ character, isError, onClose }: Props): Re
     origin = LOADING_TEXT,
     species = LOADING_TEXT,
     status = LOADING_TEXT,
-  } = character ?? {};
+  } = isLoading ? {} : character ?? {};
 
   if (isError) {
     return (

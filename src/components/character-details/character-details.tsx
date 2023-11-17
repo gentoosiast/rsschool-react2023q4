@@ -8,7 +8,7 @@ import { useGetByIdQuery } from '@/store/api';
 
 export function CharacterDetails(): ReactNode {
   const { deleteParam, details } = useAppSearchParams();
-  const { data, isError } = useGetByIdQuery(details ?? skipToken);
+  const { data, isError, isLoading } = useGetByIdQuery(details ?? skipToken);
 
   function handleCloseDetails(): void {
     deleteParam('details');
@@ -16,7 +16,12 @@ export function CharacterDetails(): ReactNode {
 
   return (
     <aside>
-      <CharacterDetailsCard character={data} isError={isError} onClose={handleCloseDetails} />
+      <CharacterDetailsCard
+        character={data}
+        isError={isError}
+        isLoading={isLoading}
+        onClose={handleCloseDetails}
+      />
     </aside>
   );
 }
