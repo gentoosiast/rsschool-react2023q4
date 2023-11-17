@@ -19,7 +19,8 @@ export const rickAndMortyApi = createApi({
         dispatch(setIsDetailsLoading(true));
         try {
           await queryFulfilled;
-        } finally {
+          dispatch(setIsDetailsLoading(false));
+        } catch {
           dispatch(setIsDetailsLoading(false));
         }
       },
@@ -31,7 +32,8 @@ export const rickAndMortyApi = createApi({
         dispatch(setAreCharactersLoading(true));
         try {
           await queryFulfilled;
-        } finally {
+          dispatch(setAreCharactersLoading(false));
+        } catch {
           dispatch(setAreCharactersLoading(false));
         }
       },
