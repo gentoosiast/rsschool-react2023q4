@@ -6,9 +6,11 @@ import { userEvent } from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
 import { useAppSearchParams } from '@/hooks/use-app-search-params';
+import { HomePage } from '@/pages/home-page';
 import { routes } from '@/router/router';
 import { renderWithProviders } from '@/tests/render-with-providers';
 
+import { TestReduxStore } from '../test-redux-store/test-redux-store';
 import { Pagination } from './pagination';
 
 const TestPaginationComponent = (): JSX.Element => {
@@ -68,5 +70,23 @@ describe('Pagination', () => {
     const updatedSearchParams = router.state.location.search;
     expect(updatedSearchParams.includes('_limit=5')).toBe(true);
     expect(updatedSearchParams.includes('_page=1')).toBe(true);
+  });
+
+  it('should save changed value for items per page to Redux store', async () => {
+    renderWithProviders(
+      <MemoryRouter>
+        <TestReduxStore />
+        <HomePage />
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByText(/items per page: 5/i)).not.toBeInTheDocument();
+
+    const selectForLimit = await screen.findByRole('combobox');
+
+    const user = userEvent.setup();
+    await user.selectOptions(selectForLimit, '5');
+
+    expect(screen.getByText(/items per page: 5/i)).toBeInTheDocument();
   });
 });
