@@ -1,10 +1,10 @@
-# RS School React 2023 Q3 - Week 3 Task: Tests / Context API
+# RS School React 2023 Q3 - Week 4 Redux. RTK
 
 ![screenshot](https://i.imgur.com/YDI5cEH.jpg)
 
-Task description: <https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/module03/README.md>
+Task description: <https://github.com/rolling-scopes-school/tasks/tree/master/react/modules/module04>
 
-Deploy: <https://gentoosiast-react-w3-tests-context.netlify.app/>
+Deploy: <https://gentoosiast-react-w4-redux-rtk.netlify.app/>
 
 Used API service: [Self-hosted Rick and Morty API with ability to set custom limit for received results](https://rickandmortyapi-sigma.vercel.app/api/character/)
 
@@ -12,8 +12,11 @@ Used API service: [Self-hosted Rick and Morty API with ability to set custom lim
 
 - [React](https://react.dev)
 - [React Router](https://reactrouter.com)
+- [Redux Toolkit & RTK Query](https://redux-toolkit.js.org)
 
 ## Installation
+
+Use LTS version of Node.js (20.9.0 at the time of writing)
 
 1. Clone the project with `git clone`
 2. Run `npm i` to install dependencies
