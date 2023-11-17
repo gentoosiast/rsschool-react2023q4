@@ -1,4 +1,4 @@
-import type { ApiResponse, Character } from '@/services/api';
+import type { ApiResponse, Character } from '@/store/api';
 
 export const characterMock: Character = {
   created: '2017-11-04T20:03:34.737Z',

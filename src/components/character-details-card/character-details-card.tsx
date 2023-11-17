@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { Character } from '@/services/api';
+import type { Character } from '@/store/api';
 
 import { LoadingImage } from '@/components/loading-image';
 import { getCardImageUrl } from '@/lib/get-card-image-url';

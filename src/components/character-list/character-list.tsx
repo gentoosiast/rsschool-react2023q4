@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { Character } from '@/services/api';
+import type { Character } from '@/store/api';
 
 import { CharacterListItem } from '@/components/character-list-item';
 

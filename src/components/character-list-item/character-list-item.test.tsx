@@ -5,7 +5,7 @@ import { userEvent } from '@testing-library/user-event';
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 
 import { routes } from '@/router/router';
-import { BASEURL } from '@/services/api';
+import { BASEURL } from '@/store/api';
 import { characterMock } from '@/tests/mocks';
 import { renderWithProviders } from '@/tests/render-with-providers';
 

@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import type { Character } from '@/services/api';
+import type { Character } from '@/store/api';
 
 import { getCardImageUrl } from '@/lib/get-card-image-url';
 import { getLink } from '@/lib/search-params';

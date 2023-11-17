@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { DEFAULT_ITEMS_PER_PAGE } from '@/services/api/constants';
+import { DEFAULT_ITEMS_PER_PAGE } from '@/store/api/constants';
 
 const MAX_ITEMS_PER_PAGE = 50;
 
