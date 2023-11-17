@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import type { ApiResponse, Character, Characters } from './types';
 
-import { setAreCharactersLoading } from '../../store/slices/settings-slice';
+import { setAreCharactersLoading, setIsDetailsLoading } from '../../store/slices/settings-slice';
 import { BASEURL, DEFAULT_ITEMS_PER_PAGE } from './constants';
 
 type SearchQueryArg = {
@@ -15,6 +15,14 @@ export const rickAndMortyApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASEURL }),
   endpoints: (builder) => ({
     getById: builder.query<Character, number>({
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        dispatch(setIsDetailsLoading(true));
+        try {
+          await queryFulfilled;
+        } finally {
+          dispatch(setIsDetailsLoading(false));
+        }
+      },
       query: (id) => `/${id}`,
     }),
 
