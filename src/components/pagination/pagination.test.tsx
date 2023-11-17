@@ -1,11 +1,12 @@
 import type { JSX } from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
 import { useAppSearchParams } from '@/hooks/use-app-search-params';
+import { routes } from '@/router/router';
 import { renderWithProviders } from '@/tests/render-with-providers';
 
 import { Pagination } from './pagination';
@@ -48,5 +49,24 @@ describe('Pagination', () => {
 
     const newPageValue = screen.getByRole('heading', { level: 1, name: /current page: 4/i });
     expect(newPageValue).toBeInTheDocument();
+  });
+
+  it('should update URL query parameter when limit changes and switch to page to 1', async () => {
+    const router = createMemoryRouter(routes, { initialEntries: ['/?_page=4'] });
+
+    renderWithProviders(<RouterProvider router={router} />);
+
+    const searchParams = router.state.location.search;
+    expect(searchParams.includes('_limit=5')).toBe(false);
+    expect(searchParams.includes('_page=4')).toBe(true);
+
+    const selectForLimit = await screen.findByRole('combobox');
+
+    const user = userEvent.setup();
+    await user.selectOptions(selectForLimit, '5');
+
+    const updatedSearchParams = router.state.location.search;
+    expect(updatedSearchParams.includes('_limit=5')).toBe(true);
+    expect(updatedSearchParams.includes('_page=1')).toBe(true);
   });
 });
