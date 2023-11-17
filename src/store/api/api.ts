@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { parse } from 'valibot';
 
+import { setAreCharactersLoading, setIsDetailsLoading } from '@/store/slices/settings-slice';
+
 import type { ApiResponse, Character } from './types';
 
-import { setAreCharactersLoading, setIsDetailsLoading } from '../../store/slices/settings-slice';
 import { BASEURL, DEFAULT_ITEMS_PER_PAGE } from './constants';
 import { ApiSchema, CharacterSchema } from './schema';
 
