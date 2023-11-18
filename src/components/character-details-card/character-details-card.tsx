@@ -16,14 +16,15 @@ type Props = {
 
 export function CharacterDetailsCard({ character, isError, isLoading, onClose }: Props): ReactNode {
   const LOADING_TEXT = 'Loading…';
+  const LOADING_ELEM = <span className={styles.loadingText}>{LOADING_TEXT}</span>;
   const {
-    gender = LOADING_TEXT,
+    gender = LOADING_ELEM,
     id = -1,
-    location = LOADING_TEXT,
-    name = LOADING_TEXT,
-    origin = LOADING_TEXT,
-    species = LOADING_TEXT,
-    status = LOADING_TEXT,
+    location = LOADING_ELEM,
+    name = LOADING_ELEM,
+    origin = LOADING_ELEM,
+    species = LOADING_ELEM,
+    status = LOADING_ELEM,
   } = isLoading ? {} : character ?? {};
 
   if (isError) {
@@ -40,7 +41,12 @@ export function CharacterDetailsCard({ character, isError, isLoading, onClose }:
 
   return (
     <article className={styles.card} data-testid="details-card">
-      <LoadingImage alt={name} height="300" src={getCardImageUrl(id)} width="300" />
+      <LoadingImage
+        alt={character?.name ?? LOADING_TEXT}
+        height="300"
+        src={getCardImageUrl(id)}
+        width="300"
+      />
       <h2 className={styles.cardHeading}>{name}</h2>
       <div className={styles.cardInfo}>
         <p>
