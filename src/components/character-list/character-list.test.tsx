@@ -22,7 +22,7 @@ describe('CharacterList', () => {
   it('should render the specified number of character cards', () => {
     renderWithProviders(
       <MemoryRouter>
-        <CharacterList characters={charactersMock} />
+        <CharacterList characters={charactersMock.slice(0, 3)} />
       </MemoryRouter>,
     );
 
