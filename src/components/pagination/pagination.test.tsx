@@ -8,6 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { useAppSearchParams } from '@/hooks/use-app-search-params';
 import { HomePage } from '@/pages/home-page';
 import { routes } from '@/router/router';
+import { DEFAULT_ITEMS_PER_PAGE } from '@/store/api/constants';
 import { renderWithProviders } from '@/tests/render-with-providers';
 
 import { TestReduxStore } from '../test-redux-store/test-redux-store';
@@ -88,5 +89,24 @@ describe('Pagination', () => {
     await user.selectOptions(selectForLimit, '5');
 
     expect(screen.getByText(/items per page: 5/i)).toBeInTheDocument();
+  });
+
+  it('should apply updated value for items per page', async () => {
+    renderWithProviders(
+      <MemoryRouter>
+        <HomePage />
+      </MemoryRouter>,
+    );
+
+    const cards = await screen.findAllByRole('article');
+    expect(cards).toHaveLength(DEFAULT_ITEMS_PER_PAGE);
+
+    const selectForLimit = screen.getByRole('combobox');
+
+    const user = userEvent.setup();
+    await user.selectOptions(selectForLimit, '20');
+
+    const updatedCards = await screen.findAllByRole('article');
+    expect(updatedCards).toHaveLength(20);
   });
 });
