@@ -20,7 +20,8 @@ import styles from './home-page.module.css';
 export function HomePage(): JSX.Element {
   const { deleteParam, details, limit, page, query, setParams } = useAppSearchParams();
   const searchQuery = useAppSelector((state) => state.settings.searchQuery);
-  const { data: apiResponse, isLoading } = useSearchQuery({ limit, name: searchQuery, page });
+  const areCharactersLoading = useAppSelector((state) => state.settings.areCharactersLoading);
+  const { data: apiResponse } = useSearchQuery({ limit, name: searchQuery, page });
   const dispatch = useDispatch();
 
   const hasCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
@@ -84,7 +85,11 @@ export function HomePage(): JSX.Element {
                 totalResults={totalResults}
               />
             )}
-            {isLoading ? <Spinner /> : <CharacterList characters={apiResponse?.characters ?? []} />}
+            {areCharactersLoading ? (
+              <Spinner />
+            ) : (
+              <CharacterList characters={apiResponse?.characters ?? []} />
+            )}
           </section>
           {details && <Outlet />}
         </>
