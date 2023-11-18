@@ -24,7 +24,7 @@ export function HomePage(): JSX.Element {
   const { data: apiResponse } = useSearchQuery({ limit, name: searchQuery, page });
   const dispatch = useDispatch();
 
-  const hasCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
+  const areCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
   const totalResults = apiResponse?.total ?? 0;
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export function HomePage(): JSX.Element {
             role="button"
             tabIndex={0}
           >
-            {hasCharactersFound && (
+            {areCharactersFound && (
               <Pagination
                 currentPage={page}
                 onLimitChange={handleLimitChange}
