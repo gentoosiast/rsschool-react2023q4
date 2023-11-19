@@ -6,8 +6,13 @@ import { characterMock, charactersMock } from '@/tests/mocks';
 export const handlers = [
   http.get(/\/character$/, ({ request }) => {
     const url = new URL(request.url);
-    const limitSearchParam = url.searchParams.get('_limit') ?? '0';
+    const query = url.searchParams.get('q');
 
+    if (query === 'nothingwillbefound') {
+      return HttpResponse.json([], { headers: { 'x-total-count': '0' }, status: 200 });
+    }
+
+    const limitSearchParam = url.searchParams.get('_limit') ?? '0';
     const limit = parseInt(limitSearchParam, 10) || DEFAULT_ITEMS_PER_PAGE;
 
     const characters = charactersMock.slice(0, limit);
@@ -28,8 +33,6 @@ export const handlers = [
   }),
 
   http.get(/rickandmortyapi\.com/, () => {
-    console.error('IMAGE CDN');
-
     return new HttpResponse(null, { status: 404 });
   }),
 ];
