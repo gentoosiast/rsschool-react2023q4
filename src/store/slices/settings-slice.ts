@@ -30,8 +30,6 @@ const initialState: SettingsState = {
   searchQuery: searchParams.get('q') ?? '',
 };
 
-console.log(initialState);
-
 export const settingsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addMatcher(rickAndMortyApi.endpoints.search.matchPending, (state) => {
