@@ -2,7 +2,10 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { createSlice } from '@reduxjs/toolkit';
 
+import { validateNumericParam } from '@/lib/validate-numeric-param';
 import { rickAndMortyApi } from '@/store/api';
+
+import { DEFAULT_ITEMS_PER_PAGE, MAX_ITEMS_PER_PAGE } from '../api/constants';
 
 export type LoadingStatus = 'error' | 'init' | 'loading' | 'success';
 
@@ -13,12 +16,21 @@ type SettingsState = {
   searchQuery: string;
 };
 
+const searchParams = new URLSearchParams(document.location.search);
+
 const initialState: SettingsState = {
   charactersLoadingStatus: 'init',
   detailsLoadingStatus: 'init',
-  itemsPerPage: 10,
-  searchQuery: new URLSearchParams(document.location.search).get('q') ?? '',
+  itemsPerPage: validateNumericParam(
+    searchParams.get('_limit'),
+    1,
+    MAX_ITEMS_PER_PAGE,
+    DEFAULT_ITEMS_PER_PAGE,
+  ),
+  searchQuery: searchParams.get('q') ?? '',
 };
+
+console.log(initialState);
 
 export const settingsSlice = createSlice({
   extraReducers: (builder) => {
