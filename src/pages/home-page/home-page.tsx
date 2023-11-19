@@ -85,7 +85,7 @@ export function HomePage(): JSX.Element {
                 totalResults={totalResults}
               />
             )}
-            {loadingStatus === 'loading' ? (
+            {['init', 'loading'].includes(loadingStatus) ? (
               <Spinner />
             ) : (
               <CharacterList characters={apiResponse?.characters ?? []} />
