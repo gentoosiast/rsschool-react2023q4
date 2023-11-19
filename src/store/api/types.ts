@@ -15,4 +15,4 @@ export const enum HTTPStatusCode {
   NotFound = 404,
 }
 
-export type { ApiResponse, Character };
+export type { ApiResponse, Character, Characters };

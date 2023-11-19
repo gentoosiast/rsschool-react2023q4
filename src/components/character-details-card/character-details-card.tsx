@@ -1,31 +1,33 @@
 import type { ReactNode } from 'react';
 
-import type { Character } from '@/services/api';
+import type { LoadingStatus } from '@/store';
+import type { Character } from '@/store/api';
 
 import { LoadingImage } from '@/components/loading-image';
-import { rickAndMortyApi } from '@/services/api';
+import { getCardImageUrl } from '@/lib/get-card-image-url';
 
 import styles from './character-details-card.module.css';
 
 type Props = {
-  character: Character | null;
-  isError: boolean;
+  character?: Character;
+  loadingStatus: LoadingStatus;
   onClose: () => void;
 };
 
-export function CharacterDetailsCard({ character, isError, onClose }: Props): ReactNode {
+export function CharacterDetailsCard({ character, loadingStatus, onClose }: Props): ReactNode {
   const LOADING_TEXT = 'Loading…';
+  const LOADING_ELEM = <span className={styles.loadingText}>{LOADING_TEXT}</span>;
   const {
-    gender = LOADING_TEXT,
+    gender = LOADING_ELEM,
     id = -1,
-    location = LOADING_TEXT,
-    name = LOADING_TEXT,
-    origin = LOADING_TEXT,
-    species = LOADING_TEXT,
-    status = LOADING_TEXT,
-  } = character ?? {};
+    location = LOADING_ELEM,
+    name = LOADING_ELEM,
+    origin = LOADING_ELEM,
+    species = LOADING_ELEM,
+    status = LOADING_ELEM,
+  } = loadingStatus === 'loading' || !character ? {} : character;
 
-  if (isError) {
+  if (loadingStatus === 'error') {
     return (
       <article className={styles.card}>
         <img alt="Pixelated word 'Error'" height="300" src="/error-pixelated.jpg" width="300" />
@@ -39,7 +41,12 @@ export function CharacterDetailsCard({ character, isError, onClose }: Props): Re
 
   return (
     <article className={styles.card} data-testid="details-card">
-      <LoadingImage alt={name} height="300" src={rickAndMortyApi.getImage(id)} width="300" />
+      <LoadingImage
+        alt={character?.name ?? LOADING_TEXT}
+        height="300"
+        src={getCardImageUrl(id)}
+        width="300"
+      />
       <h2 className={styles.cardHeading}>{name}</h2>
       <div className={styles.cardInfo}>
         <p>

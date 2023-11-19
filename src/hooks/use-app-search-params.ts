@@ -1,32 +1,12 @@
 import { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { DEFAULT_ITEMS_PER_PAGE } from '@/services/api/constants';
-
-const MAX_ITEMS_PER_PAGE = 50;
-
-function validateNumericParam(
-  param: unknown,
-  minAllowedValue: number,
-  maxAllowedValue: number,
-  fallbackValue: number,
-): number {
-  if (typeof param !== 'string') {
-    return fallbackValue;
-  }
-
-  const value = parseInt(param, 10);
-
-  if (!Number.isNaN(value) && value >= minAllowedValue && value <= maxAllowedValue) {
-    return value;
-  }
-
-  return fallbackValue;
-}
+import { validateNumericParam } from '@/lib/validate-numeric-param';
+import { DEFAULT_ITEMS_PER_PAGE, MAX_ITEMS_PER_PAGE } from '@/store/api/constants';
 
 export function useAppSearchParams(): {
   deleteParam: (param: string) => void;
-  details: number;
+  details: null | number;
   limit: number;
   page: number;
   query: string;
@@ -60,7 +40,7 @@ export function useAppSearchParams(): {
     DEFAULT_ITEMS_PER_PAGE,
   );
   const query = searchParams.get('q') ?? '';
-  const details = validateNumericParam(searchParams.get('details'), 1, Infinity, 0);
+  const details = validateNumericParam(searchParams.get('details'), 1, Infinity, 0) || null;
 
   return { deleteParam, details, limit, page, query, setParams };
 }

@@ -1,18 +1,16 @@
 import type { ReactNode } from 'react';
 
+import type { Character } from '@/store/api';
+
 import { CharacterListItem } from '@/components/character-list-item';
-import { useAppContextData } from '@/hooks/use-app-context-data';
 
 import styles from './character-list.module.css';
 
-export function CharacterList(): ReactNode {
-  const { apiResponse } = useAppContextData();
-  const characters = apiResponse?.characters;
+type Props = {
+  characters: Character[];
+};
 
-  if (!characters) {
-    return null;
-  }
-
+export function CharacterList({ characters }: Props): ReactNode {
   if (characters.length === 0) {
     return (
       <div className={styles.noResults}>
