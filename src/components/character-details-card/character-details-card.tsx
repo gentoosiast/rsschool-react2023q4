@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import type { LoadingStatus } from '@/store';
 import type { Character } from '@/store/api';
 
 import { LoadingImage } from '@/components/loading-image';
@@ -9,12 +10,11 @@ import styles from './character-details-card.module.css';
 
 type Props = {
   character?: Character;
-  isError: boolean;
-  isLoading: boolean;
+  loadingStatus: LoadingStatus;
   onClose: () => void;
 };
 
-export function CharacterDetailsCard({ character, isError, isLoading, onClose }: Props): ReactNode {
+export function CharacterDetailsCard({ character, loadingStatus, onClose }: Props): ReactNode {
   const LOADING_TEXT = 'Loading…';
   const LOADING_ELEM = <span className={styles.loadingText}>{LOADING_TEXT}</span>;
   const {
@@ -25,9 +25,9 @@ export function CharacterDetailsCard({ character, isError, isLoading, onClose }:
     origin = LOADING_ELEM,
     species = LOADING_ELEM,
     status = LOADING_ELEM,
-  } = isLoading ? {} : character ?? {};
+  } = loadingStatus === 'loading' || !character ? {} : character;
 
-  if (isError) {
+  if (loadingStatus === 'error') {
     return (
       <article className={styles.card}>
         <img alt="Pixelated word 'Error'" height="300" src="/error-pixelated.jpg" width="300" />

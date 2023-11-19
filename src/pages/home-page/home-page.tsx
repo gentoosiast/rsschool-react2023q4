@@ -20,8 +20,8 @@ import styles from './home-page.module.css';
 export function HomePage(): JSX.Element {
   const { deleteParam, details, limit, page, query, setParams } = useAppSearchParams();
   const searchQuery = useAppSelector((state) => state.settings.searchQuery);
-  const areCharactersLoading = useAppSelector((state) => state.settings.areCharactersLoading);
   const { data: apiResponse } = useSearchQuery({ limit, name: searchQuery, page });
+  const loadingStatus = useAppSelector((state) => state.settings.charactersLoadingStatus);
   const dispatch = useDispatch();
 
   const areCharactersFound = (apiResponse?.characters.length ?? 0) > 0;
@@ -85,7 +85,7 @@ export function HomePage(): JSX.Element {
                 totalResults={totalResults}
               />
             )}
-            {areCharactersLoading ? (
+            {loadingStatus === 'loading' ? (
               <Spinner />
             ) : (
               <CharacterList characters={apiResponse?.characters ?? []} />

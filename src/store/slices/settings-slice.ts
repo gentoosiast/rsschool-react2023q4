@@ -2,32 +2,48 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { createSlice } from '@reduxjs/toolkit';
 
+import { rickAndMortyApi } from '@/store/api';
+
+export type LoadingStatus = 'error' | 'init' | 'loading' | 'success';
+
 type SettingsState = {
-  areCharactersLoading: boolean;
-  isDetailsLoading: boolean;
+  charactersLoadingStatus: LoadingStatus;
+  detailsLoadingStatus: LoadingStatus;
   itemsPerPage: number;
   searchQuery: string;
 };
 
 const initialState: SettingsState = {
-  areCharactersLoading: false,
-  isDetailsLoading: false,
+  charactersLoadingStatus: 'init',
+  detailsLoadingStatus: 'init',
   itemsPerPage: 10,
   searchQuery: new URLSearchParams(document.location.search).get('q') ?? '',
 };
 
 export const settingsSlice = createSlice({
+  extraReducers: (builder) => {
+    builder.addMatcher(rickAndMortyApi.endpoints.search.matchPending, (state) => {
+      state.charactersLoadingStatus = 'loading';
+    });
+    builder.addMatcher(rickAndMortyApi.endpoints.search.matchFulfilled, (state) => {
+      state.charactersLoadingStatus = 'success';
+    });
+    builder.addMatcher(rickAndMortyApi.endpoints.search.matchRejected, (state) => {
+      state.charactersLoadingStatus = 'error';
+    });
+    builder.addMatcher(rickAndMortyApi.endpoints.getById.matchPending, (state) => {
+      state.detailsLoadingStatus = 'loading';
+    });
+    builder.addMatcher(rickAndMortyApi.endpoints.getById.matchFulfilled, (state) => {
+      state.detailsLoadingStatus = 'success';
+    });
+    builder.addMatcher(rickAndMortyApi.endpoints.getById.matchRejected, (state) => {
+      state.detailsLoadingStatus = 'error';
+    });
+  },
   initialState,
   name: 'settings',
   reducers: {
-    setAreCharactersLoading(state, action: PayloadAction<boolean>) {
-      state.areCharactersLoading = action.payload;
-    },
-
-    setIsDetailsLoading(state, action: PayloadAction<boolean>) {
-      state.isDetailsLoading = action.payload;
-    },
-
     setItemsPerPage(state, action: PayloadAction<number>) {
       state.itemsPerPage = action.payload;
     },
@@ -38,6 +54,5 @@ export const settingsSlice = createSlice({
   },
 });
 
-export const { setAreCharactersLoading, setIsDetailsLoading, setItemsPerPage, setSearchQuery } =
-  settingsSlice.actions;
+export const { setItemsPerPage, setSearchQuery } = settingsSlice.actions;
 export default settingsSlice.reducer;

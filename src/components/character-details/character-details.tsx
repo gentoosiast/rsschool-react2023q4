@@ -9,8 +9,8 @@ import { useAppSelector } from '@/store/hooks';
 
 export function CharacterDetails(): ReactNode {
   const { deleteParam, details } = useAppSearchParams();
-  const { data, isError } = useGetByIdQuery(details ?? skipToken);
-  const isLoading = useAppSelector((state) => state.settings.isDetailsLoading);
+  const { data: character } = useGetByIdQuery(details ?? skipToken);
+  const loadingStatus = useAppSelector((state) => state.settings.detailsLoadingStatus);
 
   function handleCloseDetails(): void {
     deleteParam('details');
@@ -19,9 +19,8 @@ export function CharacterDetails(): ReactNode {
   return (
     <aside>
       <CharacterDetailsCard
-        character={data}
-        isError={isError}
-        isLoading={isLoading}
+        character={character}
+        loadingStatus={loadingStatus}
         onClose={handleCloseDetails}
       />
     </aside>
