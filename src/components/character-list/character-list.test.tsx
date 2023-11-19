@@ -16,7 +16,12 @@ describe('CharacterList', () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/no characters found/i);
+    const noResultsHeading = screen.getByRole('heading', {
+      level: 1,
+      name: /no characters found/i,
+    });
+
+    expect(noResultsHeading).toBeInTheDocument();
   });
 
   it('should render the specified number of character cards', () => {
