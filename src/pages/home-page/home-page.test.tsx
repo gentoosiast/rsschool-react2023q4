@@ -31,4 +31,26 @@ describe('HomePage', () => {
 
     expect(noResultsHeading).toBeInTheDocument();
   });
+
+  it('should display cards received from API after search', async () => {
+    renderWithProviders(
+      <MemoryRouter>
+        <HomePage />
+      </MemoryRouter>,
+    );
+
+    const searchInput = screen.getByPlaceholderText(/search/i);
+    const submitButton = screen.getByRole('button', { name: /search/i });
+
+    const user = userEvent.setup();
+    await user.clear(searchInput);
+    await user.type(searchInput, 'princess');
+    await user.click(submitButton);
+
+    const cards = await screen.findAllByRole('article');
+
+    expect(cards).toHaveLength(2);
+    expect(cards[0]).toHaveTextContent(/abadango cluster princess/i);
+    expect(cards[1]).toHaveTextContent(/princess ponietta/i);
+  });
 });

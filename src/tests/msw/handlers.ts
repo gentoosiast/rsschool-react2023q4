@@ -1,7 +1,7 @@
 import { HttpResponse, http } from 'msw';
 
 import { DEFAULT_ITEMS_PER_PAGE } from '@/store/api/constants';
-import { characterMock, charactersMock } from '@/tests/mocks';
+import { characterMock, charactersMock, princessesMock } from '@/tests/mocks';
 
 export const handlers = [
   http.get(/\/character$/, ({ request }) => {
@@ -10,6 +10,10 @@ export const handlers = [
 
     if (query === 'nothingwillbefound') {
       return HttpResponse.json([], { headers: { 'x-total-count': '0' }, status: 200 });
+    }
+
+    if (query === 'princess') {
+      return HttpResponse.json(princessesMock, { headers: { 'x-total-count': '2' }, status: 200 });
     }
 
     const limitSearchParam = url.searchParams.get('_limit') ?? '0';
