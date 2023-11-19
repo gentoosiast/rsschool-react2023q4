@@ -11,7 +11,7 @@ export const handlers = [
     const limit = parseInt(limitSearchParam, 10) || DEFAULT_ITEMS_PER_PAGE;
 
     const characters = charactersMock.slice(0, limit);
-    const total = characters.length;
+    const total = charactersMock.length;
 
     return HttpResponse.json(characters, {
       headers: { 'x-total-count': `${total}` },
