@@ -13,6 +13,7 @@ export default defineConfig({
       reporter: ['text'],
     },
     environment: 'jsdom',
+    globals: true,
     setupFiles: ['./src/tests/setupTests.ts'],
   },
 });
