@@ -1,40 +1,96 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# RS School React 2023 Q3 - Week 5 Next.JS/SSR/SSG
 
-## Getting Started
+![screenshot](https://i.imgur.com/YDI5cEH.jpg)
 
-First, run the development server:
+Task description: <https://github.com/rolling-scopes-school/tasks/tree/master/react/modules/module05>
 
-```bash
+Deploy: <https://gentoosiast-react-w5-nextjs-ssr-ssg.netlify.app/>
+
+Used API service: [Self-hosted Rick and Morty API with ability to set custom limit for received results](https://rickandmortyapi-sigma.vercel.app/api/character/)
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org/)
+- [Redux Toolkit & RTK Query](https://redux-toolkit.js.org)
+
+## Installation
+
+Use LTS version of Node.js (20.9.0 at the time of writing)
+
+1. Clone the project with `git clone`
+2. Run `npm i` to install dependencies
+3. Run `npm run dev` to start local development server
+
+## Provided scripts
+
+```sh
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start local development server
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```sh
+npm run build
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Build project in production mode for further deployment
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```sh
+npm run format:fix
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Reformat source code & configs to match `Prettier` settings
 
-## Learn More
+```sh
+npm run lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+Check source code with `ESLint`. Exit with non-zero return code after the first found warning (useful for CI/CD)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+npm run lint:fix
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Automatically fix all auto-fixable errors & warnings with `ESLint`
 
-## Deploy on Vercel
+```sh
+npm run lint-styles
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Check CSS stylesheets for potential problems with `Stylelint`. Exit with non-zero return code after the first found warning (useful for CI/CD)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```sh
+npm run lint-styles:fix
+```
+
+Automatically fix all auto-fixable errors & warnings in CSS stylesheets with `Stylelint`
+
+```sh
+npm run typecheck
+```
+
+Perform TypeScript typechecking of source code with `tsc` (TypeScript Compiler)
+
+```sh
+npm run preview
+```
+
+Locally preview the production build
+
+```sh
+npm run prepare
+```
+
+Runs automatically after package installation to install Husky hooks
+
+```sh
+npm run test
+```
+
+Runs tests with Vitest
+
+```sh
+npm run coverage
+```
+
+Displays coverage of implemented tests
