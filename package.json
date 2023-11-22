@@ -10,7 +10,8 @@
     "format:fix": "prettier --write .",
     "lint": "next lint",
     "lint-styles": "stylelint --max-warnings 0 \"**/*.css\"",
-    "lint-styles:fix": "stylelint --fix \"**/*.css\""
+    "lint-styles:fix": "stylelint --fix \"**/*.css\"",
+    "prepare": "husky install"
   },
   "dependencies": {
     "modern-normalize": "^2.0.0",
@@ -19,12 +20,15 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
     "eslint-config-prettier": "^9.0.0",
+    "husky": "^8.0.3",
     "prettier": "^3.1.0",
     "stylelint": "^15.11.0",
     "stylelint-config-clean-order": "^5.2.0",
