@@ -11,7 +11,8 @@
     "lint": "next lint",
     "lint-styles": "stylelint --max-warnings 0 \"**/*.css\"",
     "lint-styles:fix": "stylelint --fix \"**/*.css\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "echo \"TODO: tests will be added later\""
   },
   "dependencies": {
     "modern-normalize": "^2.0.0",
