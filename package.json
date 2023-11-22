@@ -13,6 +13,7 @@
     "lint-styles:fix": "stylelint --fix \"**/*.css\""
   },
   "dependencies": {
+    "modern-normalize": "^2.0.0",
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18"
