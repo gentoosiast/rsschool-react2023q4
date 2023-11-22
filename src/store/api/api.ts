@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { HYDRATE } from 'next-redux-wrapper';
 import { parse } from 'valibot';
 
 import type { ApiResponse, Character } from './types';
@@ -14,6 +15,11 @@ type SearchQueryArg = {
 
 export const rickAndMortyApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASEURL }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (builder) => ({
     getById: builder.query<Character, number>({
       query: (id) => `/${id}`,
