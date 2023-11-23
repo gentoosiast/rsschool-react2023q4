@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import { SearchForm } from '@/components/search-form';
 import { CharacterList } from '@/components/character-list';
+import { CharacterDetailsCard } from '@/components/character-details-card';
+import { Pagination } from '@/components/pagination';
 import { wrapper } from '@/store';
 import { searchCharacters, getCharacterById, getRunningQueriesThunk } from '@/store/api';
 import { useSearchQuery, useGetByIdQuery } from '@/store/api';
@@ -52,6 +54,18 @@ export default function Home() {
   const { data: character } = useGetByIdQuery(details ?? skipToken);
   const { data } = useSearchQuery({ page, limit, name: query });
 
+  function handleDetailsClose() {
+    router.push({ query: { ...router.query, details: null } });
+  }
+
+  function handlePageChange(page: number) {
+    router.push({ query: { ...router.query, _page: page } });
+  }
+
+  function handleLimitChange(limit: number) {
+    router.push({ query: { ...router.query, _limit: limit, _page: 1 } });
+  }
+
   return (
     <>
       <Head>
@@ -61,9 +75,19 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <SearchForm />
+      {data && (
+        <Pagination
+          currentPage={page}
+          totalResults={data.total}
+          onPageChange={handlePageChange}
+          onLimitChange={handleLimitChange}
+        />
+      )}
       <main className={`${styles.main}`}>
         {data && <CharacterList characters={data.characters} />}
-        {details && <p>{JSON.stringify(character)}</p>}
+        {details && character && (
+          <CharacterDetailsCard character={character} onClose={handleDetailsClose} />
+        )}
       </main>
     </>
   );
