@@ -4,7 +4,7 @@ import { CharacterDetailsCard } from './character-details-card';
 import { characterMock } from '@/tests/mocks';
 
 describe('CharacterDetailsCard', () => {
-  it('should display detailed info about the character', async () => {
+  it('should display detailed info about the character', () => {
     render(<CharacterDetailsCard character={characterMock} onClose={() => {}} />);
 
     const card = screen.getByTestId('details-card');
