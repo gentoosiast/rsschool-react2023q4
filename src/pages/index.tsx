@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { SearchForm } from '@/components/search-form';
 import { CharacterList } from '@/components/character-list';
 import { wrapper } from '@/store';
 import { searchCharacters, getRunningQueriesThunk } from '@/store/api';
@@ -40,6 +41,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <SearchForm />
       <main className={`${styles.main}`}>
         {data && <CharacterList characters={data.characters} />}
       </main>

@@ -1,7 +1,7 @@
 import type { PreloadedState, Store } from '@reduxjs/toolkit';
 
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { createWrapper, Context } from 'next-redux-wrapper';
+import { createWrapper } from 'next-redux-wrapper';
 
 import { rickAndMortyApi } from './api';
 import settingsReducer from './slices/settings-slice';
