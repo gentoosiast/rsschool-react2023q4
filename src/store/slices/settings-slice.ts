@@ -16,7 +16,8 @@ type SettingsState = {
   searchQuery: string;
 };
 
-const searchParams = new URLSearchParams(document.location.search);
+// const searchParams = new URLSearchParams(document.location.search);
+const searchParams = new URLSearchParams();
 
 const initialState: SettingsState = {
   charactersLoadingStatus: 'init',

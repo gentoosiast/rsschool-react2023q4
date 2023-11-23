@@ -55,4 +55,9 @@ export const rickAndMortyApi = createApi({
   reducerPath: 'rickAndMortyApi',
 });
 
-export const { useGetByIdQuery, useSearchQuery } = rickAndMortyApi;
+export const {
+  useGetByIdQuery,
+  useSearchQuery,
+  util: { getRunningQueriesThunk },
+} = rickAndMortyApi;
+export const { getById, search } = rickAndMortyApi.endpoints;
