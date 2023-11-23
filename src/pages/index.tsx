@@ -55,7 +55,8 @@ export default function Home() {
   const { data } = useSearchQuery({ page, limit, name: query });
 
   function handleDetailsClose() {
-    router.push({ query: { ...router.query, details: null } });
+    const { details, ...rest } = router.query;
+    router.push({ query: rest });
   }
 
   function handlePageChange(page: number) {
