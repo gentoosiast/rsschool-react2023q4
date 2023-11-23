@@ -1,4 +1,4 @@
-import { HttpResponse, http, delay } from 'msw';
+import { HttpResponse, delay, http } from 'msw';
 
 import { DEFAULT_ITEMS_PER_PAGE } from '@/store/api/constants';
 import { characterMock, charactersMock, princessesMock } from '@/tests/mocks';

@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import { Icon } from '@/components/icon';
 
 import { clsx } from 'clsx';
 
+import { Icon } from '@/components/icon';
 import { useAppSelector } from '@/store/hooks';
 
 import { RESULTS_PER_PAGE_OPTIONS } from './constants';

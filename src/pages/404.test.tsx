@@ -1,5 +1,6 @@
-import { expect, describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+
 import NotFoundPage from './404';
 
 describe('404 page', () => {

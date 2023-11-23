@@ -1,5 +1,6 @@
 import type { FormEvent, JSX } from 'react';
 import { useDispatch } from 'react-redux';
+
 import { useRouter } from 'next/router';
 
 import { setSearchQuery } from '@/store/slices/settings-slice';
@@ -40,11 +41,11 @@ export function SearchForm(): JSX.Element {
       <input
         autoComplete="off"
         className={styles.input}
+        defaultValue={initialSearchValue}
         name="search"
         placeholder="Search"
         spellCheck={false}
         type="search"
-        defaultValue={initialSearchValue}
       />
       <button className={styles.submitButton} type="submit">
         Search

@@ -21,8 +21,8 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>): Store<Ro
 
 export const makeStore = () =>
   configureStore({
-    reducer: rootReducer,
     middleware: (gDM) => gDM().concat(rickAndMortyApi.middleware),
+    reducer: rootReducer,
   });
 
 export type RootState = ReturnType<typeof rootReducer>;

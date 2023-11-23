@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function CharacterDetailsCard({ character, onClose }: Props): ReactNode {
-  const { id, name, status, species, gender, origin, location } = character;
+  const { gender, id, location, name, origin, species, status } = character;
 
   function handleClose() {
     onClose();

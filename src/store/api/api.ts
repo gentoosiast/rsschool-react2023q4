@@ -15,11 +15,6 @@ type SearchQueryArg = {
 
 export const rickAndMortyApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASEURL }),
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
   endpoints: (builder) => ({
     getById: builder.query<Character, number>({
       query: (id) => `/${id}`,
@@ -52,6 +47,11 @@ export const rickAndMortyApi = createApi({
       },
     }),
   }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   reducerPath: 'rickAndMortyApi',
 });
 

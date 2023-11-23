@@ -1,7 +1,9 @@
-import { describe, it, expect } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
-import { CharacterDetailsCard } from './character-details-card';
+import { describe, expect, it } from 'vitest';
+
 import { characterMock } from '@/tests/mocks';
+
+import { CharacterDetailsCard } from './character-details-card';
 
 describe('CharacterDetailsCard', () => {
   it('should display detailed info about the character', () => {
