@@ -40,6 +40,8 @@ export default function App({ Component, ...pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <Head>
+        <meta content="RS School React 2023 Q3 Learning Project" name="description" />
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
         <title>Rick and Morty in a Next.js world</title>
       </Head>
       <div className="root-container">{isLoading ? <Spinner /> : <Component {...pageProps} />}</div>
