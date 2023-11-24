@@ -1,5 +1,4 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import { CharacterDetailsCard } from '@/components/character-details-card';
@@ -71,12 +70,6 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>Rick and Morty in a Next.js world</title>
-        <meta content="RS School React 2023 Q3 Learning Project" name="description" />
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <link href="/favicon.ico" rel="icon" />
-      </Head>
       <div className={styles.pageContainer}>
         <SearchForm />
         {data && (

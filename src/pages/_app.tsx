@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import { Spinner } from '@/components/spinner';
@@ -38,6 +39,9 @@ export default function App({ Component, ...pageProps }: AppProps) {
   const { store } = wrapper.useWrappedStore(pageProps);
   return (
     <Provider store={store}>
+      <Head>
+        <title>Rick and Morty in a Next.js world</title>
+      </Head>
       <div className="root-container">{isLoading ? <Spinner /> : <Component {...pageProps} />}</div>
     </Provider>
   );
