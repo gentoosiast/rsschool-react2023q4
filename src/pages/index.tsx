@@ -77,21 +77,23 @@ export default function Home() {
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <link href="/favicon.ico" rel="icon" />
       </Head>
-      <SearchForm />
-      {data && (
-        <Pagination
-          currentPage={page}
-          onLimitChange={handleLimitChange}
-          onPageChange={handlePageChange}
-          totalResults={data.total}
-        />
-      )}
-      <main className={`${styles.main}`}>
-        {data && <CharacterList characters={data.characters} />}
-        {details && character && (
-          <CharacterDetailsCard character={character} onClose={handleDetailsClose} />
+      <div className={styles.pageContainer}>
+        <SearchForm />
+        {data && (
+          <Pagination
+            currentPage={page}
+            onLimitChange={handleLimitChange}
+            onPageChange={handlePageChange}
+            totalResults={data.total}
+          />
         )}
-      </main>
+        <main className={`${styles.main}`}>
+          {data && <CharacterList characters={data.characters} />}
+          {details && character && (
+            <CharacterDetailsCard character={character} onClose={handleDetailsClose} />
+          )}
+        </main>
+      </div>
     </>
   );
 }
