@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 
 import Image from 'next/image';
 
@@ -10,14 +10,14 @@ import styles from './character-details-card.module.css';
 
 type Props = {
   character: Character;
-  onClose: () => void;
+  onClose: (e: MouseEvent) => void;
 };
 
 export function CharacterDetailsCard({ character, onClose }: Props): ReactNode {
   const { gender, id, location, name, origin, species, status } = character;
 
-  function handleClose() {
-    onClose();
+  function handleClose(event: MouseEvent) {
+    onClose(event);
   }
 
   return (
@@ -46,7 +46,7 @@ export function CharacterDetailsCard({ character, onClose }: Props): ReactNode {
           <span className={styles.cardInfoValue}>{location}</span>
         </p>
       </div>
-      <button className={styles.closeButton} onClick={handleClose} type="button">
+      <button className={styles.closeButton} onClick={(e) => handleClose(e)} type="button">
         ×
       </button>
     </article>

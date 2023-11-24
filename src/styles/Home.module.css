@@ -11,6 +11,12 @@
 }
 
 .main {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.cards {
   display: grid;
   grid-template-rows: min-content;
   gap: 10px;

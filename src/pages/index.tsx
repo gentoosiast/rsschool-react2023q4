@@ -1,3 +1,5 @@
+import type { MouseEvent } from 'react';
+
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useRouter } from 'next/router';
 
@@ -55,9 +57,13 @@ export default function Home() {
   const { data: character } = useGetByIdQuery(details ?? skipToken);
   const { data } = useSearchQuery({ limit, name: query, page });
 
-  function handleDetailsClose() {
+  function handleDetailsClose(event: MouseEvent) {
     const { details, ...rest } = router.query;
-    router.push({ query: rest });
+
+    if (details) {
+      event.preventDefault();
+      router.push({ query: rest });
+    }
   }
 
   function handlePageChange(page: number) {
@@ -80,8 +86,10 @@ export default function Home() {
             totalResults={data.total}
           />
         )}
-        <main className={`${styles.main}`}>
-          {data && <CharacterList characters={data.characters} />}
+        <main className={styles.main} onClick={(e) => handleDetailsClose(e)}>
+          <section className={styles.cards}>
+            {data && <CharacterList characters={data.characters} />}
+          </section>
           {details && character && (
             <CharacterDetailsCard character={character} onClose={handleDetailsClose} />
           )}
