@@ -10,6 +10,21 @@
   min-height: 100%;
 }
 
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchSection {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
 .main {
   display: flex;
   gap: 20px;

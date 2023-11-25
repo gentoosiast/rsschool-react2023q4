@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 import { CharacterDetailsCard } from '@/components/character-details-card';
 import { CharacterList } from '@/components/character-list';
+import { ExceptionButton } from '@/components/exception-button';
 import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
 import { validateNumericParam } from '@/lib/validate-numeric-param';
@@ -81,16 +82,21 @@ export default function Home() {
   return (
     <>
       <div className={styles.pageContainer}>
-        <SearchForm initialSearchValue={query} onQueryChange={handleQueryChange} />
-        {data && (
-          <Pagination
-            currentPage={page}
-            itemsPerPage={limit}
-            onLimitChange={handleLimitChange}
-            onPageChange={handlePageChange}
-            totalResults={data.total}
-          />
-        )}
+        <header className={styles.header}>
+          <section className={styles.searchSection}>
+            <SearchForm initialSearchValue={query} onQueryChange={handleQueryChange} />
+            <ExceptionButton />
+          </section>
+          {data && (
+            <Pagination
+              currentPage={page}
+              itemsPerPage={limit}
+              onLimitChange={handleLimitChange}
+              onPageChange={handlePageChange}
+              totalResults={data.total}
+            />
+          )}
+        </header>
         <main className={styles.main} onClick={(e) => handleDetailsClose(e)}>
           <section className={styles.cards}>
             {data && <CharacterList characters={data.characters} />}
