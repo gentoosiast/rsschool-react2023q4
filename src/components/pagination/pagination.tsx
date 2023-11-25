@@ -41,6 +41,7 @@ export function Pagination({
             aria-label="Go to the first page"
             className={styles.pageLink}
             onClick={() => onPageChange(1)}
+            type="button"
           >
             <Icon name="arrow-left-circle" />
           </button>
@@ -50,6 +51,7 @@ export function Pagination({
             aria-label="Go to the previous page"
             className={clsx(styles.pageLink, { [styles.disabled]: isPrevDisabled })}
             onClick={() => onPageChange(currentPage - 1)}
+            type="button"
           >
             <Icon name="arrow-left" />
           </button>
@@ -64,6 +66,7 @@ export function Pagination({
               })}
               disabled={pageNumber === currentPage}
               onClick={() => onPageChange(pageNumber)}
+              type="button"
             >
               {pageNumber}
             </button>
@@ -76,6 +79,7 @@ export function Pagination({
               [styles.pageLinkActive]: lastPageNum === currentPage,
             })}
             onClick={() => onPageChange(lastPageNum)}
+            type="button"
           >
             {`… ${lastPageNum}`}
           </button>
@@ -85,6 +89,7 @@ export function Pagination({
             aria-label="Go to the next page"
             className={clsx(styles.pageLink, { [styles.disabled]: isNextDisabled })}
             onClick={() => onPageChange(currentPage + 1)}
+            type="button"
           >
             <Icon name="arrow-right" />
           </button>
@@ -94,6 +99,7 @@ export function Pagination({
             aria-label="Go to the last page"
             className={styles.pageLink}
             onClick={() => onPageChange(lastPageNum)}
+            type="button"
           >
             <Icon name="arrow-right-circle" />
           </button>
