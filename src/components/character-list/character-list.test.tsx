@@ -1,9 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import mockRouter from 'next-router-mock';
 import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 
-import { charactersMock } from '@/tests/mocks';
-
-import { CharacterList } from './character-list';
+import HomePage from '@/pages/index';
+import { renderWithProviders } from '@/tests/render-with-providers';
 
 vi.mock('next/router', () => vi.importActual('next-router-mock'));
 
@@ -16,10 +16,11 @@ describe('CharacterList', () => {
     vi.restoreAllMocks();
   });
 
-  it('should display an appropriate message if no cards are present', () => {
-    render(<CharacterList characters={[]} />);
+  it('should display an appropriate message if no cards are present', async () => {
+    mockRouter.push('/?q=nothingwillbefound');
+    renderWithProviders(<HomePage />);
 
-    const noResultsHeading = screen.getByRole('heading', {
+    const noResultsHeading = await screen.findByRole('heading', {
       level: 1,
       name: /no characters found/i,
     });
@@ -27,10 +28,12 @@ describe('CharacterList', () => {
     expect(noResultsHeading).toBeInTheDocument();
   });
 
-  it('should render the specified number of character cards', () => {
-    render(<CharacterList characters={charactersMock.slice(0, 3)} />);
+  it('should render the specified number of character cards', async () => {
+    mockRouter.push('/?q=princess');
 
-    const cards = screen.getAllByRole('article');
-    expect(cards).toHaveLength(3);
+    renderWithProviders(<HomePage />);
+
+    const cards = await screen.findAllByRole('article');
+    expect(cards).toHaveLength(2);
   });
 });
