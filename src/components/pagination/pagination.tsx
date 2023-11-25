@@ -57,10 +57,12 @@ export function Pagination({
         {pageNumbers.map((pageNumber) => (
           <li key={pageNumber}>
             <button
+              aria-current={pageNumber === currentPage}
               aria-label={`Go to the page ${pageNumber}`}
               className={clsx(styles.pageLink, {
                 [styles.pageLinkActive]: pageNumber === currentPage,
               })}
+              disabled={pageNumber === currentPage}
               onClick={() => onPageChange(pageNumber)}
             >
               {pageNumber}

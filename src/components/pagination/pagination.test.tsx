@@ -32,6 +32,18 @@ describe('Pagination', () => {
     expect(mockRouter).toMatchObject({ query: { _limit: '5', _page: '1' } });
   });
 
+  it('should set current page correctly if page value was provided in URL', async () => {
+    mockRouter.push('/?_page=3');
+
+    renderWithProviders(<HomePage />);
+
+    const currentPageButton = await screen.findByRole('button', {
+      current: true,
+    });
+
+    expect(currentPageButton).toHaveTextContent('3');
+  });
+
   it('should set items per page value in select if items per page value was provided in URL', async () => {
     mockRouter.push('/?_limit=5');
 
