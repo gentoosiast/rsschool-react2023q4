@@ -4,11 +4,9 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 
 import { rickAndMortyApi } from './api';
-import settingsReducer from './slices/settings-slice';
 
 const rootReducer = combineReducers({
   [rickAndMortyApi.reducerPath]: rickAndMortyApi.reducer,
-  settings: settingsReducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>): Store<RootState> =>

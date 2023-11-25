@@ -1,7 +1,4 @@
 import type { FormEvent, JSX } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { setSearchQuery } from '@/store/slices/settings-slice';
 
 import styles from './search-form.module.css';
 
@@ -19,8 +16,6 @@ type Props = {
 };
 
 export function SearchForm({ initialSearchValue, onQueryChange }: Props): JSX.Element {
-  const dispatch = useDispatch();
-
   function handleSubmit(event: FormEvent<CustomForm>): void {
     event.preventDefault();
 
@@ -29,8 +24,6 @@ export function SearchForm({ initialSearchValue, onQueryChange }: Props): JSX.El
     const rawInputValue = target.search.value;
 
     const inputValue = rawInputValue.trim();
-
-    dispatch(setSearchQuery(inputValue));
 
     onQueryChange(inputValue);
   }
