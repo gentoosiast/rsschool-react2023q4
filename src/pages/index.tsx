@@ -68,15 +68,15 @@ export default function Home() {
   }
 
   function handlePageChange(page: number) {
-    router.push({ query: { ...router.query, _page: page } });
+    router.push({ query: { ...router.query, _page: `${page}` } });
   }
 
   function handleLimitChange(limit: number) {
-    router.push({ query: { ...router.query, _limit: limit, _page: 1 } });
+    router.push({ query: { ...router.query, _limit: `${limit}`, _page: '1' } });
   }
 
   function handleQueryChange(newSearchQuery: string) {
-    router.push({ query: { ...router.query, _page: 1, q: newSearchQuery } });
+    router.push({ query: { ...router.query, _page: '1', q: newSearchQuery } });
   }
 
   return (
