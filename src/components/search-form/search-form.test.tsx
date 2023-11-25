@@ -44,4 +44,28 @@ describe('SearchForm', () => {
 
     expect(searchInput).toHaveValue('princess');
   });
+
+  it('should display no results message if no results were found', async () => {
+    renderWithProviders(<HomePage />);
+
+    const searchInput = screen.getByPlaceholderText(/search/i);
+    const submitButton = screen.getByRole('button', { name: /search/i });
+
+    let notFoundHeading = screen.queryByRole('heading', {
+      level: 1,
+      name: /no characters found/i,
+    });
+    expect(notFoundHeading).not.toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.clear(searchInput);
+    await user.type(searchInput, 'nothingwillbefound');
+    await user.click(submitButton);
+
+    notFoundHeading = await screen.findByRole('heading', {
+      level: 1,
+      name: /no characters found/i,
+    });
+    expect(notFoundHeading).toBeInTheDocument();
+  });
 });
