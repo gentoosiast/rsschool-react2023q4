@@ -1,8 +1,6 @@
 import type { FormEvent, JSX } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useRouter } from 'next/router';
-
 import { setSearchQuery } from '@/store/slices/settings-slice';
 
 import styles from './search-form.module.css';
@@ -15,12 +13,13 @@ interface CustomForm extends HTMLFormElement {
   readonly elements: CustomElements;
 }
 
-export function SearchForm(): JSX.Element {
-  const router = useRouter();
-  const dispatch = useDispatch();
+type Props = {
+  initialSearchValue: string;
+  onQueryChange: (query: string) => void;
+};
 
-  const queryParam = router.query.q;
-  const initialSearchValue = typeof queryParam === 'string' ? queryParam : '';
+export function SearchForm({ initialSearchValue, onQueryChange }: Props): JSX.Element {
+  const dispatch = useDispatch();
 
   function handleSubmit(event: FormEvent<CustomForm>): void {
     event.preventDefault();
@@ -33,7 +32,7 @@ export function SearchForm(): JSX.Element {
 
     dispatch(setSearchQuery(inputValue));
 
-    router.push({ query: { ...router.query, q: inputValue } });
+    onQueryChange(inputValue);
   }
 
   return (

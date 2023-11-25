@@ -74,13 +74,18 @@ export default function Home() {
     router.push({ query: { ...router.query, _limit: limit, _page: 1 } });
   }
 
+  function handleQueryChange(newSearchQuery: string) {
+    router.push({ query: { ...router.query, _page: 1, q: newSearchQuery } });
+  }
+
   return (
     <>
       <div className={styles.pageContainer}>
-        <SearchForm />
+        <SearchForm initialSearchValue={query} onQueryChange={handleQueryChange} />
         {data && (
           <Pagination
             currentPage={page}
+            itemsPerPage={limit}
             onLimitChange={handleLimitChange}
             onPageChange={handlePageChange}
             totalResults={data.total}

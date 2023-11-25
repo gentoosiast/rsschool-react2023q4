@@ -3,7 +3,6 @@ import type { ReactNode } from 'react';
 import { clsx } from 'clsx';
 
 import { Icon } from '@/components/icon';
-import { useAppSelector } from '@/store/hooks';
 
 import { RESULTS_PER_PAGE_OPTIONS } from './constants';
 import { generatePageNumbers } from './generate-page-numbers';
@@ -12,6 +11,7 @@ import styles from './pagination.module.css';
 
 type Props = {
   currentPage: number;
+  itemsPerPage: number;
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
   totalResults: number;
@@ -19,11 +19,11 @@ type Props = {
 
 export function Pagination({
   currentPage,
+  itemsPerPage,
   onLimitChange,
   onPageChange,
   totalResults,
 }: Props): ReactNode {
-  const itemsPerPage = useAppSelector((state) => state.settings.itemsPerPage);
   const lastPageNum = Math.ceil(totalResults / itemsPerPage);
   const isPrevDisabled = currentPage === 1;
   const isNextDisabled = currentPage === lastPageNum;
