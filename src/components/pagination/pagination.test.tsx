@@ -42,6 +42,7 @@ describe('Pagination', () => {
     });
 
     expect(currentPageButton).toHaveTextContent('3');
+    expect(currentPageButton).toBeDisabled();
   });
 
   it('should set items per page value in select if items per page value was provided in URL', async () => {
