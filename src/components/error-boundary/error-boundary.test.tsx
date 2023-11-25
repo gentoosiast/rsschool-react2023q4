@@ -4,6 +4,7 @@ import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 
 import { ExceptionButton } from '@/components/exception-button';
 
+import { ErrorPage } from '../error-page';
 import { ErrorBoundary } from './error-boundary';
 
 describe('ErrorBoundary', () => {
@@ -16,17 +17,19 @@ describe('ErrorBoundary', () => {
   });
 
   it('should render fallback after error', async () => {
+    const errorText = /houston, we have a problem/i;
+
     vi.spyOn(console, 'error').mockImplementation(() => null);
 
     render(
-      <ErrorBoundary fallback={<h1>fallback component</h1>}>
+      <ErrorBoundary fallback={<ErrorPage />}>
         <ExceptionButton />
       </ErrorBoundary>,
     );
 
     let fallbackHeading = screen.queryByRole('heading', {
       level: 1,
-      name: /fallback component/i,
+      name: errorText,
     });
     expect(fallbackHeading).not.toBeInTheDocument();
 
@@ -36,7 +39,7 @@ describe('ErrorBoundary', () => {
 
     fallbackHeading = await screen.findByRole('heading', {
       level: 1,
-      name: /fallback component/i,
+      name: errorText,
     });
     expect(fallbackHeading).toBeInTheDocument();
   });
