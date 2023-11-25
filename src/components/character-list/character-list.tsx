@@ -16,7 +16,7 @@ export function CharacterList({ characters }: Props): ReactNode {
   if (characters.length === 0) {
     return (
       <div className={styles.noResults}>
-        <Image alt="Rick and Morty crying" height="720" src="/rick-morty-sad.jpg" width="821" />
+        <Image alt="Rick and Morty crying" height="720" src="/rick-morty-sad.webp" width="821" />
         <h1>No characters found</h1>
       </div>
     );
