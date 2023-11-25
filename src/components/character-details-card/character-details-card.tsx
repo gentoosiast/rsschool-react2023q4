@@ -46,7 +46,13 @@ export function CharacterDetailsCard({ character, onClose }: Props): ReactNode {
           <span className={styles.cardInfoValue}>{location}</span>
         </p>
       </div>
-      <button className={styles.closeButton} onClick={(e) => handleClose(e)} type="button">
+      <button
+        aria-label="Close"
+        className={styles.closeButton}
+        name="Close"
+        onClick={(e) => handleClose(e)}
+        type="button"
+      >
         ×
       </button>
     </article>
