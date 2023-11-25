@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import type { Character } from '@/store/api';
 
 import { getCardImageUrl } from '@/lib/get-card-image-url';
+import { shimmer, toBase64 } from '@/lib/shimmer-placeholder';
 
 import styles from './character-list-item.module.css';
 
@@ -21,7 +22,14 @@ export function CharacterListItem({ character: { id, name } }: Props): JSX.Eleme
   return (
     <Link className={styles.cardLink} href={{ query: { ...searchParams, details: id } }}>
       <article className={styles.card}>
-        <Image alt={name} height="300" loading="lazy" src={getCardImageUrl(id)} width="300" />
+        <Image
+          alt={name}
+          height="300"
+          loading="lazy"
+          placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(300, 300))}`}
+          src={getCardImageUrl(id)}
+          width="300"
+        />
         <h2 className={styles.cardHeading}>{name}</h2>
       </article>
     </Link>

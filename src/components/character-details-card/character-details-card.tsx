@@ -5,6 +5,7 @@ import Image from 'next/image';
 import type { Character } from '@/store/api';
 
 import { getCardImageUrl } from '@/lib/get-card-image-url';
+import { shimmer, toBase64 } from '@/lib/shimmer-placeholder';
 
 import styles from './character-details-card.module.css';
 
@@ -22,7 +23,13 @@ export function CharacterDetailsCard({ character, onClose }: Props): ReactNode {
 
   return (
     <article className={styles.card} data-testid="details-card">
-      <Image alt={name} height="300" src={getCardImageUrl(id)} width="300" />
+      <Image
+        alt={name}
+        height="300"
+        placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(300, 300))}`}
+        src={getCardImageUrl(id)}
+        width="300"
+      />
       <h2 className={styles.cardHeading}>{name}</h2>
       <div className={styles.cardInfo}>
         <p>
