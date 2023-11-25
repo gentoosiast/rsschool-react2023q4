@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import { ErrorBoundary } from '@/components/error-boundary';
+import { ErrorPage } from '@/components/error-page';
 import { Spinner } from '@/components/spinner';
 import { wrapper } from '@/store/store';
 
@@ -44,7 +46,11 @@ export default function App({ Component, ...pageProps }: AppProps) {
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <title>Rick and Morty in a Next.js world</title>
       </Head>
-      <div className="root-container">{isLoading ? <Spinner /> : <Component {...pageProps} />}</div>
+      <ErrorBoundary fallback={<ErrorPage />}>
+        <div className="root-container">
+          {isLoading ? <Spinner /> : <Component {...pageProps} />}
+        </div>
+      </ErrorBoundary>
     </Provider>
   );
 }
