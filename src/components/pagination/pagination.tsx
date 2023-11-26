@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react';
 
-import cn from 'classnames';
-import featherIcons from 'feather-icons/dist/feather-sprite.svg';
+import { clsx } from 'clsx';
 
-import { useAppSelector } from '@/store/hooks';
+import { Icon } from '@/components/icon';
 
 import { RESULTS_PER_PAGE_OPTIONS } from './constants';
 import { generatePageNumbers } from './generate-page-numbers';
@@ -12,6 +11,7 @@ import styles from './pagination.module.css';
 
 type Props = {
   currentPage: number;
+  itemsPerPage: number;
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
   totalResults: number;
@@ -19,11 +19,11 @@ type Props = {
 
 export function Pagination({
   currentPage,
+  itemsPerPage,
   onLimitChange,
   onPageChange,
   totalResults,
 }: Props): ReactNode {
-  const itemsPerPage = useAppSelector((state) => state.settings.itemsPerPage);
   const lastPageNum = Math.ceil(totalResults / itemsPerPage);
   const isPrevDisabled = currentPage === 1;
   const isNextDisabled = currentPage === lastPageNum;
@@ -41,31 +41,32 @@ export function Pagination({
             aria-label="Go to the first page"
             className={styles.pageLink}
             onClick={() => onPageChange(1)}
+            type="button"
           >
-            <svg className="feather">
-              <use href={`${featherIcons}#arrow-left-circle`} />
-            </svg>
+            <Icon name="arrow-left-circle" />
           </button>
         </li>
         <li>
           <button
             aria-label="Go to the previous page"
-            className={cn(styles.pageLink, { [styles.disabled]: isPrevDisabled })}
+            className={clsx(styles.pageLink, { [styles.disabled]: isPrevDisabled })}
             onClick={() => onPageChange(currentPage - 1)}
+            type="button"
           >
-            <svg className="feather">
-              <use href={`${featherIcons}#arrow-left`} />
-            </svg>
+            <Icon name="arrow-left" />
           </button>
         </li>
         {pageNumbers.map((pageNumber) => (
           <li key={pageNumber}>
             <button
+              aria-current={pageNumber === currentPage}
               aria-label={`Go to the page ${pageNumber}`}
-              className={cn(styles.pageLink, {
+              className={clsx(styles.pageLink, {
                 [styles.pageLinkActive]: pageNumber === currentPage,
               })}
+              disabled={pageNumber === currentPage}
               onClick={() => onPageChange(pageNumber)}
+              type="button"
             >
               {pageNumber}
             </button>
@@ -74,10 +75,11 @@ export function Pagination({
         <li>
           <button
             aria-label="Go to the last page"
-            className={cn(styles.pageLink, {
+            className={clsx(styles.pageLink, {
               [styles.pageLinkActive]: lastPageNum === currentPage,
             })}
             onClick={() => onPageChange(lastPageNum)}
+            type="button"
           >
             {`… ${lastPageNum}`}
           </button>
@@ -85,12 +87,11 @@ export function Pagination({
         <li>
           <button
             aria-label="Go to the next page"
-            className={cn(styles.pageLink, { [styles.disabled]: isNextDisabled })}
+            className={clsx(styles.pageLink, { [styles.disabled]: isNextDisabled })}
             onClick={() => onPageChange(currentPage + 1)}
+            type="button"
           >
-            <svg className="feather">
-              <use href={`${featherIcons}#arrow-right`} />
-            </svg>
+            <Icon name="arrow-right" />
           </button>
         </li>
         <li>
@@ -98,10 +99,9 @@ export function Pagination({
             aria-label="Go to the last page"
             className={styles.pageLink}
             onClick={() => onPageChange(lastPageNum)}
+            type="button"
           >
-            <svg className="feather">
-              <use href={`${featherIcons}#arrow-right-circle`} />
-            </svg>
+            <Icon name="arrow-right-circle" />
           </button>
         </li>
       </ul>

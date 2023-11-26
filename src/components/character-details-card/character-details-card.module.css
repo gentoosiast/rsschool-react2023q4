@@ -8,6 +8,7 @@
   justify-content: center;
 
   max-width: 350px;
+  height: min-content;
   padding: 10px;
 
   background-color: #fff;
@@ -63,30 +64,4 @@
   &:hover {
     filter: opacity(0.8);
   }
-}
-
-@keyframes loading-text {
-  0% {
-    color: #ec4899;
-  }
-
-  25% {
-    color: #d97706;
-  }
-
-  50% {
-    color: #fde68a;
-  }
-
-  75% {
-    color: #34d399;
-  }
-
-  100% {
-    color: #818cf8;
-  }
-}
-
-.loadingText {
-  animation: infinite 2s loading-text alternate;
 }

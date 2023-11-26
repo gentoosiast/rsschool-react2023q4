@@ -1,22 +1,21 @@
-# RS School React 2023 Q3 - Week 4 Redux. RTK
+# RS School React 2023 Q3 - Week 5 Next.JS/SSR/SSG
 
 ![screenshot](https://i.imgur.com/YDI5cEH.jpg)
 
-Task description: <https://github.com/rolling-scopes-school/tasks/tree/master/react/modules/module04>
+Task description: <https://github.com/rolling-scopes-school/tasks/tree/master/react/modules/module05>
 
-Deploy: <https://gentoosiast-react-w4-redux-rtk.netlify.app/>
+Deploy: <https://gentoosiast-react-w5-nextjs-ssr-ssg.vercel.app>
 
 Used API service: [Self-hosted Rick and Morty API with ability to set custom limit for received results](https://rickandmortyapi-sigma.vercel.app/api/character/)
 
 ## Tech Stack
 
-- [React](https://react.dev)
-- [React Router](https://reactrouter.com)
+- [Next.js](https://nextjs.org/)
 - [Redux Toolkit & RTK Query](https://redux-toolkit.js.org)
 
 ## Installation
 
-Use LTS version of Node.js (20.9.0 at the time of writing)
+Use LTS version of Node.js (20.10.0 at the time of writing)
 
 1. Clone the project with `git clone`
 2. Run `npm i` to install dependencies
@@ -28,13 +27,19 @@ Use LTS version of Node.js (20.9.0 at the time of writing)
 npm run dev
 ```
 
-Start local development server
+Start the application in development mode with hot-code reloading, error reporting, and more
 
 ```sh
 npm run build
 ```
 
-Build project in production mode for further deployment
+Create an optimized production build of application for further deployment
+
+```sh
+npm run start
+```
+
+Start the application in production mode. The application should be compiled with `npm run build` first
 
 ```sh
 npm run format:fix
@@ -47,12 +52,6 @@ npm run lint
 ```
 
 Check source code with `ESLint`. Exit with non-zero return code after the first found warning (useful for CI/CD)
-
-```sh
-npm run lint:fix
-```
-
-Automatically fix all auto-fixable errors & warnings with `ESLint`
 
 ```sh
 npm run lint-styles
@@ -71,12 +70,6 @@ npm run typecheck
 ```
 
 Perform TypeScript typechecking of source code with `tsc` (TypeScript Compiler)
-
-```sh
-npm run preview
-```
-
-Locally preview the production build
 
 ```sh
 npm run prepare

@@ -1,112 +1,84 @@
-import type { JSX } from 'react';
-import { MemoryRouter, RouterProvider, createMemoryRouter } from 'react-router-dom';
-
 import { screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import mockRouter from 'next-router-mock';
+import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 
-import { useAppSearchParams } from '@/hooks/use-app-search-params';
-import { HomePage } from '@/pages/home-page';
-import { routes } from '@/router/router';
-import { DEFAULT_ITEMS_PER_PAGE } from '@/store/api/constants';
+import HomePage from '@/pages/index';
 import { renderWithProviders } from '@/tests/render-with-providers';
 
-import { TestReduxStore } from '../test-redux-store/test-redux-store';
-import { Pagination } from './pagination';
-
-const TestPaginationComponent = (): JSX.Element => {
-  const { page, setParams } = useAppSearchParams();
-
-  const handlePageChange = (page: number): void => {
-    setParams({ _page: `${page}` });
-  };
-
-  return (
-    <>
-      <h1>current page: {page}</h1>
-      <Pagination
-        currentPage={page}
-        onLimitChange={() => {}}
-        onPageChange={handlePageChange}
-        totalResults={100}
-      />
-    </>
-  );
-};
+vi.mock('next/router', () => vi.importActual('next-router-mock'));
 
 describe('Pagination', () => {
-  it('should update URL query parameter when page changes', async () => {
-    renderWithProviders(
-      <MemoryRouter>
-        <TestPaginationComponent />
-      </MemoryRouter>,
-    );
-
-    const pageFourButton = screen.getByRole('button', { name: /page 4/i });
-
-    const currentPageValue = screen.getByRole('heading', { level: 1, name: /current page: 1/i });
-    expect(currentPageValue).toBeInTheDocument();
-
-    const user = userEvent.setup();
-    await user.click(pageFourButton);
-
-    const newPageValue = screen.getByRole('heading', { level: 1, name: /current page: 4/i });
-    expect(newPageValue).toBeInTheDocument();
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
-  it('should update URL query parameter when limit changes and switch to page to 1', async () => {
-    const router = createMemoryRouter(routes, { initialEntries: ['/?_page=4'] });
-
-    renderWithProviders(<RouterProvider router={router} />);
-
-    const searchParams = router.state.location.search;
-    expect(searchParams.includes('_limit=5')).toBe(false);
-    expect(searchParams.includes('_page=4')).toBe(true);
-
-    const selectForLimit = await screen.findByRole('combobox');
-
-    const user = userEvent.setup();
-    await user.selectOptions(selectForLimit, '5');
-
-    const updatedSearchParams = router.state.location.search;
-    expect(updatedSearchParams.includes('_limit=5')).toBe(true);
-    expect(updatedSearchParams.includes('_page=1')).toBe(true);
+  afterAll(() => {
+    vi.restoreAllMocks();
   });
 
-  it('should save changed value for items per page to Redux store', async () => {
-    renderWithProviders(
-      <MemoryRouter>
-        <TestReduxStore />
-        <HomePage />
-      </MemoryRouter>,
-    );
+  it('should reset page to 1 and set new items per page value after items per page has been changed', async () => {
+    mockRouter.push('/?_page=3&_limit=10');
 
-    expect(screen.queryByText(/items per page: 5/i)).not.toBeInTheDocument();
+    renderWithProviders(<HomePage />);
 
-    const selectForLimit = await screen.findByRole('combobox');
+    expect(mockRouter).toMatchObject({ query: { _limit: '10', _page: '3' } });
+
+    const selectForItemsPerPage = await screen.findByRole('combobox');
 
     const user = userEvent.setup();
-    await user.selectOptions(selectForLimit, '5');
+    await user.selectOptions(selectForItemsPerPage, '5');
 
-    expect(screen.getByText(/items per page: 5/i)).toBeInTheDocument();
+    expect(mockRouter).toMatchObject({ query: { _limit: '5', _page: '1' } });
   });
 
-  it('should apply updated value for items per page', async () => {
-    renderWithProviders(
-      <MemoryRouter>
-        <HomePage />
-      </MemoryRouter>,
-    );
+  it('should set current page correctly if page value was provided in URL', async () => {
+    mockRouter.push('/?_page=3');
 
-    const cards = await screen.findAllByRole('article');
-    expect(cards).toHaveLength(DEFAULT_ITEMS_PER_PAGE);
+    renderWithProviders(<HomePage />);
 
-    const selectForLimit = screen.getByRole('combobox');
+    const currentPageButton = await screen.findByRole('button', {
+      current: true,
+    });
+
+    expect(currentPageButton).toHaveTextContent('3');
+    expect(currentPageButton).toBeDisabled();
+  });
+
+  it('should set items per page value in select if items per page value was provided in URL', async () => {
+    mockRouter.push('/?_limit=5');
+
+    renderWithProviders(<HomePage />);
+
+    const selectForItemsPerPage = await screen.findByRole('combobox');
+
+    expect(mockRouter).toMatchObject({ query: { _limit: '5' } });
+    expect(selectForItemsPerPage).toHaveValue('5');
+  });
+
+  it('should allow user to move between pages', async () => {
+    mockRouter.push('/?_page=1');
+
+    renderWithProviders(<HomePage />);
+
+    expect(mockRouter).toMatchObject({ query: { _page: '1' } });
+
+    const prevPageButton = await screen.findByLabelText(/go to the previous page/i);
+    const nextPageButton = screen.getByLabelText(/go to the next page/i);
+    const firstPageButton = screen.getByLabelText(/go to the first page/i);
+    const lastPageButton = screen.getAllByLabelText(/go to the last page/i)[0];
 
     const user = userEvent.setup();
-    await user.selectOptions(selectForLimit, '20');
+    await user.click(nextPageButton);
+    expect(mockRouter).toMatchObject({ query: { _page: '2' } });
 
-    const updatedCards = await screen.findAllByRole('article');
-    expect(updatedCards).toHaveLength(20);
+    await user.click(lastPageButton);
+    expect(mockRouter).toMatchObject({ query: { _page: '78' } });
+
+    await user.click(prevPageButton);
+    expect(mockRouter).toMatchObject({ query: { _page: '77' } });
+
+    await user.click(firstPageButton);
+    expect(mockRouter).toMatchObject({ query: { _page: '1' } });
   });
 });

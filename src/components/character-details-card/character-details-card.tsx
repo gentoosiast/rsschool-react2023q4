@@ -1,49 +1,32 @@
-import type { ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 
-import type { LoadingStatus } from '@/store';
+import Image from 'next/image';
+
 import type { Character } from '@/store/api';
 
-import { LoadingImage } from '@/components/loading-image';
 import { getCardImageUrl } from '@/lib/get-card-image-url';
+import { shimmer, toBase64 } from '@/lib/shimmer-placeholder';
 
 import styles from './character-details-card.module.css';
 
 type Props = {
-  character?: Character;
-  loadingStatus: LoadingStatus;
-  onClose: () => void;
+  character: Character;
+  onClose: (e: MouseEvent) => void;
 };
 
-export function CharacterDetailsCard({ character, loadingStatus, onClose }: Props): ReactNode {
-  const LOADING_TEXT = 'Loading…';
-  const LOADING_ELEM = <span className={styles.loadingText}>{LOADING_TEXT}</span>;
-  const {
-    gender = LOADING_ELEM,
-    id = -1,
-    location = LOADING_ELEM,
-    name = LOADING_ELEM,
-    origin = LOADING_ELEM,
-    species = LOADING_ELEM,
-    status = LOADING_ELEM,
-  } = loadingStatus === 'loading' || !character ? {} : character;
+export function CharacterDetailsCard({ character, onClose }: Props): ReactNode {
+  const { gender, id, location, name, origin, species, status } = character;
 
-  if (loadingStatus === 'error') {
-    return (
-      <article className={styles.card}>
-        <img alt="Pixelated word 'Error'" height="300" src="/error-pixelated.jpg" width="300" />
-        <h2 className={styles.cardHeading}>Error loading character</h2>
-        <button className={styles.closeButton} onClick={() => onClose()} type="button">
-          ×
-        </button>
-      </article>
-    );
+  function handleClose(event: MouseEvent) {
+    onClose(event);
   }
 
   return (
-    <article className={styles.card} data-testid="details-card">
-      <LoadingImage
-        alt={character?.name ?? LOADING_TEXT}
+    <article aria-label="Character Details" className={styles.card}>
+      <Image
+        alt={name}
         height="300"
+        placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(300, 300))}`}
         src={getCardImageUrl(id)}
         width="300"
       />
@@ -70,7 +53,13 @@ export function CharacterDetailsCard({ character, loadingStatus, onClose }: Prop
           <span className={styles.cardInfoValue}>{location}</span>
         </p>
       </div>
-      <button className={styles.closeButton} onClick={() => onClose()} type="button">
+      <button
+        aria-label="Close"
+        className={styles.closeButton}
+        name="Close"
+        onClick={(e) => handleClose(e)}
+        type="button"
+      >
         ×
       </button>
     </article>

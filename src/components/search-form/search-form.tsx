@@ -1,36 +1,43 @@
-import { useState } from 'react';
 import type { FormEvent, JSX } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { useAppSelector } from '@/store/hooks';
-import { setSearchQuery } from '@/store/slices/settings-slice';
 
 import styles from './search-form.module.css';
 
-export function SearchForm(): JSX.Element {
-  const initialSearchValue = useAppSelector((state) => state.settings.searchQuery);
-  const [inputValue, setInputValue] = useState(initialSearchValue);
-  const dispatch = useDispatch();
+interface CustomElements extends HTMLFormControlsCollection {
+  search: HTMLInputElement;
+}
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+interface CustomForm extends HTMLFormElement {
+  readonly elements: CustomElements;
+}
+
+type Props = {
+  initialSearchValue: string;
+  onQueryChange: (query: string) => void;
+};
+
+export function SearchForm({ initialSearchValue, onQueryChange }: Props): JSX.Element {
+  function handleSubmit(event: FormEvent<CustomForm>): void {
     event.preventDefault();
 
-    const submitValue = inputValue.trim();
+    const target = event.currentTarget.elements;
 
-    dispatch(setSearchQuery(submitValue));
+    const rawInputValue = target.search.value;
+
+    const inputValue = rawInputValue.trim();
+
+    onQueryChange(inputValue);
   }
 
   return (
-    <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <input
         autoComplete="off"
         className={styles.input}
+        defaultValue={initialSearchValue}
         name="search"
-        onChange={(e) => setInputValue(e.target.value)}
         placeholder="Search"
         spellCheck={false}
         type="search"
-        value={inputValue}
       />
       <button className={styles.submitButton} type="submit">
         Search

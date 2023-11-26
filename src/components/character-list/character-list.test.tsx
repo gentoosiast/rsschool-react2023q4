@@ -1,22 +1,26 @@
-import { MemoryRouter } from 'react-router-dom';
-
 import { screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import mockRouter from 'next-router-mock';
+import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 
-import { charactersMock } from '@/tests/mocks';
+import HomePage from '@/pages/index';
 import { renderWithProviders } from '@/tests/render-with-providers';
 
-import { CharacterList } from './character-list';
+vi.mock('next/router', () => vi.importActual('next-router-mock'));
 
 describe('CharacterList', () => {
-  it('should display an appropriate message if no cards are present', () => {
-    renderWithProviders(
-      <MemoryRouter>
-        <CharacterList characters={[]} />,
-      </MemoryRouter>,
-    );
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
-    const noResultsHeading = screen.getByRole('heading', {
+  afterAll(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('should display an appropriate message if no cards are present', async () => {
+    mockRouter.push('/?q=nothingwillbefound');
+    renderWithProviders(<HomePage />);
+
+    const noResultsHeading = await screen.findByRole('heading', {
       level: 1,
       name: /no characters found/i,
     });
@@ -24,14 +28,12 @@ describe('CharacterList', () => {
     expect(noResultsHeading).toBeInTheDocument();
   });
 
-  it('should render the specified number of character cards', () => {
-    renderWithProviders(
-      <MemoryRouter>
-        <CharacterList characters={charactersMock.slice(0, 3)} />
-      </MemoryRouter>,
-    );
+  it('should render the specified number of character cards', async () => {
+    mockRouter.push('/?q=princess');
 
-    const cards = screen.getAllByRole('article');
-    expect(cards).toHaveLength(3);
+    renderWithProviders(<HomePage />);
+
+    const cards = await screen.findAllByRole('article');
+    expect(cards).toHaveLength(2);
   });
 });

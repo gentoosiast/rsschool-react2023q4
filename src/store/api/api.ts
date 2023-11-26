@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { HYDRATE } from 'next-redux-wrapper';
 import { parse } from 'valibot';
 
 import type { ApiResponse, Character } from './types';
@@ -46,7 +47,17 @@ export const rickAndMortyApi = createApi({
       },
     }),
   }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   reducerPath: 'rickAndMortyApi',
 });
 
-export const { useGetByIdQuery, useSearchQuery } = rickAndMortyApi;
+export const {
+  useGetByIdQuery,
+  useSearchQuery,
+  util: { getRunningQueriesThunk },
+} = rickAndMortyApi;
+export const { getById, search } = rickAndMortyApi.endpoints;

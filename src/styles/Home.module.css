@@ -1,0 +1,39 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  max-width: 1280px;
+  min-height: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchSection {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.main {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.cards {
+  display: grid;
+  grid-template-rows: min-content;
+  gap: 10px;
+  width: 100%;
+}
