@@ -8,11 +8,11 @@ import { CharacterList } from '@/components/character-list';
 import { ExceptionButton } from '@/components/exception-button';
 import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
-import { validateNumericParam } from '@/lib/validate-numeric-param';
 import { wrapper } from '@/store';
 import { getCharacterById, getRunningQueriesThunk, searchCharacters } from '@/store/api';
 import { useGetByIdQuery, useSearchQuery } from '@/store/api';
-import { DEFAULT_ITEMS_PER_PAGE, MAX_ITEMS_PER_PAGE } from '@/store/api/constants';
+
+import { sanitizeAppSearchParams } from '../lib/sanitize-search-params';
 
 import styles from '@/styles/Home.module.css';
 
@@ -23,11 +23,12 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
     details: detailsParam,
     q: queryParam,
   } = context.query;
-  const query = typeof queryParam === 'string' ? queryParam : '';
-  const page = validateNumericParam(pageParam, 1, Infinity, 1);
-  const details = validateNumericParam(detailsParam, 1, Infinity, 0) || null;
-
-  const limit = validateNumericParam(limitParam, 1, MAX_ITEMS_PER_PAGE, DEFAULT_ITEMS_PER_PAGE);
+  const { details, limit, page, query } = sanitizeAppSearchParams({
+    detailsParam,
+    limitParam,
+    pageParam,
+    queryParam,
+  });
 
   store.dispatch(searchCharacters.initiate({ limit, name: query, page }));
 
@@ -50,10 +51,12 @@ export default function Home() {
     details: detailsParam,
     q: queryParam,
   } = router.query;
-  const query = typeof queryParam === 'string' ? queryParam : '';
-  const page = validateNumericParam(pageParam, 1, Infinity, 1);
-  const details = validateNumericParam(detailsParam, 1, Infinity, 0) || null;
-  const limit = validateNumericParam(limitParam, 1, MAX_ITEMS_PER_PAGE, DEFAULT_ITEMS_PER_PAGE);
+  const { details, limit, page, query } = sanitizeAppSearchParams({
+    detailsParam,
+    limitParam,
+    pageParam,
+    queryParam,
+  });
 
   const { data: character } = useGetByIdQuery(details ?? skipToken);
   const { data } = useSearchQuery({ limit, name: query, page });
