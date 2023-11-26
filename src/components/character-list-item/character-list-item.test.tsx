@@ -35,14 +35,14 @@ describe('CharacterListItem', () => {
       </MemoryRouterProvider>,
     );
 
-    let detailedCard = screen.queryByTestId('details-card');
+    let detailedCard = screen.queryByRole('article', { name: /character details/i });
     expect(detailedCard).not.toBeInTheDocument();
 
     const card = await screen.findByRole('heading', { level: 2, name: /adjudicator rick/i });
     const user = userEvent.setup();
     await user.click(card);
 
-    detailedCard = await screen.findByTestId('details-card');
+    detailedCard = await screen.findByRole('article', { name: /character details/i });
     expect(detailedCard).toBeInTheDocument();
   });
 });

@@ -22,7 +22,7 @@ export function CharacterDetailsCard({ character, onClose }: Props): ReactNode {
   }
 
   return (
-    <article className={styles.card} data-testid="details-card">
+    <article aria-label="Character Details" className={styles.card}>
       <Image
         alt={name}
         height="300"

@@ -23,7 +23,7 @@ describe('CharacterDetailsCard', () => {
   it('should display detailed info about the character', () => {
     render(<CharacterDetailsCard character={characterMock} onClose={() => {}} />);
 
-    const card = screen.getByTestId('details-card');
+    const card = screen.getByRole('article', { name: /character details/i });
     expect(card).toBeInTheDocument();
 
     const cardHeading = within(card).getByRole('heading', {
@@ -53,7 +53,9 @@ describe('CharacterDetailsCard', () => {
 
     renderWithProviders(<HomePage />);
 
-    let detailsCard: HTMLElement | null = await screen.findByTestId('details-card');
+    let detailsCard: HTMLElement | null = await screen.findByRole('article', {
+      name: /character details/i,
+    });
     expect(detailsCard).toBeInTheDocument();
 
     const closeDetailsCardButton = within(detailsCard).getByRole('button', {
@@ -62,7 +64,7 @@ describe('CharacterDetailsCard', () => {
     const user = userEvent.setup();
     await user.click(closeDetailsCardButton);
 
-    detailsCard = screen.queryByTestId('details-card');
+    detailsCard = screen.queryByRole('article', { name: /character details/i });
     expect(detailsCard).not.toBeInTheDocument();
   });
 });
