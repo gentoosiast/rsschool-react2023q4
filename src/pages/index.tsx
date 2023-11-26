@@ -10,8 +10,13 @@ import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
 import { sanitizeAppSearchParams } from '@/lib/sanitize-search-params';
 import { wrapper } from '@/store';
-import { getCharacterById, getRunningQueriesThunk, searchCharacters } from '@/store/api';
-import { useGetByIdQuery, useSearchQuery } from '@/store/api';
+import {
+  getCharacterById,
+  getRunningQueriesThunk,
+  searchCharacters,
+  useGetByIdQuery,
+  useSearchQuery,
+} from '@/store/api';
 
 import styles from '@/styles/Home.module.css';
 
