@@ -8,6 +8,7 @@
   justify-content: center;
 
   max-width: 350px;
+  height: min-content;
   padding: 10px;
 
   background-color: #fff;
