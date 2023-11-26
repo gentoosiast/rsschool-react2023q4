@@ -15,7 +15,7 @@ Used API service: [Self-hosted Rick and Morty API with ability to set custom lim
 
 ## Installation
 
-Use LTS version of Node.js (20.9.0 at the time of writing)
+Use LTS version of Node.js (20.10.0 at the time of writing)
 
 1. Clone the project with `git clone`
 2. Run `npm i` to install dependencies
