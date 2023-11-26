@@ -8,11 +8,10 @@ import { CharacterList } from '@/components/character-list';
 import { ExceptionButton } from '@/components/exception-button';
 import { Pagination } from '@/components/pagination';
 import { SearchForm } from '@/components/search-form';
+import { sanitizeAppSearchParams } from '@/lib/sanitize-search-params';
 import { wrapper } from '@/store';
 import { getCharacterById, getRunningQueriesThunk, searchCharacters } from '@/store/api';
 import { useGetByIdQuery, useSearchQuery } from '@/store/api';
-
-import { sanitizeAppSearchParams } from '../lib/sanitize-search-params';
 
 import styles from '@/styles/Home.module.css';
 
