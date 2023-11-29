@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 
 import { router } from './router';
 
+import 'modern-normalize/modern-normalize.css';
 import './global.css';
 
 createRoot(document.getElementById('root')!).render(

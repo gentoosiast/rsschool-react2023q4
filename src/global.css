@@ -1,1 +1,49 @@
-/* TODO */
+:root {
+  --form-label-color: #444;
+  --form-error-color: #ef4444;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  max-width: 32rem;
+  padding: 5px;
+}
+
+.form-fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 2px solid #ddd;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.form-label {
+  font-size: 0.8rem;
+  color: var(--form-label-color);
+}
+
+.form-error {
+  font-size: 0.7rem;
+  color: var(--form-error-color);
+}
+
+.form-submit-button {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
