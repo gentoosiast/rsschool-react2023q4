@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import type { JSX } from 'react';
 import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { DevTool } from '@hookform/devtools';
@@ -10,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import type { FormValues } from '@/validations';
 
+import { useAppDispatch } from '@/hooks/rtk-hooks';
 import { setReactHookForm } from '@/store';
 import { MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
@@ -31,7 +31,7 @@ export const ControlledFormPage = (): JSX.Element => {
     resolver: yupResolver(formSchema),
   });
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -45,8 +45,9 @@ export const ControlledFormPage = (): JSX.Element => {
     const reader = new FileReader();
 
     reader.addEventListener('load', () => {
-      if (reader.result) {
+      if (reader.result && typeof reader.result === 'string') {
         const parsedData = { ...data, picture: reader.result };
+
         dispatch(setReactHookForm(parsedData));
         navigate('/');
       }
