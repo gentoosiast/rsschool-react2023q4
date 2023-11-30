@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import type { FormValues } from '@/validations';
 
+import { PasswordInput } from '@/components/password-input';
 import { useAppDispatch } from '@/hooks/rtk-hooks';
 import { setReactHookForm } from '@/store';
 import { MAX_AGE, MIN_AGE, formSchema } from '@/validations';
@@ -122,7 +123,7 @@ export const ControlledFormPage = (): JSX.Element => {
             <label className="form-label" htmlFor="password">
               Enter password
             </label>
-            <input
+            <PasswordInput
               {...register('password')}
               aria-invalid={errors.password ? 'true' : 'false'}
               autoComplete="new-password"
