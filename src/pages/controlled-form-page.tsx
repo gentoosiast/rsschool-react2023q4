@@ -44,14 +44,17 @@ export const ControlledFormPage = (): JSX.Element => {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const reader = new FileReader();
 
-    reader.addEventListener('load', () => {
+    const handleFileLoad = (): void => {
       if (reader.result && typeof reader.result === 'string') {
         const parsedData = { ...data, picture: reader.result };
 
+        reader.removeEventListener('load', handleFileLoad);
         dispatch(setReactHookForm(parsedData));
         navigate('/');
       }
-    });
+    };
+
+    reader.addEventListener('load', handleFileLoad);
 
     if (data.picture instanceof FileList) {
       reader.readAsDataURL(data.picture[0]);
