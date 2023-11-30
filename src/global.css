@@ -3,6 +3,19 @@
   --form-error-color: #ef4444;
 }
 
+img {
+  shape-margin: 0.75rem;
+
+  max-width: 100%;
+  height: auto;
+
+  font-style: italic;
+  vertical-align: middle;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .form {
   display: flex;
   flex-direction: column;
