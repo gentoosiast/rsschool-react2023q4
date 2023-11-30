@@ -1,63 +1,17 @@
-import type { TestFunction } from 'yup';
-
 import { useEffect } from 'react';
 import type { JSX } from 'react';
 import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { InferType, boolean, mixed, number, object, ref, string } from 'yup';
 
-const MIN_AGE = 1;
-const MAX_AGE = 130;
+import type { FormValues } from '@/validations';
 
-const isFileSizeOK: TestFunction<unknown> = (files: unknown) => {
-  const MAX_SIZE = 1024 * 1024;
-
-  if (!(files instanceof FileList)) {
-    return false;
-  }
-
-  return Array.from(files).every((file) => file.size <= MAX_SIZE);
-};
-
-const isFiletypeAllowed: TestFunction<unknown> = (files: unknown) => {
-  const ALLOWED_FILETYPES = ['image/png', 'image/jpeg'];
-
-  if (!(files instanceof FileList)) {
-    return false;
-  }
-
-  return Array.from(files).every((file) => ALLOWED_FILETYPES.includes(file.type));
-};
-
-const formSchema = object().shape({
-  age: number().required().min(MIN_AGE).max(MAX_AGE).integer(),
-  country: string().required(),
-  email: string().required().email(),
-  gender: string().oneOf(['male', 'female', 'nonbinary']).required(),
-  name: string()
-    .required()
-    .matches(/\p{Lu}/u, 'name must start with a capital letter'),
-  password: string()
-    .required()
-    .matches(/\d/, 'password must contain a number')
-    .matches(/\p{Lu}/u, 'password must contain a capital letter')
-    .matches(/\p{Ll}/u, 'password must contain a lowercase letter')
-    .matches(/[@$!%*#?&^\-+:|/\\]/, 'password must contain a special character'),
-  password2: string()
-    .required()
-    .oneOf([ref('password')], 'Passwords do not match'),
-  picture: mixed()
-    .required()
-    .test('filesize', 'Image filesize is too big', isFileSizeOK)
-    .test('filetype', 'Only PNG and JPG images are allowed', isFiletypeAllowed),
-  tos: boolean().required().isTrue(),
-});
-
-type FormValues = InferType<typeof formSchema>;
+import { setReactHookForm } from '@/store';
+import { MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
 let renderCount = 0;
 
@@ -77,6 +31,7 @@ export const ControlledFormPage = (): JSX.Element => {
     resolver: yupResolver(formSchema),
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -87,8 +42,19 @@ export const ControlledFormPage = (): JSX.Element => {
   renderCount++;
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-    navigate('/');
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      if (reader.result) {
+        const parsedData = { ...data, picture: reader.result };
+        dispatch(setReactHookForm(parsedData));
+        navigate('/');
+      }
+    });
+
+    if (data.picture instanceof FileList) {
+      reader.readAsDataURL(data.picture[0]);
+    }
   };
 
   return (
@@ -98,7 +64,11 @@ export const ControlledFormPage = (): JSX.Element => {
       <Link to="/">Back to main Page</Link>
       <DevTool control={control} placement="top-right" />
 
-      <form className="form" onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
+      <form
+        className="form"
+        name="react-hook-form"
+        onSubmit={(e) => void handleSubmit(onSubmit)(e)}
+      >
         <div className="form-field">
           <label className="form-label" htmlFor="name">
             Name
