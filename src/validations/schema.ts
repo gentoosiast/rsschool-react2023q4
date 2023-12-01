@@ -1,3 +1,4 @@
+import { getNames } from 'country-list';
 import { boolean, mixed, number, object, ref, string } from 'yup';
 
 import { MAX_AGE, MIN_AGE } from './constants';
@@ -5,7 +6,7 @@ import { isFileSizeOK, isFiletypeAllowed } from './test-functions';
 
 export const formSchema = object().shape({
   age: number().required().min(MIN_AGE).max(MAX_AGE).integer(),
-  country: string().required(),
+  country: string().required().oneOf(getNames(), 'should be valid country'),
   email: string().required().email(),
   gender: string().oneOf(['male', 'female', 'nonbinary']).required(),
   name: string()
