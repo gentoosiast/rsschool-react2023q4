@@ -1,12 +1,42 @@
 .suggestions {
+  user-select: none;
+
+  overflow: auto;
+
+  max-height: 8rem;
   padding-inline-start: 0;
+
   list-style: none;
+
+  border: 1px solid #333;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    background-color: #eee;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 1px;
+  }
 }
 
-.suggestion:not(:last-child) {
-  padding-block-end: 0.5rem;
+.suggestionButton {
+  cursor: pointer;
+
+  width: 100%;
+  padding-block: 0.2rem;
+
+  background-color: transparent;
+  border: unset;
 }
 
-.selectedItem {
-  font-weight: bold;
+.suggestionButton:hover {
+  color: #fff;
+  background-color: #0ea5e9;
+}
+
+.suggestions:not(:hover) .selectedItem .suggestionButton {
+  color: #fff;
+  background-color: #0ea5e9;
 }

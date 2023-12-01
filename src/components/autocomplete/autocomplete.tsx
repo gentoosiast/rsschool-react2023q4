@@ -1,5 +1,4 @@
 import type { JSX } from 'react';
-import { useRef } from 'react';
 
 import { clsx } from 'clsx';
 
@@ -11,23 +10,23 @@ import styles from './autocomplete.module.css';
 
 export const AutoComplete = (): JSX.Element => {
   const countries = useAppSelector((state) => state.countries);
-  const { registerInput, selectedIndex, suggestions } = useAutoComplete(countries);
-
-  const listRef = useRef<HTMLUListElement>(null);
+  const { onItemClick, registerInput, registerList, selectedIndex, suggestions } =
+    useAutoComplete(countries);
 
   return (
     <div>
       <input {...registerInput} type="text" />
-      <ul className={styles.suggestions} ref={listRef}>
-        {suggestions.map((suggestion, idx) => (
-          <li
-            className={clsx(styles.suggestion, { [styles.selectedItem]: idx === selectedIndex })}
-            key={suggestion}
-          >
-            {suggestion}
-          </li>
-        ))}
-      </ul>
+      {suggestions.length > 0 && (
+        <ul className={styles.suggestions} {...registerList}>
+          {suggestions.map((suggestion, idx) => (
+            <li className={clsx({ [styles.selectedItem]: idx === selectedIndex })} key={suggestion}>
+              <button className={styles.suggestionButton} onClick={() => onItemClick(idx)}>
+                {suggestion}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

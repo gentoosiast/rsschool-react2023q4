@@ -1,11 +1,15 @@
 import { useRef, useState } from 'react';
-import type { ChangeEvent, KeyboardEvent } from 'react';
+import type { ChangeEvent, KeyboardEvent, RefObject } from 'react';
 
 type UseAutoComplete = {
+  onItemClick: (index: number) => void;
   registerInput: {
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
     onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
-    ref: React.RefObject<HTMLInputElement>;
+    ref: RefObject<HTMLInputElement>;
+  };
+  registerList: {
+    ref: RefObject<HTMLUListElement>;
   };
   selectedIndex: number;
   suggestions: string[];
@@ -13,6 +17,7 @@ type UseAutoComplete = {
 
 export const useAutoComplete = (completionSource: string[]): UseAutoComplete => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
@@ -33,9 +38,9 @@ export const useAutoComplete = (completionSource: string[]): UseAutoComplete => 
     setSuggestions([]);
   };
 
-  const selectSuggestion = (): void => {
+  const selectSuggestion = (index = selectedIndex): void => {
     if (inputRef.current) {
-      inputRef.current.value = suggestions[selectedIndex];
+      inputRef.current.value = suggestions[index];
       resetSuggestions();
     }
   };
@@ -44,6 +49,9 @@ export const useAutoComplete = (completionSource: string[]): UseAutoComplete => 
     ['ArrowDown', scrollDown],
     ['ArrowUp', scrollUp],
     ['Enter', selectSuggestion],
+    ['Escape', resetSuggestions],
+    ['ShiftTab', scrollUp],
+    ['Tab', scrollDown],
   ]);
 
   const getSuggestions = (searchValue: string): string[] => {
@@ -59,18 +67,28 @@ export const useAutoComplete = (completionSource: string[]): UseAutoComplete => 
   };
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>): void => {
-    console.log(event.code);
+    const key = `${event.shiftKey ? 'Shift' : ''}${event.key}`;
 
-    if (keyMap.has(event.code)) {
-      keyMap.get(event.code)?.();
+    if (keyMap.has(key)) {
+      event.preventDefault();
+      keyMap.get(key)?.();
     }
   };
 
+  const onItemClick = (index: number): void => {
+    setSelectedIndex(index);
+    selectSuggestion(index);
+  };
+
   return {
+    onItemClick,
     registerInput: {
       onChange: handleInputChange,
       onKeyDown: handleInputKeyDown,
       ref: inputRef,
+    },
+    registerList: {
+      ref: listRef,
     },
     selectedIndex,
     suggestions,
