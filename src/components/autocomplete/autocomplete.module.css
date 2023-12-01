@@ -1,0 +1,12 @@
+.suggestions {
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.suggestion:not(:last-child) {
+  padding-block-end: 0.5rem;
+}
+
+.selectedItem {
+  font-weight: bold;
+}

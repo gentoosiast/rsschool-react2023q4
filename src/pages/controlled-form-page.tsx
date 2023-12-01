@@ -10,6 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import type { LocationState } from '@/router';
 import type { FormValues } from '@/validations';
 
+import { AutoComplete } from '@/components/autocomplete';
 import { PasswordInput } from '@/components/password-input';
 import { useAppDispatch } from '@/hooks/rtk-hooks';
 import { setReactHookForm } from '@/store';
@@ -80,6 +81,7 @@ export const ControlledFormPage = (): JSX.Element => {
         name="react-hook-form"
         onSubmit={(e) => void handleSubmit(onSubmit)(e)}
       >
+        <AutoComplete />
         <div className="form-field">
           <label className="form-label" htmlFor="name">
             Name
