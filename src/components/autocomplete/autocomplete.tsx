@@ -14,7 +14,7 @@ export const AutoComplete = (): JSX.Element => {
     useAutoComplete(countries);
 
   return (
-    <div>
+    <div className={styles.autocomplete}>
       <input {...registerInput} type="text" />
       {suggestions.length > 0 && (
         <ul className={styles.suggestions} {...registerList}>
