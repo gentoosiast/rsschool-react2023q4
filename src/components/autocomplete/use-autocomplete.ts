@@ -18,18 +18,27 @@ type UseAutoComplete = {
 export const useAutoComplete = (completionSource: string[]): UseAutoComplete => {
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const itemHeight = listRef.current?.children[0].clientHeight ?? 0;
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const scrollUp = (): void => {
     if (selectedIndex > 0) {
       setSelectedIndex(selectedIndex - 1);
+
+      if (listRef.current) {
+        listRef.current.scrollTop = (selectedIndex - 1) * itemHeight;
+      }
     }
   };
 
   const scrollDown = (): void => {
     if (selectedIndex < suggestions.length - 1) {
       setSelectedIndex(selectedIndex + 1);
+
+      if (listRef.current) {
+        listRef.current.scrollTop = selectedIndex * itemHeight;
+      }
     }
   };
 
