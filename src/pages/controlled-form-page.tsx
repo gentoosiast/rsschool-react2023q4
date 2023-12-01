@@ -224,6 +224,7 @@ export const ControlledFormPage = (): JSX.Element => {
             Choose a country
           </label>
           <input className="form-input" {...register('country')} id="country" type="text" />
+          {errors.country && <p className="form-error">{errors.country.message}</p>}
         </div>
 
         <div className="form-row">
