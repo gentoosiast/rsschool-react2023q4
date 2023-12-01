@@ -37,6 +37,17 @@ img {
   flex-direction: column;
 }
 
+.form-input {
+  padding: 4px 6px;
+  border: 1px solid rgb(0 0 0 / 25%);
+  border-radius: 4px;
+  outline: unset;
+
+  &:focus {
+    border-color: #1976d2;
+  }
+}
+
 .form-row {
   display: flex;
   gap: 0.5rem;

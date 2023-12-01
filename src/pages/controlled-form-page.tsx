@@ -91,6 +91,7 @@ export const ControlledFormPage = (): JSX.Element => {
             {...register('name')}
             aria-invalid={errors.name ? 'true' : 'false'}
             autoComplete="name"
+            className="form-input"
             id="name"
             type="text"
           />
@@ -104,6 +105,7 @@ export const ControlledFormPage = (): JSX.Element => {
           <input
             {...register('age')}
             aria-invalid={errors.age ? 'true' : 'false'}
+            className="form-input"
             id="age"
             max={MAX_AGE}
             min={MIN_AGE}
@@ -120,6 +122,7 @@ export const ControlledFormPage = (): JSX.Element => {
             {...register('email')}
             aria-invalid={errors.email ? 'true' : 'false'}
             autoComplete="email"
+            className="form-input"
             id="email"
             type="email"
           />
@@ -136,6 +139,7 @@ export const ControlledFormPage = (): JSX.Element => {
               {...register('password')}
               aria-invalid={errors.password ? 'true' : 'false'}
               autoComplete="new-password"
+              className="form-input"
               id="password"
               type="password"
             />
@@ -150,6 +154,7 @@ export const ControlledFormPage = (): JSX.Element => {
               {...register('password2')}
               aria-invalid={errors.password2 ? 'true' : 'false'}
               autoComplete="new-password"
+              className="form-input"
               id="password2"
               type="password"
             />
@@ -160,21 +165,39 @@ export const ControlledFormPage = (): JSX.Element => {
         <fieldset className="form-fieldset">
           <legend>Gender</legend>
           <div className="form-row">
-            <input {...register('gender')} id="gender-male" type="radio" value="male" />
+            <input
+              className="form-input"
+              {...register('gender')}
+              id="gender-male"
+              type="radio"
+              value="male"
+            />
             <label className="form-label" htmlFor="gender-male">
               Male
             </label>
           </div>
 
           <div className="form-row">
-            <input {...register('gender')} id="gender-female" type="radio" value="female" />
+            <input
+              className="form-input"
+              {...register('gender')}
+              id="gender-female"
+              type="radio"
+              value="female"
+            />
             <label className="form-label" htmlFor="gender-female">
               Female
             </label>
           </div>
 
           <div className="form-row">
-            <input {...register('gender')} id="gender-nonbinary" type="radio" value="nonbinary" />
+            <input
+              className="form-input"
+              {...register('gender')}
+              id="gender-nonbinary"
+              type="radio"
+              value="nonbinary"
+            />
             <label className="form-label" htmlFor="gender-nonbinary">
               Non-binary
             </label>
@@ -185,7 +208,13 @@ export const ControlledFormPage = (): JSX.Element => {
           <label className="form-label" htmlFor="picture">
             Choose a picture
           </label>
-          <input {...register('picture')} accept="image/png, image/jpeg" id="picture" type="file" />
+          <input
+            className="form-input"
+            {...register('picture')}
+            accept="image/png, image/jpeg"
+            id="picture"
+            type="file"
+          />
           {errors.picture && <p className="form-error">{errors.picture.message}</p>}
         </div>
 
@@ -193,11 +222,11 @@ export const ControlledFormPage = (): JSX.Element => {
           <label className="form-label" htmlFor="country">
             Choose a country
           </label>
-          <input {...register('country')} id="country" type="text" />
+          <input className="form-input" {...register('country')} id="country" type="text" />
         </div>
 
         <div className="form-row">
-          <input {...register('tos')} id="tos" type="checkbox" />
+          <input className="form-input" {...register('tos')} id="tos" type="checkbox" />
           <label className="form-label" htmlFor="tos">
             By signing up you agree to our Terms of Service and Privacy Policy
           </label>
