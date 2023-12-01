@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import type { LocationState } from '@/router';
 import type { FormValues } from '@/validations';
 
 import { PasswordInput } from '@/components/password-input';
@@ -51,7 +52,12 @@ export const ControlledFormPage = (): JSX.Element => {
 
         reader.removeEventListener('load', handleFileLoad);
         dispatch(setReactHookForm(parsedData));
-        navigate('/');
+
+        const locationState: LocationState = {
+          from: 'rhfForm',
+        };
+
+        navigate('/', { state: locationState });
       }
     };
 

@@ -5,11 +5,12 @@ import type { FormState } from '@/store';
 import styles from './result-tile.module.css';
 
 type Props = {
+  className?: string;
   formData: FormState | null;
   formName: string;
 };
 
-export const ResultTile = ({ formData, formName }: Props): JSX.Element => {
+export const ResultTile = ({ className = '', formData, formName }: Props): JSX.Element => {
   if (!formData) {
     return <h1>No data</h1>;
   }
@@ -17,7 +18,7 @@ export const ResultTile = ({ formData, formName }: Props): JSX.Element => {
   const { age, country, email, gender, name, password, picture, tos } = formData;
 
   return (
-    <article>
+    <article className={className}>
       <h2>{formName}</h2>
       <p>
         <span className={styles.fieldHeading}>Name:</span> {name}
