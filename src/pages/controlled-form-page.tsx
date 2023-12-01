@@ -13,6 +13,7 @@ import type { FormValues } from '@/validations';
 import { AutoComplete } from '@/components/autocomplete';
 import { PasswordInput } from '@/components/password-input';
 import { useAppDispatch, useAppSelector } from '@/hooks/rtk-hooks';
+import { MainLayout } from '@/layout';
 import { setReactHookForm } from '@/store';
 import { MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
@@ -71,7 +72,7 @@ export const ControlledFormPage = (): JSX.Element => {
   };
 
   return (
-    <div>
+    <MainLayout>
       <h1>Controlled Form</h1>
       <h2>render count: {renderCount / 2}</h2>
       <Link to="/">Back to main Page</Link>
@@ -240,6 +241,6 @@ export const ControlledFormPage = (): JSX.Element => {
           Submit
         </button>
       </form>
-    </div>
+    </MainLayout>
   );
 };
