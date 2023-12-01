@@ -6,6 +6,7 @@ import { clsx } from 'clsx';
 
 import { ResultTile } from '@/components/result-tile';
 import { useAppSelector } from '@/hooks/rtk-hooks';
+import { MainLayout } from '@/layout';
 import { isLocationState } from '@/router';
 
 import styles from './main-page.module.css';
@@ -35,7 +36,7 @@ export const MainPage = (): JSX.Element => {
   }, [locationState]);
 
   return (
-    <div>
+    <MainLayout>
       <h1>Main Page</h1>
       <Link to="/controlled">Controlled Form</Link>
       <Link to="/uncontrolled">Uncontrolled Form</Link>
@@ -44,6 +45,6 @@ export const MainPage = (): JSX.Element => {
         formData={reactHookForm}
         formName="React Hook Form"
       />
-    </div>
+    </MainLayout>
   );
 };
