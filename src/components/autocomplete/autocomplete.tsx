@@ -2,16 +2,17 @@ import type { JSX } from 'react';
 
 import { clsx } from 'clsx';
 
-import { useAppSelector } from '@/hooks/rtk-hooks';
-
 import { useAutoComplete } from './use-autocomplete';
 
 import styles from './autocomplete.module.css';
 
-export const AutoComplete = (): JSX.Element => {
-  const countries = useAppSelector((state) => state.countries);
+type Props = {
+  completionSource: string[];
+};
+
+export const AutoComplete = ({ completionSource }: Props): JSX.Element => {
   const { onItemClick, registerInput, registerList, selectedIndex, suggestions } =
-    useAutoComplete(countries);
+    useAutoComplete(completionSource);
 
   return (
     <div className={styles.autocomplete}>

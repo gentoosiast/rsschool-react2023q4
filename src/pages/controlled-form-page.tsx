@@ -12,7 +12,7 @@ import type { FormValues } from '@/validations';
 
 import { AutoComplete } from '@/components/autocomplete';
 import { PasswordInput } from '@/components/password-input';
-import { useAppDispatch } from '@/hooks/rtk-hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/rtk-hooks';
 import { setReactHookForm } from '@/store';
 import { MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
@@ -35,6 +35,7 @@ export const ControlledFormPage = (): JSX.Element => {
   });
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const countries = useAppSelector((state) => state.countries);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -81,7 +82,7 @@ export const ControlledFormPage = (): JSX.Element => {
         name="react-hook-form"
         onSubmit={(e) => void handleSubmit(onSubmit)(e)}
       >
-        <AutoComplete />
+        <AutoComplete completionSource={countries} />
         <div className="form-field">
           <label className="form-label" htmlFor="name">
             Name
