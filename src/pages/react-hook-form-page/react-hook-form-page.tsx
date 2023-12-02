@@ -39,6 +39,13 @@ export const ReactHookFormPage = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const countries = useAppSelector((state) => state.countries);
+  // const { ref: countryRef, ...rest } = register('country');
+  // const countryRef2 = useRef<HTMLInputElement>(null);
+
+  const res = register('country');
+  for (const key of Object.keys(res)) {
+    console.log(`k = ${key}`);
+  }
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -79,7 +86,6 @@ export const ReactHookFormPage = (): JSX.Element => {
         name="react-hook-form"
         onSubmit={(e) => void handleSubmit(onSubmit)(e)}
       >
-        <AutoComplete completionSource={countries} />
         <div className="form-field">
           <label className="form-label" htmlFor="name">
             Name
@@ -219,7 +225,8 @@ export const ReactHookFormPage = (): JSX.Element => {
           <label className="form-label" htmlFor="country">
             Choose a country
           </label>
-          <input className="form-input" {...register('country')} id="country" type="text" />
+          {/* <input className="form-input" {...register('country')} id="country" type="text" /> */}
+          <AutoComplete completionSource={countries} {...register('country')} />
           {errors.country && <p className="form-error">{errors.country.message}</p>}
         </div>
 

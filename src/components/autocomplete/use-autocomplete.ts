@@ -1,10 +1,19 @@
-import { useRef, useState } from 'react';
-import type { ChangeEvent, ForwardedRef, KeyboardEvent, RefObject } from 'react';
+import { useImperativeHandle, useRef, useState } from 'react';
+import type {
+  ChangeEvent,
+  ChangeEventHandler,
+  FocusEvent,
+  FocusEventHandler,
+  ForwardedRef,
+  KeyboardEvent,
+  RefObject,
+} from 'react';
 
 type UseAutoComplete = {
   onItemClick: (index: number) => void;
   registerInput: {
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    onBlur: FocusEventHandler<HTMLInputElement>;
+    onChange: ChangeEventHandler<HTMLInputElement>;
     onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
     ref: RefObject<HTMLInputElement>;
   };
@@ -18,9 +27,13 @@ type UseAutoComplete = {
 export const useAutoComplete = (
   completionSource: string[],
   ref: ForwardedRef<HTMLInputElement>,
+  onBlur?: FocusEventHandler<HTMLInputElement>,
+  onChange?: ChangeEventHandler<HTMLInputElement>,
 ): UseAutoComplete => {
-  const inputRef = ref as RefObject<HTMLInputElement>;
+  // const inputRef = ref as RefObject<HTMLInputElement>;
+  const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
   const itemHeight = listRef.current?.children[0].clientHeight ?? 0;
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -51,7 +64,7 @@ export const useAutoComplete = (
   };
 
   const selectSuggestion = (index = selectedIndex): void => {
-    if (inputRef.current) {
+    if (inputRef.current && index >= 0) {
       inputRef.current.value = suggestions[index];
       resetSuggestions();
     }
@@ -76,6 +89,8 @@ export const useAutoComplete = (
     const suggestions = getSuggestions(event.target.value);
 
     setSuggestions(suggestions);
+
+    onChange?.(event);
   };
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>): void => {
@@ -87,6 +102,10 @@ export const useAutoComplete = (
     }
   };
 
+  const handleBlur = (event: FocusEvent<HTMLInputElement>): void => {
+    onBlur?.(event);
+  };
+
   const onItemClick = (index: number): void => {
     setSelectedIndex(index);
     selectSuggestion(index);
@@ -95,6 +114,7 @@ export const useAutoComplete = (
   return {
     onItemClick,
     registerInput: {
+      onBlur: handleBlur,
       onChange: handleInputChange,
       onKeyDown: handleInputKeyDown,
       ref: inputRef,

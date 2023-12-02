@@ -25,7 +25,6 @@ export const UncontrolledFormPage = (): JSX.Element => {
   const countries = useAppSelector((state) => state.countries);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const countryRef = useRef<HTMLInputElement>(null);
   const pictureRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -54,9 +53,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
       }
       formValues[key] = val;
     }
-    formValues.country = countryRef.current?.value;
     formValues.picture = pictureRef.current?.files;
-    console.log(formValues.picture);
 
     try {
       const result = formSchema.validateSync(formValues, { abortEarly: false });
@@ -258,16 +255,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
           <label className="form-label" htmlFor="country">
             Choose a country
           </label>
-          {/* <input
-            aria-required
-            className="form-input"
-            defaultValue=""
-            id="country"
-            name="country"
-            required
-            type="text"
-          /> */}
-          <AutoComplete completionSource={countries} ref={countryRef} />
+          <AutoComplete completionSource={countries} name="country" />
           {displayErrors(errors, 'country')}
         </div>
 
