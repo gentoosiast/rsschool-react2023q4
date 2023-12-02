@@ -10,6 +10,7 @@ import { PasswordInput } from '@/components/password-input';
 import { useAppDispatch } from '@/hooks/rtk-hooks';
 import { MainLayout } from '@/layout';
 import { readFileToBase64 } from '@/lib/read-file-to-base64';
+import { RoutePath } from '@/router';
 import { setUncontrolledForm } from '@/store';
 import { MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
@@ -67,7 +68,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
               from: 'uncontrolledForm',
             };
 
-            navigate('/', { state: locationState });
+            navigate(RoutePath.MAIN, { state: locationState });
           })
           .catch((error) => {
             console.error(error);
@@ -92,7 +93,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
     <MainLayout>
       <h1>Unontrolled Form</h1>
       <h2>render count: {renderCount / 2}</h2>
-      <Link to="/">Back to main Page</Link>
+      <Link to={RoutePath.MAIN}>Back to main Page</Link>
 
       <form className="form" name="uncontrolled-form" onSubmit={handleSubmit}>
         <div className="form-field">

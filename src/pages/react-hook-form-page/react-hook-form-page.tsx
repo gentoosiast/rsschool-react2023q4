@@ -15,6 +15,7 @@ import { PasswordInput } from '@/components/password-input';
 import { useAppDispatch, useAppSelector } from '@/hooks/rtk-hooks';
 import { MainLayout } from '@/layout';
 import { readFileToBase64 } from '@/lib/read-file-to-base64';
+import { RoutePath } from '@/router';
 import { setReactHookForm } from '@/store';
 import { MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
@@ -58,7 +59,7 @@ export const ReactHookFormPage = (): JSX.Element => {
             from: 'rhfForm',
           };
 
-          navigate('/', { state: locationState });
+          navigate(RoutePath.MAIN, { state: locationState });
         })
         .catch((error) => {
           console.error(error);
@@ -70,7 +71,7 @@ export const ReactHookFormPage = (): JSX.Element => {
     <MainLayout>
       <h1>React Hook Form</h1>
       <h2>render count: {renderCount / 2}</h2>
-      <Link to="/">Back to main Page</Link>
+      <Link to={RoutePath.MAIN}>Back to main Page</Link>
       <DevTool control={control} placement="top-right" />
 
       <form
