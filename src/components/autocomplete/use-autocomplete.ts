@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import type { ChangeEvent, KeyboardEvent, RefObject } from 'react';
+import type { ChangeEvent, ForwardedRef, KeyboardEvent, RefObject } from 'react';
 
 type UseAutoComplete = {
   onItemClick: (index: number) => void;
@@ -15,8 +15,11 @@ type UseAutoComplete = {
   suggestions: string[];
 };
 
-export const useAutoComplete = (completionSource: string[]): UseAutoComplete => {
-  const inputRef = useRef<HTMLInputElement>(null);
+export const useAutoComplete = (
+  completionSource: string[],
+  ref: ForwardedRef<HTMLInputElement>,
+): UseAutoComplete => {
+  const inputRef = ref as RefObject<HTMLInputElement>;
   const listRef = useRef<HTMLUListElement>(null);
   const itemHeight = listRef.current?.children[0].clientHeight ?? 0;
   const [suggestions, setSuggestions] = useState<string[]>([]);

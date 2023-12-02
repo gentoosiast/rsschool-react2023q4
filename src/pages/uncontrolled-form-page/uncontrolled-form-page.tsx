@@ -6,8 +6,9 @@ import { ValidationError } from 'yup';
 
 import type { LocationState } from '@/router';
 
+import { AutoComplete } from '@/components/autocomplete';
 import { PasswordInput } from '@/components/password-input';
-import { useAppDispatch } from '@/hooks/rtk-hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/rtk-hooks';
 import { MainLayout } from '@/layout';
 import { readFileToBase64 } from '@/lib/read-file-to-base64';
 import { RoutePath } from '@/router';
@@ -21,8 +22,10 @@ type FormErrors = Record<string, string[]>;
 export const UncontrolledFormPage = (): JSX.Element => {
   renderCount++;
 
+  const countries = useAppSelector((state) => state.countries);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const countryRef = useRef<HTMLInputElement>(null);
   const pictureRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -51,6 +54,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
       }
       formValues[key] = val;
     }
+    formValues.country = countryRef.current?.value;
     formValues.picture = pictureRef.current?.files;
     console.log(formValues.picture);
 
@@ -254,7 +258,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
           <label className="form-label" htmlFor="country">
             Choose a country
           </label>
-          <input
+          {/* <input
             aria-required
             className="form-input"
             defaultValue=""
@@ -262,7 +266,8 @@ export const UncontrolledFormPage = (): JSX.Element => {
             name="country"
             required
             type="text"
-          />
+          /> */}
+          <AutoComplete completionSource={countries} ref={countryRef} />
           {displayErrors(errors, 'country')}
         </div>
 
