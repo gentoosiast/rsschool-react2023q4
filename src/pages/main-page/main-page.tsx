@@ -7,7 +7,7 @@ import { clsx } from 'clsx';
 import { ResultTile } from '@/components/result-tile';
 import { useAppSelector } from '@/hooks/rtk-hooks';
 import { MainLayout } from '@/layout';
-import { isLocationState } from '@/router';
+import { RoutePath, isLocationState } from '@/router';
 
 import styles from './main-page.module.css';
 
@@ -40,8 +40,8 @@ export const MainPage = (): JSX.Element => {
     <MainLayout>
       <h1>Main Page</h1>
       <nav className={styles.nav}>
-        <Link to="/uncontrolled">Uncontrolled Form</Link>
-        <Link to="/controlled">Controlled Form</Link>
+        <Link to={RoutePath.UNCONTROLLED_FORM}>Uncontrolled Form</Link>
+        <Link to={RoutePath.REACT_HOOK_FORM}>React Hook Form</Link>
       </nav>
       <div className={styles.tiles}>
         <ResultTile
