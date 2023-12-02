@@ -13,6 +13,7 @@ import styles from './main-page.module.css';
 
 export const MainPage = (): JSX.Element => {
   const reactHookForm = useAppSelector((state) => state.reactHookForm);
+  const uncontrolledForm = useAppSelector((state) => state.uncontrolledForm);
   const locationState: unknown = useLocation().state;
   const [lastSubmitted, setLastSubmitted] = useState<null | string>(null);
 
@@ -38,13 +39,22 @@ export const MainPage = (): JSX.Element => {
   return (
     <MainLayout>
       <h1>Main Page</h1>
-      <Link to="/controlled">Controlled Form</Link>
-      <Link to="/uncontrolled">Uncontrolled Form</Link>
-      <ResultTile
-        className={clsx({ [styles.visualAlert]: lastSubmitted === 'rhfForm' })}
-        formData={reactHookForm}
-        formName="React Hook Form"
-      />
+      <nav className={styles.nav}>
+        <Link to="/uncontrolled">Uncontrolled Form</Link>
+        <Link to="/controlled">Controlled Form</Link>
+      </nav>
+      <div className={styles.tiles}>
+        <ResultTile
+          className={clsx({ [styles.visualAlert]: lastSubmitted === 'uncontrolledForm' })}
+          formData={uncontrolledForm}
+          formName="Uncontrolled Form"
+        />
+        <ResultTile
+          className={clsx({ [styles.visualAlert]: lastSubmitted === 'rhfForm' })}
+          formData={reactHookForm}
+          formName="React Hook Form"
+        />
+      </div>
     </MainLayout>
   );
 };
