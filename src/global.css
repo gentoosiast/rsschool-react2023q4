@@ -1,6 +1,11 @@
 :root {
+  --primary-text-color: #15141a;
   --form-label-color: #444;
   --form-error-color: #ef4444;
+}
+
+body {
+  color: var(--primary-text-color);
 }
 
 img {
