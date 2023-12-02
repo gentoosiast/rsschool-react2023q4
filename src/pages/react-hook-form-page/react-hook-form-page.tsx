@@ -14,12 +14,13 @@ import { AutoComplete } from '@/components/autocomplete';
 import { PasswordInput } from '@/components/password-input';
 import { useAppDispatch, useAppSelector } from '@/hooks/rtk-hooks';
 import { MainLayout } from '@/layout';
+import { readFileToBase64 } from '@/lib/read-file-to-base64';
 import { setReactHookForm } from '@/store';
 import { MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
 let renderCount = 0;
 
-export const ControlledFormPage = (): JSX.Element => {
+export const ReactHookFormPage = (): JSX.Element => {
   const {
     control,
     formState: { errors, isDirty, isSubmitSuccessful, isSubmitting, isValid },
@@ -47,33 +48,27 @@ export const ControlledFormPage = (): JSX.Element => {
   renderCount++;
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const reader = new FileReader();
-
-    const handleFileLoad = (): void => {
-      if (reader.result && typeof reader.result === 'string') {
-        const parsedData = { ...data, picture: reader.result };
-
-        reader.removeEventListener('load', handleFileLoad);
-        dispatch(setReactHookForm(parsedData));
-
-        const locationState: LocationState = {
-          from: 'rhfForm',
-        };
-
-        navigate('/', { state: locationState });
-      }
-    };
-
-    reader.addEventListener('load', handleFileLoad);
-
     if (data.picture instanceof FileList) {
-      reader.readAsDataURL(data.picture[0]);
+      readFileToBase64(data.picture[0])
+        .then((pictureBase64) => {
+          const parsedData = { ...data, picture: pictureBase64 };
+          dispatch(setReactHookForm(parsedData));
+
+          const locationState: LocationState = {
+            from: 'rhfForm',
+          };
+
+          navigate('/', { state: locationState });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   };
 
   return (
     <MainLayout>
-      <h1>Controlled Form</h1>
+      <h1>React Hook Form</h1>
       <h2>render count: {renderCount / 2}</h2>
       <Link to="/">Back to main Page</Link>
       <DevTool control={control} placement="top-right" />
