@@ -17,7 +17,7 @@ import { MainLayout } from '@/layout';
 import { readFileToBase64 } from '@/lib/read-file-to-base64';
 import { RoutePath } from '@/router';
 import { setReactHookForm } from '@/store';
-import { MAX_AGE, MIN_AGE, formSchema } from '@/validations';
+import { ALLOWED_FILETYPES, MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
 let renderCount = 0;
 
@@ -208,7 +208,7 @@ export const ReactHookFormPage = (): JSX.Element => {
           <input
             className="form-input"
             {...register('picture')}
-            accept="image/png, image/jpeg"
+            accept={ALLOWED_FILETYPES.join(',')}
             id="picture"
             type="file"
           />

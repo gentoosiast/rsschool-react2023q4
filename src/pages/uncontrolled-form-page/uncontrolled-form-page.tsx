@@ -12,7 +12,7 @@ import { MainLayout } from '@/layout';
 import { readFileToBase64 } from '@/lib/read-file-to-base64';
 import { RoutePath } from '@/router';
 import { setUncontrolledForm } from '@/store';
-import { MAX_AGE, MIN_AGE, formSchema } from '@/validations';
+import { ALLOWED_FILETYPES, MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
 let renderCount = 0;
 
@@ -238,7 +238,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
             Choose a picture
           </label>
           <input
-            accept="image/png, image/jpeg"
+            accept={ALLOWED_FILETYPES.join(',')}
             aria-required
             className="form-input"
             id="picture"
