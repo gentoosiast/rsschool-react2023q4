@@ -1,20 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { ControlledFormPage } from '@/pages/controlled-form-page';
 import { MainPage } from '@/pages/main-page';
+import { ReactHookFormPage } from '@/pages/react-hook-form-page';
 import { UncontrolledFormPage } from '@/pages/uncontrolled-form-page';
+
+import { RoutePath } from './routes';
 
 export const router = createBrowserRouter([
   {
     element: <MainPage />,
-    path: '/',
+    path: RoutePath.MAIN,
   },
   {
-    element: <ControlledFormPage />,
-    path: '/controlled',
+    element: <ReactHookFormPage />,
+    path: RoutePath.REACT_HOOK_FORM,
   },
   {
     element: <UncontrolledFormPage />,
-    path: '/uncontrolled',
+    path: RoutePath.UNCONTROLLED_FORM,
   },
 ]);
