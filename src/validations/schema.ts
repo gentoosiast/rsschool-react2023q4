@@ -1,7 +1,15 @@
 import { getNames } from 'country-list';
 import { boolean, mixed, number, object, ref, string } from 'yup';
 
-import { MAX_AGE, MIN_AGE, MIN_PASSWORD_LENGTH } from './constants';
+import {
+  CAPITAL_LETTER_REGEX,
+  LOWERCASE_LETTER_REGEX,
+  MAX_AGE,
+  MIN_AGE,
+  MIN_PASSWORD_LENGTH,
+  NUMBER_REGEX,
+  SPECIAL_CHARACTER_REGEX,
+} from './constants';
 import { isFileSizeOK, isFiletypeAllowed } from './test-functions';
 
 export const formSchema = object().shape({
@@ -20,10 +28,10 @@ export const formSchema = object().shape({
   password: string()
     .required()
     .min(MIN_PASSWORD_LENGTH)
-    .matches(/\d/, 'Password must contain a number')
-    .matches(/\p{Lu}/u, 'Password must contain a capital letter')
-    .matches(/\p{Ll}/u, 'Password must contain a lowercase letter')
-    .matches(/[@$!%*#?&^\-+:|/\\]/, 'Password must contain a special character'),
+    .matches(NUMBER_REGEX, 'Password must contain a number')
+    .matches(CAPITAL_LETTER_REGEX, 'Password must contain a capital letter')
+    .matches(LOWERCASE_LETTER_REGEX, 'Password must contain a lowercase letter')
+    .matches(SPECIAL_CHARACTER_REGEX, 'Password must contain a special character'),
   password2: string()
     .required()
     .oneOf([ref('password')], 'Passwords do not match'),
