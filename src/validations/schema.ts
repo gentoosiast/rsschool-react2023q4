@@ -35,7 +35,7 @@ export const formSchema = object().shape({
   password2: string()
     .required()
     .oneOf([ref('password')], 'Passwords do not match'),
-  picture: mixed((input): input is FileList => input instanceof FileList)
+  picture: mixed((input): input is FileList => input instanceof FileList && input.length > 0)
     .required()
     .test('filesize', 'Image filesize is too big', isFileSizeOK)
     .test('filetype', 'Only PNG and JPG images are allowed', isFiletypeAllowed),

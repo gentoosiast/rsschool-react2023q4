@@ -46,7 +46,7 @@ export const ReactHookFormPage = (): JSX.Element => {
   }, [isSubmitSuccessful, reset]);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    if (data.picture instanceof FileList) {
+    if (data.picture instanceof FileList && data.picture.length > 0) {
       readFileToBase64(data.picture[0])
         .then((pictureBase64) => {
           const parsedData = { ...data, picture: pictureBase64, submitDate: Date.now() };

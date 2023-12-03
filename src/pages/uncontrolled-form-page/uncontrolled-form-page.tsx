@@ -53,7 +53,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
 
     try {
       const result = formSchema.validateSync(formValues, { abortEarly: false });
-      if (result.picture instanceof FileList) {
+      if (result.picture instanceof FileList && result.picture.length > 0) {
         readFileToBase64(result.picture[0])
           .then((pictureBase64) => {
             const parsedData = { ...result, picture: pictureBase64, submitDate: Date.now() };
