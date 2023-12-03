@@ -47,7 +47,7 @@ export const MainPage = (): JSX.Element => {
           <ResultTile
             className={clsx({ [styles.visualAlert]: lastSubmitted === formSubmit.submitDate })}
             formData={formSubmit}
-            key={formSubmit.submitDate.toString()}
+            key={formSubmit.submitDate}
           />
         ))}
       </div>
