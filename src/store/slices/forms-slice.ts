@@ -5,7 +5,7 @@ import { getNames } from 'country-list';
 
 import type { FormValues } from '@/validations';
 
-export type FormState = Omit<FormValues, 'picture'> & { picture: string; submitDate: Date };
+export type FormState = Omit<FormValues, 'picture'> & { picture: string; submitDate: number };
 
 export type FormsSlice = {
   countries: string[];

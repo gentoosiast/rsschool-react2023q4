@@ -1,3 +1,3 @@
 export type LocationState = {
-  submitDate: Date;
+  submitDate: number;
 };

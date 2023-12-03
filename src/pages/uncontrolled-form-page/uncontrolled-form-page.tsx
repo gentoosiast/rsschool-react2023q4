@@ -58,7 +58,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
       if (result.picture instanceof FileList) {
         readFileToBase64(result.picture[0])
           .then((pictureBase64) => {
-            const parsedData = { ...result, picture: pictureBase64, submitDate: new Date() };
+            const parsedData = { ...result, picture: pictureBase64, submitDate: Date.now() };
 
             dispatch(addFormSubmit(parsedData));
 

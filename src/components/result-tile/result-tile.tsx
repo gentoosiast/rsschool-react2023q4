@@ -16,7 +16,7 @@ export const ResultTile = ({ className = '', formData }: Props): JSX.Element => 
 
   return (
     <article className={clsx(styles.tile, className)}>
-      <h2 className={styles.heading}>Submit {submitDate.toLocaleString()}</h2>
+      <h2 className={styles.heading}>Submit {new Date(submitDate).toLocaleString()}</h2>
 
       <p className={styles.tileField}>
         <span className={styles.fieldHeading}>Name:</span>{' '}

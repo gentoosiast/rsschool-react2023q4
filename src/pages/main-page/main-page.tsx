@@ -14,7 +14,7 @@ import styles from './main-page.module.css';
 export const MainPage = (): JSX.Element => {
   const formSubmits = useAppSelector((state) => state.submits);
   const locationState: unknown = useLocation().state;
-  const [lastSubmitted, setLastSubmitted] = useState<Date | null>(null);
+  const [lastSubmitted, setLastSubmitted] = useState<null | number>(null);
 
   useEffect(() => {
     const NOTIFICATION_TIMEOUT = 3000;

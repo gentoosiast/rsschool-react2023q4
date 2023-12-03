@@ -51,7 +51,7 @@ export const ReactHookFormPage = (): JSX.Element => {
     if (data.picture instanceof FileList) {
       readFileToBase64(data.picture[0])
         .then((pictureBase64) => {
-          const parsedData = { ...data, picture: pictureBase64, submitDate: new Date() };
+          const parsedData = { ...data, picture: pictureBase64, submitDate: Date.now() };
 
           dispatch(addFormSubmit(parsedData));
 
