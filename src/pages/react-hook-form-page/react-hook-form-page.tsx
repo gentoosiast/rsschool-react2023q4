@@ -240,10 +240,11 @@ export const ReactHookFormPage = (): JSX.Element => {
             Country
           </label>
           <CountriesAutoComplete
-            id="country"
             {...register('country')}
             aria-invalid={errors.country ? 'true' : 'false'}
             aria-required
+            id="country"
+            required
           />
           <div className="form-errors">
             {errors.country && <p className="form-error">{errors.country.message}</p>}
@@ -258,6 +259,7 @@ export const ReactHookFormPage = (): JSX.Element => {
               aria-invalid={errors.tos ? 'true' : 'false'}
               aria-required
               id="tos"
+              required
               type="checkbox"
             />
             <label className="form-label" htmlFor="tos">

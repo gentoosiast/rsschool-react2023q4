@@ -259,6 +259,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
             aria-required
             id="country"
             name="country"
+            required
           />
           <div className="form-errors">{displayErrors(errors, 'country')}</div>
         </div>
@@ -272,6 +273,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
               defaultChecked={false}
               id="tos"
               name="tos"
+              required
               type="checkbox"
             />
             <label className="form-label" htmlFor="tos">
