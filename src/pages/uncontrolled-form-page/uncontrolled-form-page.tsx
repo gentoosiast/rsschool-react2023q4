@@ -1,5 +1,5 @@
 import type { FormEvent, JSX } from 'react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { ValidationError } from 'yup';
@@ -24,7 +24,6 @@ export const UncontrolledFormPage = (): JSX.Element => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const pictureRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState<FormErrors>({});
 
   const displayErrors = (errors: FormErrors, field: string): JSX.Element[] => {
@@ -42,16 +41,17 @@ export const UncontrolledFormPage = (): JSX.Element => {
     event.preventDefault();
 
     const form = new FormData(event.target as HTMLFormElement);
-    const formValues: Record<string, unknown> = {};
+    const formValues: Record<string, unknown> = Object.fromEntries(form.entries());
 
-    for (const [key, val] of form.entries()) {
-      if (key === 'tos') {
-        formValues[key] = val === 'on';
-        continue;
-      }
-      formValues[key] = val;
+    formValues.tos = form.get('tos') === 'on';
+
+    const picture = form.get('picture');
+    if (picture instanceof File) {
+      const dt = new DataTransfer();
+
+      dt.items.add(picture);
+      formValues.picture = dt.files;
     }
-    formValues.picture = pictureRef.current?.files;
 
     try {
       const result = formSchema.validateSync(formValues, { abortEarly: false });
@@ -241,7 +241,6 @@ export const UncontrolledFormPage = (): JSX.Element => {
             className="form-input"
             id="picture"
             name="picture"
-            ref={pictureRef}
             required
             type="file"
           />
