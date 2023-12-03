@@ -4,7 +4,7 @@ screenshot: TODO
 
 Task description: <https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/module06/README.md>
 
-Deploy: <https://gentoosiast-react-w6-forms.app/>
+Deploy: <https://gentoosiast-react-w6-forms.netlify.app/>
 
 ## Tech Stack
 
