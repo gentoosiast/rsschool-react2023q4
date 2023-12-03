@@ -21,7 +21,13 @@ export const AutoComplete = forwardRef<HTMLInputElement, Props>(
 
     return (
       <div className={styles.autocomplete}>
-        <input name={name} {...registerInput} autoComplete="off" type="text" />
+        <input
+          name={name}
+          {...registerInput}
+          autoComplete="off"
+          className={styles.input}
+          type="text"
+        />
         {suggestions.length > 0 && (
           <ul className={styles.suggestions} {...registerList}>
             {suggestions.map((suggestion, idx) => (
