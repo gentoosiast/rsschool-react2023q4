@@ -68,9 +68,9 @@ export const ReactHookFormPage = (): JSX.Element => {
   return (
     <MainLayout>
       <h1>React Hook Form</h1>
-      <Link className={styles.link} to={RoutePath.MAIN}>
-        Back to Main Page
-      </Link>
+      <nav className={styles.nav}>
+        <Link to={RoutePath.MAIN}>Back to Main Page</Link>
+      </nav>
       <DevTool control={control} placement="top-right" />
 
       <form

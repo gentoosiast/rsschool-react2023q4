@@ -88,9 +88,9 @@ export const UncontrolledFormPage = (): JSX.Element => {
   return (
     <MainLayout>
       <h1>Uncontrolled Form</h1>
-      <Link className={styles.link} to={RoutePath.MAIN}>
-        Back to Main Page
-      </Link>
+      <nav className={styles.nav}>
+        <Link to={RoutePath.MAIN}>Back to Main Page</Link>
+      </nav>
 
       <form className="form" name="uncontrolled-form" noValidate={true} onSubmit={handleSubmit}>
         <div className="form-field">
