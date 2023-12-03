@@ -251,7 +251,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
           <label className="form-label" htmlFor="country">
             Choose a country
           </label>
-          <CountriesAutoComplete name="country" />
+          <CountriesAutoComplete id="country" name="country" />
           <div className="form-errors">{displayErrors(errors, 'country')}</div>
         </div>
 
