@@ -19,7 +19,7 @@ import { RoutePath } from '@/router';
 import { addFormSubmit } from '@/store';
 import { ALLOWED_FILETYPES, MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
-let renderCount = 0;
+import styles from './react-hook-form-page.module.css';
 
 export const ReactHookFormPage = (): JSX.Element => {
   const {
@@ -45,8 +45,6 @@ export const ReactHookFormPage = (): JSX.Element => {
     }
   }, [isSubmitSuccessful, reset]);
 
-  renderCount++;
-
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     if (data.picture instanceof FileList) {
       readFileToBase64(data.picture[0])
@@ -70,8 +68,9 @@ export const ReactHookFormPage = (): JSX.Element => {
   return (
     <MainLayout>
       <h1>React Hook Form</h1>
-      <h2>render count: {renderCount / 2}</h2>
-      <Link to={RoutePath.MAIN}>Back to main Page</Link>
+      <Link className={styles.link} to={RoutePath.MAIN}>
+        Back to Main Page
+      </Link>
       <DevTool control={control} placement="top-right" />
 
       <form

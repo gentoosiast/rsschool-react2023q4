@@ -1,14 +1,46 @@
 :root {
-  --primary-text-color: #15141a;
-  --form-label-color: #444;
-  --form-error-color: #ef4444;
+  --primary-text-color: #eee;
+  --form-label-color: #ccc;
+  --form-error-color: #fca5a5;
   --input-border-color: rgb(0 0 0 / 25%);
   --input-border-focus-color: #1976d2;
-  --fieldset-border-color: #ddd;
+  --fieldset-border-color: rgba(255 255 255 / 25%);
+  --vaporwave-color1: #2b1165;
+  --vaporwave-color2: #1a3a82;
+  --vaporwave-color3: #ab24b1;
+  --vaporwave-color4: #f54171;
+  --link-color: #ffe2fe;
+  --link-hover-color: #c4adc3;
 }
 
 body {
+  min-height: 100vh;
   color: var(--primary-text-color);
+  background: linear-gradient(
+    180deg,
+    var(--vaporwave-color1) 0%,
+    var(--vaporwave-color2) 37%,
+    var(--vaporwave-color3) 69%,
+    var(--vaporwave-color4) 100%
+  );
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Exo 2', sans-serif;
+}
+
+a {
+  color: var(--link-color);
+  transition: color 0.3s ease-in-out;
+
+  &:hover {
+    color: var(--link-hover-color);
+  }
 }
 
 img {
@@ -28,18 +60,46 @@ fieldset {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
   border: 2px solid var(--fieldset-border-color);
+  border-radius: 4px;
+}
+
+button[type='submit'] {
+  cursor: pointer;
+
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--vaporwave-color4);
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+
+  background-color: var(--vaporwave-color1);
+  border: unset;
+  border-radius: 4px;
+
+  transition: filter 0.3s ease-in-out;
+
+  &:hover {
+    filter: drop-shadow(0 0 10px var(--vaporwave-color4));
+  }
 }
 
 input {
   padding: 4px 6px;
+  accent-color: var(--vaporwave-color4);
   border: 1px solid var(--input-border-color);
   border-radius: 4px;
 
   &:focus {
     border-color: var(--input-border-focus-color);
-    outline: unset;
+    outline: 2px solid var(--input-border-focus-color);
   }
+}
+
+input[type='file'] {
+  border-color: transparent;
 }
 
 .form {
@@ -48,7 +108,10 @@ input {
   gap: 0.5rem;
 
   max-width: 32rem;
-  padding: 5px;
+  padding: 20px;
+
+  background-color: rgba(0 0 0 / 30%);
+  border-radius: 8px;
 }
 
 .form-field {
@@ -78,11 +141,4 @@ input {
   margin-block-start: 5px;
   font-size: 0.7rem;
   color: var(--form-error-color);
-}
-
-.form-submit-button {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.2rem;
 }

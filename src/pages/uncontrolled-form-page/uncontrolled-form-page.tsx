@@ -15,13 +15,11 @@ import { RoutePath } from '@/router';
 import { addFormSubmit } from '@/store';
 import { ALLOWED_FILETYPES, MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
-let renderCount = 0;
+import styles from './uncontrolled-form-page.module.css';
 
 type FormErrors = Record<string, string[]>;
 
 export const UncontrolledFormPage = (): JSX.Element => {
-  renderCount++;
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [errors, setErrors] = useState<FormErrors>({});
@@ -90,10 +88,11 @@ export const UncontrolledFormPage = (): JSX.Element => {
   return (
     <MainLayout>
       <h1>Uncontrolled Form</h1>
-      <h2>render count: {renderCount / 2}</h2>
-      <Link to={RoutePath.MAIN}>Back to main Page</Link>
+      <Link className={styles.link} to={RoutePath.MAIN}>
+        Back to Main Page
+      </Link>
 
-      <form className="form" name="uncontrolled-form" onSubmit={handleSubmit}>
+      <form className="form" name="uncontrolled-form" noValidate={true} onSubmit={handleSubmit}>
         <div className="form-field">
           <label className="form-label" htmlFor="name">
             Name
