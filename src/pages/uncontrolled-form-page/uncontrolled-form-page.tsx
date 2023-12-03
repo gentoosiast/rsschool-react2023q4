@@ -12,7 +12,7 @@ import { useAppDispatch } from '@/hooks/rtk-hooks';
 import { MainLayout } from '@/layout';
 import { readFileToBase64 } from '@/lib/read-file-to-base64';
 import { RoutePath } from '@/router';
-import { setUncontrolledForm } from '@/store';
+import { addFormSubmit } from '@/store';
 import { ALLOWED_FILETYPES, MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
 let renderCount = 0;
@@ -45,7 +45,6 @@ export const UncontrolledFormPage = (): JSX.Element => {
     const formValues: Record<string, unknown> = {};
 
     for (const [key, val] of form.entries()) {
-      console.log(`key: ${key}, val: ${JSON.stringify(val)}`);
       if (key === 'tos') {
         formValues[key] = val === 'on';
         continue;
@@ -56,16 +55,15 @@ export const UncontrolledFormPage = (): JSX.Element => {
 
     try {
       const result = formSchema.validateSync(formValues, { abortEarly: false });
-      console.log(`validate result: ${JSON.stringify(result)}`);
       if (result.picture instanceof FileList) {
         readFileToBase64(result.picture[0])
           .then((pictureBase64) => {
-            const parsedData = { ...result, picture: pictureBase64 };
-            console.log(`parsedData: ${JSON.stringify(parsedData)}`);
-            dispatch(setUncontrolledForm(parsedData));
+            const parsedData = { ...result, picture: pictureBase64, submitDate: new Date() };
+
+            dispatch(addFormSubmit(parsedData));
 
             const locationState: LocationState = {
-              from: 'uncontrolledForm',
+              submitDate: parsedData.submitDate,
             };
 
             navigate(RoutePath.MAIN, { state: locationState });

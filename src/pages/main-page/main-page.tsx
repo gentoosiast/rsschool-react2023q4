@@ -12,10 +12,9 @@ import { RoutePath, isLocationState } from '@/router';
 import styles from './main-page.module.css';
 
 export const MainPage = (): JSX.Element => {
-  const reactHookForm = useAppSelector((state) => state.reactHookForm);
-  const uncontrolledForm = useAppSelector((state) => state.uncontrolledForm);
+  const formSubmits = useAppSelector((state) => state.submits);
   const locationState: unknown = useLocation().state;
-  const [lastSubmitted, setLastSubmitted] = useState<null | string>(null);
+  const [lastSubmitted, setLastSubmitted] = useState<Date | null>(null);
 
   useEffect(() => {
     const NOTIFICATION_TIMEOUT = 3000;
@@ -28,7 +27,7 @@ export const MainPage = (): JSX.Element => {
       setLastSubmitted(null);
     };
 
-    setLastSubmitted(locationState.from);
+    setLastSubmitted(locationState.submitDate);
     const tId = setTimeout(resetLastSubmitted, NOTIFICATION_TIMEOUT);
 
     return () => {
@@ -44,16 +43,13 @@ export const MainPage = (): JSX.Element => {
         <Link to={RoutePath.REACT_HOOK_FORM}>React Hook Form</Link>
       </nav>
       <div className={styles.tiles}>
-        <ResultTile
-          className={clsx({ [styles.visualAlert]: lastSubmitted === 'uncontrolledForm' })}
-          formData={uncontrolledForm}
-          formName="Uncontrolled Form"
-        />
-        <ResultTile
-          className={clsx({ [styles.visualAlert]: lastSubmitted === 'rhfForm' })}
-          formData={reactHookForm}
-          formName="React Hook Form"
-        />
+        {formSubmits.map((formSubmit) => (
+          <ResultTile
+            className={clsx({ [styles.visualAlert]: lastSubmitted === formSubmit.submitDate })}
+            formData={formSubmit}
+            key={formSubmit.submitDate.toString()}
+          />
+        ))}
       </div>
     </MainLayout>
   );

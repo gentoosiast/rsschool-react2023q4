@@ -16,7 +16,7 @@ import { useAppDispatch } from '@/hooks/rtk-hooks';
 import { MainLayout } from '@/layout';
 import { readFileToBase64 } from '@/lib/read-file-to-base64';
 import { RoutePath } from '@/router';
-import { setReactHookForm } from '@/store';
+import { addFormSubmit } from '@/store';
 import { ALLOWED_FILETYPES, MAX_AGE, MIN_AGE, formSchema } from '@/validations';
 
 let renderCount = 0;
@@ -51,11 +51,12 @@ export const ReactHookFormPage = (): JSX.Element => {
     if (data.picture instanceof FileList) {
       readFileToBase64(data.picture[0])
         .then((pictureBase64) => {
-          const parsedData = { ...data, picture: pictureBase64 };
-          dispatch(setReactHookForm(parsedData));
+          const parsedData = { ...data, picture: pictureBase64, submitDate: new Date() };
+
+          dispatch(addFormSubmit(parsedData));
 
           const locationState: LocationState = {
-            from: 'rhfForm',
+            submitDate: parsedData.submitDate,
           };
 
           navigate(RoutePath.MAIN, { state: locationState });

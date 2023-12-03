@@ -8,27 +8,15 @@ import styles from './result-tile.module.css';
 
 type Props = {
   className?: string;
-  formData: FormState | null;
-  formName: string;
+  formData: FormState;
 };
 
-export const ResultTile = ({ className = '', formData, formName }: Props): JSX.Element => {
-  if (!formData) {
-    return (
-      <article className={clsx(styles.tile, className)}>
-        <h2 className={styles.heading}>{formName}</h2>
-        <p className={styles.tileField}>
-          <span className={styles.fieldHeading}>No Data Available</span>
-        </p>
-      </article>
-    );
-  }
-
-  const { age, country, email, gender, name, password, picture, tos } = formData;
+export const ResultTile = ({ className = '', formData }: Props): JSX.Element => {
+  const { age, country, email, gender, name, password, picture, submitDate, tos } = formData;
 
   return (
     <article className={clsx(styles.tile, className)}>
-      <h2 className={styles.heading}>{formName}</h2>
+      <h2 className={styles.heading}>Submit {submitDate.toLocaleString()}</h2>
 
       <p className={styles.tileField}>
         <span className={styles.fieldHeading}>Name:</span>{' '}
