@@ -86,6 +86,7 @@ export const ReactHookFormPage = (): JSX.Element => {
           <input
             {...register('name')}
             aria-invalid={errors.name ? 'true' : 'false'}
+            aria-required
             autoComplete="name"
             className="form-input"
             id="name"
@@ -103,6 +104,7 @@ export const ReactHookFormPage = (): JSX.Element => {
           <input
             {...register('age')}
             aria-invalid={errors.age ? 'true' : 'false'}
+            aria-required
             className="form-input"
             id="age"
             max={MAX_AGE}
@@ -121,6 +123,7 @@ export const ReactHookFormPage = (): JSX.Element => {
           <input
             {...register('email')}
             aria-invalid={errors.email ? 'true' : 'false'}
+            aria-required
             autoComplete="email"
             className="form-input"
             id="email"
@@ -140,6 +143,7 @@ export const ReactHookFormPage = (): JSX.Element => {
             <PasswordInput
               {...register('password')}
               aria-invalid={errors.password ? 'true' : 'false'}
+              aria-required
               autoComplete="new-password"
               className="form-input"
               id="password"
@@ -157,6 +161,7 @@ export const ReactHookFormPage = (): JSX.Element => {
             <input
               {...register('password2')}
               aria-invalid={errors.password2 ? 'true' : 'false'}
+              aria-required
               autoComplete="new-password"
               className="form-input"
               id="password2"
@@ -220,6 +225,8 @@ export const ReactHookFormPage = (): JSX.Element => {
             className="form-input"
             {...register('picture')}
             accept={ALLOWED_FILETYPES.join(',')}
+            aria-invalid={errors.picture ? 'true' : 'false'}
+            aria-required
             id="picture"
             type="file"
           />
@@ -240,7 +247,14 @@ export const ReactHookFormPage = (): JSX.Element => {
 
         <div className="form-field">
           <div className="form-row">
-            <input className="form-input" {...register('tos')} id="tos" type="checkbox" />
+            <input
+              className="form-input"
+              {...register('tos')}
+              aria-invalid={errors.tos ? 'true' : 'false'}
+              aria-required
+              id="tos"
+              type="checkbox"
+            />
             <label className="form-label" htmlFor="tos">
               By signing up you agree to our Terms of Service and Privacy Policy
             </label>

@@ -159,6 +159,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
               aria-required
               autoComplete="new-password"
               className="form-input"
+              defaultValue=""
               id="password"
               name="password"
               required
@@ -237,8 +238,10 @@ export const UncontrolledFormPage = (): JSX.Element => {
           </label>
           <input
             accept={ALLOWED_FILETYPES.join(',')}
+            aria-invalid={errors.picture ? 'true' : 'false'}
             aria-required
             className="form-input"
+            defaultValue=""
             id="picture"
             name="picture"
             required
@@ -258,6 +261,8 @@ export const UncontrolledFormPage = (): JSX.Element => {
         <div className="form-field">
           <div className="form-row">
             <input
+              aria-invalid={errors.tos ? 'true' : 'false'}
+              aria-required
               className="form-input"
               defaultChecked={false}
               id="tos"
