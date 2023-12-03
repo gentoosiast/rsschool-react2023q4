@@ -1,7 +1,5 @@
 # RS School React 2023 Q3 - Week 6 Forms
 
-screenshot:
-
 ![screenshot](https://i.imgur.com/ukDXGAi.png)
 
 Task description: <https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/module06/README.md>
