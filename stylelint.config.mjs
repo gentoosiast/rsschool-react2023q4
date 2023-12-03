@@ -13,7 +13,7 @@ export default {
       files: ['**/*.module.css'],
       rules: {
         'selector-class-pattern': [
-          '^[a-z]+([A-Z][a-zA-Z]+)*$',
+          '^[a-z]+([A-Z0-9][a-zA-Z0-9]+)*$',
           {
             message: (selector) => `Expected class selector "${selector}" to be lowerCamelCase`,
           },
