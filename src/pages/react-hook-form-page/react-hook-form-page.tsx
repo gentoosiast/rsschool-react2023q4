@@ -171,42 +171,44 @@ export const ReactHookFormPage = (): JSX.Element => {
         <fieldset className="form-fieldset">
           <legend>Gender</legend>
           <div className="form-row">
-            <input
-              className="form-input"
-              {...register('gender')}
-              id="gender-male"
-              type="radio"
-              value="male"
-            />
-            <label className="form-label" htmlFor="gender-male">
-              Male
-            </label>
-          </div>
+            <div className="form-row">
+              <input
+                className="form-input"
+                {...register('gender')}
+                id="gender-male"
+                type="radio"
+                value="male"
+              />
+              <label className="form-label" htmlFor="gender-male">
+                Male
+              </label>
+            </div>
 
-          <div className="form-row">
-            <input
-              className="form-input"
-              {...register('gender')}
-              id="gender-female"
-              type="radio"
-              value="female"
-            />
-            <label className="form-label" htmlFor="gender-female">
-              Female
-            </label>
-          </div>
+            <div className="form-row">
+              <input
+                className="form-input"
+                {...register('gender')}
+                id="gender-female"
+                type="radio"
+                value="female"
+              />
+              <label className="form-label" htmlFor="gender-female">
+                Female
+              </label>
+            </div>
 
-          <div className="form-row">
-            <input
-              className="form-input"
-              {...register('gender')}
-              id="gender-nonbinary"
-              type="radio"
-              value="nonbinary"
-            />
-            <label className="form-label" htmlFor="gender-nonbinary">
-              Non-binary
-            </label>
+            <div className="form-row">
+              <input
+                className="form-input"
+                {...register('gender')}
+                id="gender-nonbinary"
+                type="radio"
+                value="nonbinary"
+              />
+              <label className="form-label" htmlFor="gender-nonbinary">
+                Non-binary
+              </label>
+            </div>
           </div>
         </fieldset>
 

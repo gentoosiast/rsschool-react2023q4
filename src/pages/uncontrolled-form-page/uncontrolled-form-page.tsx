@@ -190,43 +190,45 @@ export const UncontrolledFormPage = (): JSX.Element => {
         <fieldset className="form-fieldset">
           <legend>Gender</legend>
           <div className="form-row">
-            <input
-              className="form-input"
-              defaultChecked
-              id="gender-male"
-              name="gender"
-              type="radio"
-              value="male"
-            />
-            <label className="form-label" htmlFor="gender-male">
-              Male
-            </label>
-          </div>
+            <div className="form-row">
+              <input
+                className="form-input"
+                defaultChecked
+                id="gender-male"
+                name="gender"
+                type="radio"
+                value="male"
+              />
+              <label className="form-label" htmlFor="gender-male">
+                Male
+              </label>
+            </div>
 
-          <div className="form-row">
-            <input
-              className="form-input"
-              id="gender-female"
-              name="gender"
-              type="radio"
-              value="female"
-            />
-            <label className="form-label" htmlFor="gender-female">
-              Female
-            </label>
-          </div>
+            <div className="form-row">
+              <input
+                className="form-input"
+                id="gender-female"
+                name="gender"
+                type="radio"
+                value="female"
+              />
+              <label className="form-label" htmlFor="gender-female">
+                Female
+              </label>
+            </div>
 
-          <div className="form-row">
-            <input
-              className="form-input"
-              id="gender-nonbinary"
-              name="gender"
-              type="radio"
-              value="nonbinary"
-            />
-            <label className="form-label" htmlFor="gender-nonbinary">
-              Non-binary
-            </label>
+            <div className="form-row">
+              <input
+                className="form-input"
+                id="gender-nonbinary"
+                name="gender"
+                type="radio"
+                value="nonbinary"
+              />
+              <label className="form-label" htmlFor="gender-nonbinary">
+                Non-binary
+              </label>
+            </div>
           </div>
         </fieldset>
 
