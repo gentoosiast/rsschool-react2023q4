@@ -1,0 +1,9 @@
+export const MIN_AGE = 1;
+export const MAX_AGE = 130;
+export const MIN_PASSWORD_LENGTH = 8;
+export const IMAGE_MAX_SIZE = 1024 * 1024;
+export const ALLOWED_FILETYPES = ['image/png', 'image/jpeg'];
+export const NUMBER_REGEX = /\d/;
+export const CAPITAL_LETTER_REGEX = /\p{Lu}/u;
+export const LOWERCASE_LETTER_REGEX = /\p{Ll}/u;
+export const SPECIAL_CHARACTER_REGEX = /[@$!%*#?&^\-+:|/\\]/;

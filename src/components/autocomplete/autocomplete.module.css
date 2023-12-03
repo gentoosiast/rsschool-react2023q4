@@ -1,0 +1,58 @@
+.autocomplete {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+}
+
+.suggestions {
+  user-select: none;
+
+  position: absolute;
+  z-index: 10;
+  top: 1.5rem;
+
+  overflow: hidden auto;
+
+  width: 100%;
+  max-height: 8rem;
+  margin-block: 0;
+  padding-inline-start: 0;
+
+  list-style: none;
+
+  background-color: #fff;
+  border: unset;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px rgb(0 0 0 / 20%);
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    background-color: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1;
+    border-radius: 1px;
+  }
+}
+
+.suggestionButton {
+  cursor: pointer;
+
+  width: 100%;
+  padding-block: 0.2rem;
+  padding-inline-start: 1rem;
+
+  text-align: start;
+
+  background-color: transparent;
+  border: unset;
+}
+
+.suggestionButton:hover,
+.suggestions:not(:hover) .selectedItem .suggestionButton {
+  color: #fff;
+  background-color: var(--autocomplete-selection-bg-color);
+}
