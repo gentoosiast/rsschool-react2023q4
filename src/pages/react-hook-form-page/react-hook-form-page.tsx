@@ -229,7 +229,7 @@ export const ReactHookFormPage = (): JSX.Element => {
 
         <div className="form-field">
           <label className="form-label" htmlFor="country">
-            Choose a country
+            Country
           </label>
           <CountriesAutoComplete id="country" {...register('country')} />
           <div className="form-errors">
