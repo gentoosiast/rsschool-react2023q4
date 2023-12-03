@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import type { LocationState } from '@/router';
@@ -23,7 +22,6 @@ import styles from './react-hook-form-page.module.css';
 
 export const ReactHookFormPage = (): JSX.Element => {
   const {
-    control,
     formState: { errors, isDirty, isSubmitSuccessful, isSubmitting, isValid },
     handleSubmit,
     register,
@@ -71,7 +69,6 @@ export const ReactHookFormPage = (): JSX.Element => {
       <nav className={styles.nav}>
         <Link to={RoutePath.MAIN}>Back to Main Page</Link>
       </nav>
-      <DevTool control={control} placement="top-right" />
 
       <form
         className="form"
