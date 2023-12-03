@@ -11,7 +11,6 @@ type Props = InputHTMLAttributes<HTMLInputElement>;
 
 export const PasswordInput = forwardRef<HTMLInputElement, Props>(({ onChange, ...props }, ref) => {
   const [passwordStrength, setPasswordStrength] = useState(0);
-  const strengthColors = ['', '#ec4899', '#f59e0b', '#fde047', '#a3e635', '#4ade80'];
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const passwordStrength = getPasswordStrength(event.target.value);
@@ -21,13 +20,20 @@ export const PasswordInput = forwardRef<HTMLInputElement, Props>(({ onChange, ..
     onChange?.(event);
   };
 
+  const getPasswordStrengthClassName = (strength: number): string => {
+    const key = `passwordStrength${strength}` as keyof typeof styles;
+
+    return key in styles ? styles[key] : '';
+  };
+
   return (
     <input
       {...props}
-      className={clsx(props.className, styles.passwordInput)}
+      className={clsx(props.className, styles.passwordInput, {
+        [getPasswordStrengthClassName(passwordStrength)]: passwordStrength > 0,
+      })}
       onChange={handleChange}
       ref={ref}
-      style={{ borderBlockEndColor: `${strengthColors[passwordStrength]}` }}
       type="password"
     />
   );
