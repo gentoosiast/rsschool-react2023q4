@@ -68,7 +68,13 @@ input {
   color: var(--form-label-color);
 }
 
+.form-errors {
+  min-height: 18px;
+}
+
 .form-error {
+  margin: 0;
+  margin-block-start: 5px;
   font-size: 0.7rem;
   color: var(--form-error-color);
 }

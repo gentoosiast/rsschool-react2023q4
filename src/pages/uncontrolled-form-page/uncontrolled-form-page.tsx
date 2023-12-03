@@ -109,7 +109,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
             required
             type="text"
           />
-          {displayErrors(errors, 'name')}
+          <div className="form-errors">{displayErrors(errors, 'name')}</div>
         </div>
 
         <div className="form-field">
@@ -128,7 +128,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
             required
             type="number"
           />
-          {displayErrors(errors, 'age')}
+          <div className="form-errors">{displayErrors(errors, 'age')}</div>
         </div>
 
         <div className="form-field">
@@ -146,7 +146,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
             required
             type="email"
           />
-          {displayErrors(errors, 'email')}
+          <div className="form-errors">{displayErrors(errors, 'email')}</div>
         </div>
 
         <fieldset className="form-fieldset">
@@ -165,7 +165,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
               required
               type="password"
             />
-            {displayErrors(errors, 'password')}
+            <div className="form-errors">{displayErrors(errors, 'password')}</div>
           </div>
 
           <div className="form-field">
@@ -183,7 +183,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
               required
               type="password"
             />
-            {displayErrors(errors, 'password2')}
+            <div className="form-errors">{displayErrors(errors, 'password2')}</div>
           </div>
         </fieldset>
 
@@ -228,7 +228,6 @@ export const UncontrolledFormPage = (): JSX.Element => {
               Non-binary
             </label>
           </div>
-          {displayErrors(errors, 'gender')}
         </fieldset>
 
         <div className="form-field">
@@ -244,7 +243,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
             required
             type="file"
           />
-          {displayErrors(errors, 'picture')}
+          <div className="form-errors">{displayErrors(errors, 'picture')}</div>
         </div>
 
         <div className="form-field">
@@ -252,7 +251,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
             Choose a country
           </label>
           <CountriesAutoComplete name="country" />
-          {displayErrors(errors, 'country')}
+          <div className="form-errors">{displayErrors(errors, 'country')}</div>
         </div>
 
         <div className="form-field">
@@ -268,7 +267,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
               By signing up you agree to our Terms of Service and Privacy Policy
             </label>
           </div>
-          {displayErrors(errors, 'tos')}
+          <div className="form-errors">{displayErrors(errors, 'tos')}</div>
         </div>
 
         <button className="form-submit-button" type="submit">

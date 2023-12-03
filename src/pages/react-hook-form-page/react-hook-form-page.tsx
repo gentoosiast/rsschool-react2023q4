@@ -91,7 +91,9 @@ export const ReactHookFormPage = (): JSX.Element => {
             id="name"
             type="text"
           />
-          {errors.name && <p className="form-error">{errors.name.message}</p>}
+          <div className="form-errors">
+            {errors.name && <p className="form-error">{errors.name.message}</p>}
+          </div>
         </div>
 
         <div className="form-field">
@@ -107,7 +109,9 @@ export const ReactHookFormPage = (): JSX.Element => {
             min={MIN_AGE}
             type="number"
           />
-          {errors.age && <p className="form-error">{errors.age.message}</p>}
+          <div className="form-errors">
+            {errors.age && <p className="form-error">{errors.age.message}</p>}
+          </div>
         </div>
 
         <div className="form-field">
@@ -122,7 +126,9 @@ export const ReactHookFormPage = (): JSX.Element => {
             id="email"
             type="email"
           />
-          {errors.email && <p className="form-error">{errors.email.message}</p>}
+          <div className="form-errors">
+            {errors.email && <p className="form-error">{errors.email.message}</p>}
+          </div>
         </div>
 
         <fieldset className="form-fieldset">
@@ -139,7 +145,9 @@ export const ReactHookFormPage = (): JSX.Element => {
               id="password"
               type="password"
             />
-            {errors.password && <p className="form-error">{errors.password.message}</p>}
+            <div className="form-errors">
+              {errors.password && <p className="form-error">{errors.password.message}</p>}
+            </div>
           </div>
 
           <div className="form-field">
@@ -154,7 +162,9 @@ export const ReactHookFormPage = (): JSX.Element => {
               id="password2"
               type="password"
             />
-            {errors.password2 && <p className="form-error">{errors.password2.message}</p>}
+            <div className="form-errors">
+              {errors.password2 && <p className="form-error">{errors.password2.message}</p>}
+            </div>
           </div>
         </fieldset>
 
@@ -211,7 +221,9 @@ export const ReactHookFormPage = (): JSX.Element => {
             id="picture"
             type="file"
           />
-          {errors.picture && <p className="form-error">{errors.picture.message}</p>}
+          <div className="form-errors">
+            {errors.picture && <p className="form-error">{errors.picture.message}</p>}
+          </div>
         </div>
 
         <div className="form-field">
@@ -219,14 +231,21 @@ export const ReactHookFormPage = (): JSX.Element => {
             Choose a country
           </label>
           <CountriesAutoComplete {...register('country')} />
-          {errors.country && <p className="form-error">{errors.country.message}</p>}
+          <div className="form-errors">
+            {errors.country && <p className="form-error">{errors.country.message}</p>}
+          </div>
         </div>
 
-        <div className="form-row">
-          <input className="form-input" {...register('tos')} id="tos" type="checkbox" />
-          <label className="form-label" htmlFor="tos">
-            By signing up you agree to our Terms of Service and Privacy Policy
-          </label>
+        <div className="form-field">
+          <div className="form-row">
+            <input className="form-input" {...register('tos')} id="tos" type="checkbox" />
+            <label className="form-label" htmlFor="tos">
+              By signing up you agree to our Terms of Service and Privacy Policy
+            </label>
+          </div>
+          <div className="form-errors">
+            {errors.tos && <p className="form-error">{errors.tos.message}</p>}
+          </div>
         </div>
 
         <button
