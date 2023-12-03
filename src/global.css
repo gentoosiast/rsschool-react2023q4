@@ -11,6 +11,7 @@
   --vaporwave-color4: #f54171;
   --link-color: #ffe2fe;
   --link-hover-color: #c4adc3;
+  --autocomplete-selection-bg-color: var(--vaporwave-color3);
 }
 
 body {

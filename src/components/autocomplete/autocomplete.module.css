@@ -54,5 +54,5 @@
 .suggestionButton:hover,
 .suggestions:not(:hover) .selectedItem .suggestionButton {
   color: #fff;
-  background-color: #0ea5e9;
+  background-color: var(--autocomplete-selection-bg-color);
 }
