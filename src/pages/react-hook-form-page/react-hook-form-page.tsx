@@ -10,9 +10,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import type { LocationState } from '@/router';
 import type { FormValues } from '@/validations';
 
-import { AutoComplete } from '@/components/autocomplete';
+import { CountriesAutoComplete } from '@/components/countries-autocomplete';
 import { PasswordInput } from '@/components/password-input';
-import { useAppDispatch, useAppSelector } from '@/hooks/rtk-hooks';
+import { useAppDispatch } from '@/hooks/rtk-hooks';
 import { MainLayout } from '@/layout';
 import { readFileToBase64 } from '@/lib/read-file-to-base64';
 import { RoutePath } from '@/router';
@@ -38,14 +38,6 @@ export const ReactHookFormPage = (): JSX.Element => {
   });
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const countries = useAppSelector((state) => state.countries);
-  // const { ref: countryRef, ...rest } = register('country');
-  // const countryRef2 = useRef<HTMLInputElement>(null);
-
-  const res = register('country');
-  for (const key of Object.keys(res)) {
-    console.log(`k = ${key}`);
-  }
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -225,8 +217,7 @@ export const ReactHookFormPage = (): JSX.Element => {
           <label className="form-label" htmlFor="country">
             Choose a country
           </label>
-          {/* <input className="form-input" {...register('country')} id="country" type="text" /> */}
-          <AutoComplete completionSource={countries} {...register('country')} />
+          <CountriesAutoComplete {...register('country')} />
           {errors.country && <p className="form-error">{errors.country.message}</p>}
         </div>
 

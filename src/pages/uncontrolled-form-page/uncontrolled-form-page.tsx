@@ -6,9 +6,9 @@ import { ValidationError } from 'yup';
 
 import type { LocationState } from '@/router';
 
-import { AutoComplete } from '@/components/autocomplete';
+import { CountriesAutoComplete } from '@/components/countries-autocomplete';
 import { PasswordInput } from '@/components/password-input';
-import { useAppDispatch, useAppSelector } from '@/hooks/rtk-hooks';
+import { useAppDispatch } from '@/hooks/rtk-hooks';
 import { MainLayout } from '@/layout';
 import { readFileToBase64 } from '@/lib/read-file-to-base64';
 import { RoutePath } from '@/router';
@@ -22,7 +22,6 @@ type FormErrors = Record<string, string[]>;
 export const UncontrolledFormPage = (): JSX.Element => {
   renderCount++;
 
-  const countries = useAppSelector((state) => state.countries);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const pictureRef = useRef<HTMLInputElement>(null);
@@ -255,7 +254,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
           <label className="form-label" htmlFor="country">
             Choose a country
           </label>
-          <AutoComplete completionSource={countries} name="country" />
+          <CountriesAutoComplete name="country" />
           {displayErrors(errors, 'country')}
         </div>
 

@@ -1,20 +1,15 @@
-import type { ChangeEventHandler, FocusEventHandler, JSX } from 'react';
+import type { JSX } from 'react';
 import { forwardRef } from 'react';
 
 import { clsx } from 'clsx';
+
+import type { AutoCompleteProps } from './types';
 
 import { useAutoComplete } from './use-autocomplete';
 
 import styles from './autocomplete.module.css';
 
-type Props = {
-  completionSource: string[];
-  name: string;
-  onBlur?: FocusEventHandler<HTMLInputElement>;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
-};
-
-export const AutoComplete = forwardRef<HTMLInputElement, Props>(
+export const AutoComplete = forwardRef<HTMLInputElement, AutoCompleteProps>(
   ({ completionSource, name, onBlur, onChange }, ref): JSX.Element => {
     const { onItemClick, registerInput, registerList, selectedIndex, suggestions } =
       useAutoComplete(completionSource, ref, onBlur, onChange);
