@@ -89,7 +89,7 @@ export const UncontrolledFormPage = (): JSX.Element => {
 
   return (
     <MainLayout>
-      <h1>Unontrolled Form</h1>
+      <h1>Uncontrolled Form</h1>
       <h2>render count: {renderCount / 2}</h2>
       <Link to={RoutePath.MAIN}>Back to main Page</Link>
 
