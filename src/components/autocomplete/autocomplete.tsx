@@ -21,6 +21,7 @@ export const AutoComplete = forwardRef<HTMLInputElement, AutoCompleteProps>(
           {...registerInput}
           autoComplete="off"
           className={styles.input}
+          defaultValue=""
           type="text"
         />
         {suggestions.length > 0 && (

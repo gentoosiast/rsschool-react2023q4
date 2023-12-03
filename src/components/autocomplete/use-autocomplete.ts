@@ -30,7 +30,6 @@ export const useAutoComplete = (
   onBlur?: FocusEventHandler<HTMLInputElement>,
   onChange?: ChangeEventHandler<HTMLInputElement>,
 ): UseAutoComplete => {
-  // const inputRef = ref as RefObject<HTMLInputElement>;
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
@@ -66,6 +65,7 @@ export const useAutoComplete = (
   const selectSuggestion = (index = selectedIndex): void => {
     if (inputRef.current && index >= 0) {
       inputRef.current.value = suggestions[index];
+      onChange?.({ target: inputRef.current } as ChangeEvent<HTMLInputElement>);
       resetSuggestions();
     }
   };
