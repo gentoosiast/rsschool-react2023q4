@@ -33,11 +33,13 @@ export const formSchema = object().shape({
     .matches(LOWERCASE_LETTER_REGEX, 'Password must contain a lowercase letter')
     .matches(SPECIAL_CHARACTER_REGEX, 'Password must contain a special character'),
   password2: string()
-    .required()
+    .required('Please confirm your password')
     .oneOf([ref('password')], 'Passwords do not match'),
   picture: mixed((input): input is FileList => input instanceof FileList && input.length > 0)
     .required()
     .test('filesize', 'Image filesize is too big', isFileSizeOK)
     .test('filetype', 'Only PNG and JPG images are allowed', isFiletypeAllowed),
-  tos: boolean().required('You must accept the Terms of Service').isTrue(),
+  tos: boolean()
+    .required('You must accept the Terms of Service')
+    .isTrue('You must accept the Terms of Service'),
 });
