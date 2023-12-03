@@ -33,7 +33,7 @@ export const ReactHookFormPage = (): JSX.Element => {
       age: 18,
       gender: 'male',
     },
-    mode: 'onBlur',
+    mode: 'onChange',
     resolver: yupResolver(formSchema),
   });
   const navigate = useNavigate();
