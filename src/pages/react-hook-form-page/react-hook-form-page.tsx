@@ -76,6 +76,7 @@ export const ReactHookFormPage = (): JSX.Element => {
       <form
         className="form"
         name="react-hook-form"
+        noValidate={true}
         onSubmit={(e) => void handleSubmit(onSubmit)(e)}
       >
         <div className="form-field">
