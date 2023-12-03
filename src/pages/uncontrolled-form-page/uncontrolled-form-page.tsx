@@ -254,7 +254,12 @@ export const UncontrolledFormPage = (): JSX.Element => {
           <label className="form-label" htmlFor="country">
             Country
           </label>
-          <CountriesAutoComplete id="country" name="country" />
+          <CountriesAutoComplete
+            aria-invalid={errors.country ? 'true' : 'false'}
+            aria-required
+            id="country"
+            name="country"
+          />
           <div className="form-errors">{displayErrors(errors, 'country')}</div>
         </div>
 

@@ -239,7 +239,12 @@ export const ReactHookFormPage = (): JSX.Element => {
           <label className="form-label" htmlFor="country">
             Country
           </label>
-          <CountriesAutoComplete id="country" {...register('country')} />
+          <CountriesAutoComplete
+            id="country"
+            {...register('country')}
+            aria-invalid={errors.country ? 'true' : 'false'}
+            aria-required
+          />
           <div className="form-errors">
             {errors.country && <p className="form-error">{errors.country.message}</p>}
           </div>

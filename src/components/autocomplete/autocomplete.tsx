@@ -10,19 +10,18 @@ import { useAutoComplete } from './use-autocomplete';
 import styles from './autocomplete.module.css';
 
 export const AutoComplete = forwardRef<HTMLInputElement, AutoCompleteProps>(
-  ({ completionSource, id, name, onBlur, onChange }, ref): JSX.Element => {
+  ({ completionSource, onBlur, onChange, ...props }, ref): JSX.Element => {
     const { onItemClick, registerInput, registerList, selectedIndex, suggestions } =
       useAutoComplete(completionSource, ref, onBlur, onChange);
 
     return (
       <div className={styles.autocomplete}>
         <input
-          name={name}
+          {...props}
           {...registerInput}
           autoComplete="off"
           className={styles.input}
           defaultValue=""
-          id={id}
           type="text"
         />
         {suggestions.length > 0 && (

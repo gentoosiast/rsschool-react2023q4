@@ -1,9 +1,7 @@
-import type { ChangeEventHandler, FocusEventHandler } from 'react';
+import type { ChangeEventHandler, FocusEventHandler, InputHTMLAttributes } from 'react';
 
 export type AutoCompleteProps = {
   completionSource: string[];
-  id: string;
-  name: string;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
-};
+} & InputHTMLAttributes<HTMLInputElement>;
